@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" group="passcheckerserver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" group="passcheckerserver" />
+    </modules>
+  </component>
+</project>
