@@ -33,11 +33,12 @@ public class PhotoManagement {
         uploadDir = new File(wd + File.separator + "upload");
 
         String os = System.getProperty("os.name");
+        String username = System.getProperty("user.name");
 
         if (os.toLowerCase().contains("nix") || os.toLowerCase().contains("nux")) {
             alpr = new Alpr("us", "/etc/openalpr/openalpr.conf", "/usr/share/openalpr/runtime_data");
         } else {
-            alpr = new Alpr("us", "C:/Users/Leo/openalpr/openalpr.conf", "C:/Users/Leo/openalpr/runtime_data");
+            alpr = new Alpr("us", "C:/Users/" + username + "/openalpr/openalpr.conf", "C:/Users/" + username + "/openalpr/runtime_data");
         }
         alpr.setTopN(3);
         alpr.setDefaultRegion("il");

@@ -41,7 +41,32 @@ public class UserManagement {
             return response.body();
         });
 
+        get(PATH + "validateuser/json", (request, response) -> {
+            if (authenticated(request)) {
+                Statement statement = connection.createStatement();
 
+                String token = request.headers("Token");
+
+                ResultSet rs = statement.executeQuery("SELECT * FROM Users WHERE Token=\"" + token + "\"");
+
+                List<User> userList = new ArrayList<>();
+                while (rs.next()) {
+                    User newUser = new User(rs.getString("Name"), rs.getString("Token"));
+                    if (newUser.isValid()) {
+                        userList.add(newUser);
+                    }
+                }
+
+                if (userList.size() == 1) {
+                    response.body(gson.toJson(userList.get(0)));
+                }
+
+                rs.close();
+            } else {
+                response.status(403);
+            }
+            return response.body();
+        });
 
         get(PATH, (request, response) -> {
             if (authenticated(request)) {
