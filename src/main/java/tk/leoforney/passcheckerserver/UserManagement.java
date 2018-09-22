@@ -24,7 +24,7 @@ public class UserManagement {
     public UserManagement(Connection connection) {
         gson = new Gson();
         this.connection = connection;
-        //System.out.println(gson.toJson(new User("Toni Forney", "dG9uaWZvcm5leTpkbDIz")));
+        //System.out.println(gson.toJson(new User("Leo Forney", "Zm9ybmU2OTVAd3Rocy5uZXQ6ZGFyeWxlbzE=")));
 
         post(PATH, (request, response) -> {
             if (authenticated(request)) {
@@ -41,30 +41,37 @@ public class UserManagement {
             return response.body();
         });
 
-        get(PATH + "validateuser/json", (request, response) -> {
-            if (authenticated(request)) {
-                Statement statement = connection.createStatement();
+        get(PATH + "/validateuser/json", (request, response) -> {
+            Statement statement = connection.createStatement();
 
-                String token = request.headers("Token");
+            String token = request.headers("Token");
 
-                ResultSet rs = statement.executeQuery("SELECT * FROM Users WHERE Token=\"" + token + "\"");
+            System.out.println("Trying to find " + token);
 
-                List<User> userList = new ArrayList<>();
-                while (rs.next()) {
-                    User newUser = new User(rs.getString("Name"), rs.getString("Token"));
-                    if (newUser.isValid()) {
-                        userList.add(newUser);
+            ResultSet rs = statement.executeQuery("SELECT * FROM Users");
+
+            List<User> userList = new ArrayList<>();
+            User correctUser = null;
+            while (rs.next()) {
+                User newUser = new User(rs.getString("Name"), rs.getString("Token"));
+                System.out.println(newUser.token + " : " + newUser.name);
+                if (newUser.isValid() && newUser.token.equals(token)) {
+                    if (correctUser == null) {
+                        correctUser = newUser;
                     }
                 }
-
-                if (userList.size() == 1) {
-                    response.body(gson.toJson(userList.get(0)));
-                }
-
-                rs.close();
-            } else {
-                response.status(403);
             }
+
+            userList.clear();
+            if (correctUser != null) {
+                userList.add(correctUser);
+            }
+
+            if (userList.size() == 1) {
+                response.body(gson.toJson(userList.get(0)));
+            }
+
+            rs.close();
             return response.body();
         });
 
@@ -91,7 +98,7 @@ public class UserManagement {
         });
 
         delete(PATH, (request, response) -> {
-            if (authenticated(request) && !request.headers("Name").equals("Leo Forney")) {
+            if (authenticated(request) /*&& !request.headers("Name").equals("Leo Forney")*/) {
                 deleteUser(request.headers("Name"), response);
             } else {
                 response.status(403);
@@ -124,7 +131,7 @@ public class UserManagement {
     }
 
     void createUser(User user, Response response) {
-        String executionStatement = "INSERT INTO Users (Name, Token) VALUES (\'" + user.name +"\', '" + user.token + "')";
+        String executionStatement = "INSERT INTO Users (Name, Token) VALUES (\'" + user.name + "\', '" + user.token + "')";
 
         PreparedStatement statement = null;
 

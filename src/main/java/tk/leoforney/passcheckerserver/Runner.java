@@ -1,7 +1,5 @@
 package tk.leoforney.passcheckerserver;
 
-import spark.Request;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;

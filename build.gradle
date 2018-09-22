@@ -22,7 +22,7 @@ jar {
         attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main' )
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
     }
 
 }
