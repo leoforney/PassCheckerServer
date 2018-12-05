@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
+import java.net.URI;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,9 +109,13 @@ public class UserManagement {
     }
 
     public static boolean authenticated(Request request) throws Exception {
+        return authenticated(request.headers("Token") + "\"");
+    }
+
+    public static boolean authenticated(String token) throws Exception {
         Statement statement = Runner.connection.createStatement();
 
-        ResultSet rs = statement.executeQuery("select * from Users WHERE Token = \"" + request.headers("Token") + "\"");
+        ResultSet rs = statement.executeQuery("select * from Users WHERE Token = \"" + token + "\"");
 
         List<String> names = new ArrayList<>();
         while (rs.next()) {
@@ -127,7 +132,6 @@ public class UserManagement {
         } else {
             return false;
         }
-
     }
 
     void createUser(User user, Response response) {

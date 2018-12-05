@@ -25,7 +25,7 @@ public class Runner {
 
     protected static Connection connection;
 
-    void run() throws Exception {
+    boolean run() throws Exception {
 
         System.out.println("PassChecker Server starting up");
 
@@ -44,6 +44,7 @@ public class Runner {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
+                System.out.println("Running shutdown hook");
                 connection.close();
                 photoManagement.alpr.unload();
             } catch (SQLException e) {
@@ -51,9 +52,13 @@ public class Runner {
             }
         }));
 
-        while (Thread.currentThread().isAlive()) {
+        while (Thread.currentThread().isAlive() && !PhotoViewer.closed) {
             Thread.sleep(350);
         }
+
+        System.out.println("PassChecker shutting down");
+        Thread.currentThread().interrupt();
+        return true;
     }
 
 }

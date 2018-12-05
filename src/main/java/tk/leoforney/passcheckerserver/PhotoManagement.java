@@ -47,6 +47,7 @@ public class PhotoManagement {
             System.out.println("Requested");
             return "<form method='post' enctype='multipart/form-data'>" // note the enctype
                     + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                    + "    <input type'text' name='token'>"
                     + "    <button>Upload picture</button>"
                     + "</form>";
         });
@@ -73,10 +74,10 @@ public class PhotoManagement {
         });
 
         post("/plateNumber", (request, response) -> {
-            if (authenticated(request)) {
+            //if (authenticated(request)) {
                 return getPlateNumberFromRequest(request);
-            }
-            return "Not authenticated";
+            //}
+            //return "Not authenticated";
         });
     }
 
@@ -86,7 +87,7 @@ public class PhotoManagement {
         Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
 
         request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-
+        
         try (InputStream input = request.raw().getPart("image").getInputStream()) { // getPart needs to use same "name" as input field in form
             Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
         }
@@ -117,6 +118,11 @@ public class PhotoManagement {
         tempFile.toFile().delete();
 
         return returnValue.toLowerCase();
+    }
+
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
 }

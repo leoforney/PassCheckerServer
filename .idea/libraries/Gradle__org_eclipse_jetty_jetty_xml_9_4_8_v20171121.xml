@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.8.v20171121/b0d6f87f580a9bd7fa9aaf9b7448bf63cf0ac34f/jetty-xml-9.4.8.v20171121.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.8.v20171121/6f0047caf320074ed49fe7892b9a151af3de7f9/jetty-xml-9.4.8.v20171121-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.8.v20171121/59e30884b43f91ea6715425621ea47368ba0b927/jetty-xml-9.4.8.v20171121-sources.jar!/" />
     </SOURCES>

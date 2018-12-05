@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.8.v20171121/6d889f9a8b5fd2a573c6d1d518c7e119a6d8c170/websocket-api-9.4.8.v20171121.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.8.v20171121/d0a4789c5711411c32e8bdab68795a53c749140c/websocket-api-9.4.8.v20171121-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.8.v20171121/3e68cf3965b05f5c81704a6e98bef7f479f8b0b6/websocket-api-9.4.8.v20171121-sources.jar!/" />
     </SOURCES>
