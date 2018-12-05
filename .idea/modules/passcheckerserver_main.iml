@@ -7,16 +7,9 @@
         <setting name="gwtSdkType" value="gradle" />
       </configuration>
     </facet>
-    <facet type="web" name="Web Gradle : passcheckerserver-1.0.war">
-      <configuration>
-        <webroots>
-          <root url="file://D:\IdeaProjects\PassCheckerServer\src\main\webapp" relative="/" />
-        </webroots>
-      </configuration>
-    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
+    <output url="file://$MODULE_DIR$/../../out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
@@ -24,18 +17,96 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin:11.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-board-flow:2.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-charts-flow:6.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-confirm-dialog-flow:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-cookie-consent-flow:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-core:11.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-button-flow:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-checkbox-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-combo-box-flow:1.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-date-picker-flow:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-dialog-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-form-layout-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-grid-flow:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-list-box-flow:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-ordered-layout-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-progress-bar-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-radio-button-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-split-layout-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-tabs-flow:1.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-text-field-flow:1.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-upload-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-notification-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-board:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-charts:6.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-confirm-dialog:1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-date-picker:3.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-upload:4.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-button:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-dialog:2.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-cookie-consent:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-grid:5.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-checkbox:2.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-combo-box:4.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-text-field:2.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-form-layout:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-box:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-ordered-layout:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-progress-bar:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-radio-button:1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-split-layout:4.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-tabs:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-notification:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-element-mixin:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-usage-statistics:1.0.0-optout" level="project" />
     <orderEntry type="library" name="Gradle: com.sparkjava:spark-core:2.7.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.21.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.4" level="project" />
-    <orderEntry type="library" name="Gradle: com.jfoenix:jfoenix:8.0.7" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.13" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-webapp:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-server:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-servlet:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-servlet:9.4.8.v20171121" level="project" />
-    <orderEntry type="library" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: javax.websocket:javax.websocket-api:1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.21.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:flow-data:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:flow-html-components:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:flow-server:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:flow-push:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:flow-client:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-lumo-theme:1.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-icons-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-iron-list-flow:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.helger:ph-css:6.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.helger:ph-commons:9.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-overlay:3.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-item:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-icons:4.1.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-icon:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-flex-layout:2.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-mixin:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-themable-mixin:1.1.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-control-state-mixin:2.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-development-mode-detector:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-iconset-svg:2.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-meta:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-overlay-behavior:2.3.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-list:2.0.19" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-resizable-behavior:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-a11y-announcer:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-scroll-target-behavior:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-a11y-keys-behavior:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-fit-behavior:2.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymerelements:iron-media-query:2.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:license-checker:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.polymer:polymer:2.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-client:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-http:9.4.8.v20171121" level="project" />
@@ -43,73 +114,24 @@
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-io:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-xml:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-api:9.4.8.v20171121" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.insites:cookieconsent:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:9.4.8.v20171121" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-server:8.1.8" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-themes:8.1.8" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiled:8.1.8" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-sass-compiler:0.9.13" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-shared:8.1.8" level="project" />
-    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.8.3" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin.external:gentyref:1.2.0.vaadin1" level="project" />
-    <orderEntry type="library" name="Gradle: org.w3c.css:sac:1.3" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin.external.flute:flute:1.3.0.gg2" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client-compiler:8.1.8" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-client:8.1.8" level="project" />
     <orderEntry type="library" name="Gradle: com.google.gwt:gwt-elemental:2.8.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.gwt:gwt-user:2.8.2" level="project" />
-    <orderEntry type="library" name="Gradle: javax.validation:validation-api:1.0.0.GA" level="project" />
-    <orderEntry type="library" name="Gradle: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.gwt:gwt-dev:2.8.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:1.3.9" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.6.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-annotations:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-util:5.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-commons:5.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.ow2.asm:asm-tree:5.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.ow2.asm:asm:5.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: colt:colt:1.2.0" level="project" />
-    <orderEntry type="library" name="Gradle: ant:ant:1.6.5" level="project" />
-    <orderEntry type="library" name="Gradle: net.sourceforge.htmlunit:htmlunit:2.19" level="project" />
-    <orderEntry type="library" name="Gradle: commons-collections:commons-collections:3.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.4" level="project" />
-    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:50.1.1" level="project" />
-    <orderEntry type="library" name="Gradle: tapestry:tapestry:4.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-plus:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-webapp:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-servlets:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:apache-jsp:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: net.sourceforge.cssparser:cssparser:0.9.18" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.jsinterop:jsinterop-annotations:1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.jsinterop:jsinterop-annotations:sources:1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-servlet:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: xalan:xalan:2.7.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.4" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpmime:4.5.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.1" level="project" />
-    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
-    <orderEntry type="library" name="Gradle: net.sourceforge.htmlunit:htmlunit-core-js:2.17" level="project" />
-    <orderEntry type="library" name="Gradle: xerces:xercesImpl:2.11.0" level="project" />
-    <orderEntry type="library" name="Gradle: net.sourceforge.nekohtml:nekohtml:1.9.22" level="project" />
-    <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.2.13.v20150730" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-xml:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-continuation:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-http:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-common:9.2.13.v20150730" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-io:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-jndi:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:9.2.14.v20151106" level="project" />
-    <orderEntry type="library" name="Gradle: javax.annotation:javax.annotation-api:1.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.mortbay.jasper:apache-jsp:8.0.9.M3" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty.toolchain:jetty-schemas:3.1.M0" level="project" />
-    <orderEntry type="library" name="Gradle: xalan:serializer:2.7.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.3" level="project" />
-    <orderEntry type="library" name="Gradle: xml-apis:xml-apis:1.4.01" level="project" />
-    <orderEntry type="library" name="Gradle: org.mortbay.jasper:apache-el:8.0.9.M3" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-api:9.2.13.v20150730" level="project" />
-    <orderEntry type="library" name="Gradle: com.yahoo.platform.yui:yuicompressor:2.4.8" level="project" />
-    <orderEntry type="library" name="Gradle: rhino:js:1.7R2" level="project" />
+    <orderEntry type="library" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" level="project" />
+    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.10.3" level="project" />
+    <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy:1.7.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.googlecode.gentyref:gentyref:1.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.external.atmosphere:atmosphere-runtime:2.4.24.vaadin1" level="project" />
+    <orderEntry type="library" name="Gradle: javax.validation:validation-api:2.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin.external.slf4j:vaadin-slf4j-jdk14:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.moowork.gradle:gradle-node-plugin:1.2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.devsoap:gradle-vaadin-flow-plugin:1.0.0.RC3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.servlet:javax.servlet-api:4.0.0" level="project" />
   </component>
 </module>

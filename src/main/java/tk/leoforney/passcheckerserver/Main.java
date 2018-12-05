@@ -10,7 +10,6 @@ public class Main {
     public static String wd = System.getProperty("user.home") + File.separator + "Desktop";
 
     public static void main(String[] args) {
-        new Thread(() -> PhotoViewer.main(args)).start();
         Runner runner = new Runner(args);
         try {
             runner.run();

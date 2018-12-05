@@ -1,3 +1,10 @@
+plugins {
+    id 'org.gretty' version '2.2.0'
+    id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
+}
+
+vaadin.autoconfigure()
+
 group 'tk.leoforney'
 version '1.0'
 

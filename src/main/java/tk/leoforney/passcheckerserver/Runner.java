@@ -52,7 +52,7 @@ public class Runner {
             }
         }));
 
-        while (Thread.currentThread().isAlive() && !PhotoViewer.closed) {
+        while (Thread.currentThread().isAlive()) {
             Thread.sleep(350);
         }
 

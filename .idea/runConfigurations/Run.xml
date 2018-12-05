@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="Application" factoryName="Application" singleton="true">
+    <option name="MAIN_CLASS_NAME" value="tk.leoforney.passcheckerserver.Main" />
+    <module name="passcheckerserver_main" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
