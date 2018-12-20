@@ -12,6 +12,7 @@ import static tk.leoforney.passcheckerserver.Main.wd;
 /**
  * Created by Leo on 4/30/2018.
  */
+
 public class Runner {
 
     String[] args;
@@ -47,6 +48,9 @@ public class Runner {
                 System.out.println("Running shutdown hook");
                 connection.close();
                 photoManagement.alpr.unload();
+                if (Main.context != null) {
+                    Main.context.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }

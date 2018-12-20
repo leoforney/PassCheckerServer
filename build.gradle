@@ -1,6 +1,6 @@
 plugins {
-    id 'org.gretty' version '2.2.0'
     id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
+    id 'org.springframework.boot' version '2.1.1.RELEASE'
 }
 
 vaadin.autoconfigure()
@@ -9,6 +9,7 @@ group 'tk.leoforney'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
@@ -22,7 +23,6 @@ dependencies {
     implementation "com.sparkjava:spark-core:2.7.2"
     implementation "org.xerial:sqlite-jdbc:3.21.0"
     implementation "com.google.code.gson:gson:2.8.4"
-
 }
 
 jar {
