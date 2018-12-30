@@ -23,6 +23,7 @@
     <orderEntry type="module" module-name="passcheckerserver_main" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin:11.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring-boot-starter:11.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.vaadin.marcus:shortcut:0.3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-app-layout-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-core:11.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-grid-flow:2.1.4" level="project" />
@@ -42,19 +43,19 @@
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-charts-flow:6.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-confirm-dialog-flow:1.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-cookie-consent-flow:1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-tabs:2.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-context-menu:4.2.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-list-box-flow:1.0.4" level="project" />
-    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-box:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-button-flow:1.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-dialog-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-form-layout-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.vaadin:vaadin-list-box-flow:1.0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-ordered-layout-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-progress-bar-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-radio-button-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-split-layout-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-upload-flow:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-notification-flow:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-tabs:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-context-menu:4.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-box:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-board:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-charts:6.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.webjar:vaadin-confirm-dialog:1.0.1" level="project" />
@@ -145,7 +146,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:2.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.validator:hibernate-validator:6.0.13.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.1.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:9.4.12.v20180830" level="project" />
     <orderEntry type="library" name="Gradle: com.google.gwt:gwt-elemental:2.8.2" level="project" />
     <orderEntry type="library" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" level="project" />
     <orderEntry type="library" name="Gradle: commons-io:commons-io:2.5" level="project" />
@@ -154,6 +154,7 @@
     <orderEntry type="library" name="Gradle: com.googlecode.gentyref:gentyref:1.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin.external.atmosphere:atmosphere-runtime:2.4.24.vaadin1" level="project" />
     <orderEntry type="library" name="Gradle: javax.validation:validation-api:2.0.1.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:9.4.12.v20180830" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.1.1.RELEASE" level="project" />

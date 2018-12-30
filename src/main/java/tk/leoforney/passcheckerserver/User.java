@@ -19,6 +19,14 @@ public class User {
         base64 = new Base64();
     }
 
+    public String getFirstName() {
+        return(name.split("\\s+")[0]);
+    }
+
+    public String getLastName() {
+        return(name.split("\\s+")[1]);
+    }
+
     public String getEmail() {
         if (token != null && token.length() > 1) {
             String passwordHash = new String(base64.decode(token));

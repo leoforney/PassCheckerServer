@@ -22,7 +22,6 @@ import tk.leoforney.passcheckerserver.UserManagement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
@@ -40,26 +39,48 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
 
     public AppView() {
 
-        menuItems = new ArrayList<>();
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.HOME.create(), "Home", this));
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.USER.create(), "Users", this));
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.INFO.create(), "About", this));
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.KEY.create(), "Passes", this));
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.SIGN_OUT.create(),
-                "Sign Out", this));
+        User user = checkAuthentication(AppView.this);
 
-        setBranding(new Label("PassCheckerServer"));
-        menu = this.createMenu();
+        if (user != null) {
+            Notification.show("Welcome to PassCheckerServer " + user.getFirstName() + "!");
 
-        for (AppLayoutMenuItem item : menuItems) {
-            menu.addMenuItem(item);
+            menuItems = new ArrayList<>();
+            menuItems.add(0, new AppLayoutMenuItem(VaadinIcon.HOME.create(), "Home", this));
+            menuItems.add(1, new AppLayoutMenuItem(VaadinIcon.KEY.create(), "Passes", this));
+            menuItems.add(2, new AppLayoutMenuItem(VaadinIcon.USER.create(), "Users", this));
+            menuItems.add(3, new AppLayoutMenuItem(VaadinIcon.INFO.create(), "About", this));
+            menuItems.add(4, new AppLayoutMenuItem(VaadinIcon.SIGN_OUT.create(),
+                    "Sign Out", this));
+
+            Label title = new Label("PassCheckerServer");
+
+            setBranding(title);
+            menu = this.createMenu();
+
+            for (AppLayoutMenuItem item : menuItems) {
+                menu.addMenuItem(item);
+            }
+
+            menu.selectMenuItem(menuItems.get(0));
+
         }
 
-        menu.selectMenuItem(menuItems.get(0));
+    }
 
-        User user = checkAuthentication(AppView.this);
-        Notification.show("Welcome to PassCheckerServer " + user.name);
+    public static User checkAuthentication(Component component) {
+        User foundUser = new User("", "");
+        Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
 
+        if (tokenObject == null || !authenticated(String.valueOf(tokenObject))) {
+            UI.getCurrent().access((Command) () -> {
+                if (component.getUI().isPresent()) {
+                    component.getUI().get().getPage().executeJavaScript("window.location.href='login'");
+                }
+            });
+        } else if (authenticated(String.valueOf(tokenObject))) {
+            foundUser = UserManagement.getInstance().userFromToken(String.valueOf(tokenObject));
+        }
+        return foundUser;
     }
 
     @Override
@@ -74,17 +95,17 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
             case "ABOUT":
                 this.removeContent();
                 this.setContent(new AboutView());
-                menu.selectMenuItem(menuItems.get(2));
+                menu.selectMenuItem(menuItems.get(3));
                 break;
             case "USERS":
                 this.removeContent();
                 this.setContent(new UsersView());
-                menu.selectMenuItem(menuItems.get(1));
+                menu.selectMenuItem(menuItems.get(2));
                 break;
             case "PASSES":
                 this.removeContent();
                 this.setContent(new PassesView());
-                menu.selectMenuItem(menuItems.get(3));
+                menu.selectMenuItem(menuItems.get(1));
                 break;
             case "SIGN OUT":
                 VaadinSession.getCurrent().close();
@@ -92,22 +113,6 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
                 this.removeContent();
                 break;
         }
-    }
-
-    public static User checkAuthentication(Component component) {
-        User foundUser = new User("", "");
-        Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
-
-        if (tokenObject == null || !authenticated(String.valueOf(tokenObject))) {
-            if (component.getUI().isPresent()) {
-                UI.getCurrent().access((Command) () -> {
-                    component.getUI().get().getPage().executeJavaScript("window.location.href='login'");
-                });
-            }
-        } else if (authenticated(String.valueOf(tokenObject))) {
-            foundUser = UserManagement.getInstance().userFromToken(String.valueOf(tokenObject));
-        }
-        return foundUser;
     }
 
 }

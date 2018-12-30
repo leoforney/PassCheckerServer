@@ -23,6 +23,7 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.apache.commons.codec.binary.Base64;
+import org.vaadin.marcus.shortcut.Shortcut;
 
 import java.io.UnsupportedEncodingException;
 
@@ -70,6 +71,9 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
         button.addClickListener(this);
         loginLayout.add(form, button);
 
+        Shortcut.add(password, Key.ENTER, button::click);
+        Shortcut.add(email, Key.ENTER, button::click);
+
         add(loginLayout);
 
         UI.getCurrent().access((Command) () -> {
@@ -106,6 +110,10 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
 
     @Override
     public void onComponentEvent(ClickEvent<Button> event) {
+        login();
+    }
+
+    private void login() {
         String emailString = email.getValue();
         String passwordString = password.getValue();
 
@@ -124,6 +132,5 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
         } else {
             Notification.show("Invalid email or password").setDuration(3000);
         }
-
     }
 }

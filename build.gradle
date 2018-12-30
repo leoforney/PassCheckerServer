@@ -26,6 +26,9 @@ dependencies {
     implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
     implementation "com.vaadin:vaadin-grid-flow:2.1.4"
     implementation "commons-codec:commons-codec:1.11"
+    compile ('org.vaadin.marcus:shortcut:0.3.0') {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
 }
 
 jar {
