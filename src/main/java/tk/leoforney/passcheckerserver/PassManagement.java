@@ -1,6 +1,7 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
+import tk.leoforney.passcheckerserver.web.PassesView;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,7 +26,16 @@ public class PassManagement {
 
     List<Student> students;
 
-    public PassManagement(Connection connection) {
+    private static PassManagement instance = null;
+
+    public static PassManagement getInstance() {
+        if (instance == null) {
+            instance = new PassManagement(Runner.connection);
+        }
+        return instance;
+    }
+
+    private PassManagement(Connection connection) {
         gson = new Gson();
         this.connection = connection;
 
@@ -170,23 +180,28 @@ public class PassManagement {
 
     }
 
-    public List<Car> getCarList() throws SQLException {
+    public List<Car> getCarList() {
         List<Car> cars = new ArrayList<>();
 
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Cars");
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Cars");
 
-        while (rs.next()) {
-            Car car = new Car(
-                    rs.getString("plateNumber"),
-                    rs.getString("color"),
-                    rs.getString("make"),
-                    rs.getString("model"),
-                    rs.getInt("year"),
-                    rs.getInt("studentId")
-            );
+            while (rs.next()) {
+                Car car = new Car(
+                        rs.getString("plateNumber"),
+                        rs.getString("color"),
+                        rs.getString("make"),
+                        rs.getString("model"),
+                        rs.getInt("year"),
+                        rs.getInt("studentId")
+                );
 
-            cars.add(car);
+                cars.add(car);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return cars;

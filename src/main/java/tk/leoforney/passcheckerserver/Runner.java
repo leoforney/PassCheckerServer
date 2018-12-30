@@ -39,8 +39,8 @@ public class Runner {
 
         port(4567);
 
-        userManagement = new UserManagement(connection);
-        passManagement = new PassManagement(connection);
+        userManagement = UserManagement.getInstance();
+        passManagement = PassManagement.getInstance();
         photoManagement = new PhotoManagement(passManagement);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

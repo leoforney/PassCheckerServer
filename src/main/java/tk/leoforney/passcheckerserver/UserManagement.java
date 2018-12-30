@@ -7,6 +7,7 @@ import spark.Response;
 import java.net.URI;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static spark.Spark.delete;
@@ -22,7 +23,16 @@ public class UserManagement {
     Connection connection;
     private final static String PATH = "/user";
 
-    public UserManagement(Connection connection) {
+    private static UserManagement instance = null;
+
+    public static UserManagement getInstance() {
+        if (instance == null) {
+            instance = new UserManagement(Runner.connection);
+        }
+        return instance;
+    }
+
+    private UserManagement(Connection connection) {
         gson = new Gson();
         this.connection = connection;
         //System.out.println(gson.toJson(new User("Leo Forney", "Zm9ybmU2OTVAd3Rocy5uZXQ6ZGFyeWxlbzE=")));
@@ -108,24 +118,30 @@ public class UserManagement {
         });
     }
 
-    public static boolean authenticated(Request request) throws Exception {
+    public static boolean authenticated(Request request) {
         return authenticated(request.headers("Token") + "\"");
     }
 
-    public static boolean authenticated(String token) throws Exception {
-        Statement statement = Runner.connection.createStatement();
+    public static boolean authenticated(String token) {
+        List<String> names;
+        try {
+            Statement statement = Runner.connection.createStatement();
 
-        ResultSet rs = statement.executeQuery("select * from Users WHERE Token = \"" + token + "\"");
+            ResultSet rs = statement.executeQuery("select * from Users WHERE Token = \"" + token + "\"");
 
-        List<String> names = new ArrayList<>();
-        while (rs.next()) {
-            // read the result set
-            names.add(rs.getString("Name"));
+            names = new ArrayList<>();
+            while (rs.next()) {
+                // read the result set
+                names.add(rs.getString("Name"));
+            }
+
+            rs.close();
+
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            names = new ArrayList<>();
         }
-
-        rs.close();
-
-        statement.close();
 
         if (names.size() == 1) {
             return true;
@@ -176,6 +192,57 @@ public class UserManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    User userFromToken(String token) {
+        List<User> users;
+        try {
+            Statement statement = Runner.connection.createStatement();
+
+            ResultSet rs = statement.executeQuery("select * from Users WHERE Token = \"" + token + "\"");
+
+            users = new ArrayList<>();
+            while (rs.next()) {
+                // read the result set
+                users.add(new User(rs.getString("Name"), rs.getString("Token")));
+            }
+
+            rs.close();
+
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            users = new ArrayList<>();
+        }
+
+        if (users.size() == 1) {
+            return users.get(0);
+        } else {
+            return new User("", "");
+        }
+    }
+
+    List<User> usersList() {
+        List<User> users;
+        try {
+            Statement statement = Runner.connection.createStatement();
+
+            ResultSet rs = statement.executeQuery("select * from Users");
+
+            users = new ArrayList<>();
+            while (rs.next()) {
+                // read the result set
+                users.add(new User(rs.getString("Name"), rs.getString("Token")));
+            }
+
+            rs.close();
+
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            users = new ArrayList<>();
+        }
+        return users;
     }
 
 }

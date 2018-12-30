@@ -4,6 +4,54 @@ package tk.leoforney.passcheckerserver;
  * Created by Leo on 7/27/2018.
  */
 public class Car {
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String plateNumber, make, model, color;
     public int year, id;
 
@@ -24,4 +72,5 @@ public class Car {
     public String toString() {
         return plateNumber + " : " + make + " : " + model + " : " + color + " : " + year + " : " + id;
     }
+
 }

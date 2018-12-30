@@ -23,6 +23,9 @@ dependencies {
     implementation "com.sparkjava:spark-core:2.7.2"
     implementation "org.xerial:sqlite-jdbc:3.21.0"
     implementation "com.google.code.gson:gson:2.8.4"
+    implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
+    implementation "com.vaadin:vaadin-grid-flow:2.1.4"
+    implementation "commons-codec:commons-codec:1.11"
 }
 
 jar {
