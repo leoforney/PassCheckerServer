@@ -22,6 +22,7 @@ import tk.leoforney.passcheckerserver.UserManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
@@ -42,7 +43,7 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
         menuItems = new ArrayList<>();
         menuItems.add(new AppLayoutMenuItem(VaadinIcon.HOME.create(), "Home", this));
         menuItems.add(new AppLayoutMenuItem(VaadinIcon.USER.create(), "Users", this));
-        menuItems.add(new AppLayoutMenuItem(VaadinIcon.PARAGRAPH.create(), "About", this));
+        menuItems.add(new AppLayoutMenuItem(VaadinIcon.INFO.create(), "About", this));
         menuItems.add(new AppLayoutMenuItem(VaadinIcon.KEY.create(), "Passes", this));
         menuItems.add(new AppLayoutMenuItem(VaadinIcon.SIGN_OUT.create(),
                 "Sign Out", this));
@@ -56,8 +57,8 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
 
         menu.selectMenuItem(menuItems.get(0));
 
-        checkAuthentication(AppView.this);
-        Notification.show("Welcome to PassCheckerServer " + );
+        User user = checkAuthentication(AppView.this);
+        Notification.show("Welcome to PassCheckerServer " + user.name);
 
     }
 
@@ -94,17 +95,19 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
     }
 
     public static User checkAuthentication(Component component) {
-        UI.getCurrent().access((Command) () -> {
-            Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
+        User foundUser = new User("", "");
+        Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
 
-            if (tokenObject == null || !authenticated(String.valueOf(tokenObject))) {
-                if (component.getUI().isPresent()) {
+        if (tokenObject == null || !authenticated(String.valueOf(tokenObject))) {
+            if (component.getUI().isPresent()) {
+                UI.getCurrent().access((Command) () -> {
                     component.getUI().get().getPage().executeJavaScript("window.location.href='login'");
-                }
-            } else if (authenticated(String.valueOf(tokenObject))) {
-
+                });
             }
-        });
+        } else if (authenticated(String.valueOf(tokenObject))) {
+            foundUser = UserManagement.getInstance().userFromToken(String.valueOf(tokenObject));
+        }
+        return foundUser;
     }
 
 }

@@ -194,7 +194,7 @@ public class UserManagement {
         }
     }
 
-    User userFromToken(String token) {
+    public User userFromToken(String token) {
         List<User> users;
         try {
             Statement statement = Runner.connection.createStatement();
