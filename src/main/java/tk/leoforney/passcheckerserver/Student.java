@@ -6,8 +6,24 @@ import java.util.List;
 /**
  * Created by Leo on 7/27/2018.
  */
-public class Student {
-    public String name;
+public class Student extends Person {
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
     public int id;
     public List<Car> cars;
 

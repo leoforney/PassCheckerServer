@@ -5,8 +5,8 @@ import org.apache.commons.codec.binary.Base64;
 /**
  * Created by Leo on 5/5/2018.
  */
-public class User {
-    public String token, name;
+public class User extends Person {
+    public String token;
     private Base64 base64;
 
     public User() {
@@ -17,14 +17,6 @@ public class User {
         this.name = name;
         this.token = token;
         base64 = new Base64();
-    }
-
-    public String getFirstName() {
-        return(name.split("\\s+")[0]);
-    }
-
-    public String getLastName() {
-        return(name.split("\\s+")[1]);
     }
 
     public String getEmail() {

@@ -1,15 +1,16 @@
 package tk.leoforney.passcheckerserver.web;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
+import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 public class AboutView extends VerticalLayout {
 
     public AboutView() {
-        Component about = new Span(new H3("Page title"), new Span("About"));
-        add(about);
+        H2 title = new H2("About");
+        add(title);
+        setTitle(title);
     }
 
 }

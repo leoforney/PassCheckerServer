@@ -1,7 +1,6 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
-import tk.leoforney.passcheckerserver.web.PassesView;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,9 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static spark.Spark.delete;
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
@@ -151,29 +148,32 @@ public class PassManagement {
 
     }
 
-    public List<Student> getStudentList() throws SQLException {
+    public List<Student> getStudentList() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Students");
 
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Students");
+            students = new ArrayList<>();
 
-        students = new ArrayList<>();
+            while (rs.next()) {
+                Student student = new Student(rs.getString("name"), rs.getInt("id"));
+                students.add(student);
+            }
 
-        while (rs.next()) {
-            Student student = new Student(rs.getString("name"), rs.getInt("id"));
-            students.add(student);
-        }
+            rs.close();
 
-        rs.close();
+            List<Car> carList = getCarList();
 
-        List<Car> carList = getCarList();
+            for (Car car : carList) {
 
-        for (Car car : carList) {
-
-            for (Student student : students) {
-                if (car.id == student.id) {
-                    student.cars.add(car);
+                for (Student student : students) {
+                    if (car.id == student.id) {
+                        student.cars.add(car);
+                    }
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return students;
@@ -208,12 +208,7 @@ public class PassManagement {
     }
 
     public String findStudentByPlateNumber(String plateNumber) {
-        List<Student> studentList = null;
-        try {
-            studentList = getStudentList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Student> studentList = getStudentList();
 
         assert studentList != null;
         for (Student student : studentList) {
@@ -228,12 +223,7 @@ public class PassManagement {
     }
 
     public String findStudentNameByPlateNumber(String plateNumber) {
-        List<Student> studentList = null;
-        try {
-            studentList = getStudentList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Student> studentList = getStudentList();
 
         assert studentList != null;
         for (Student student : studentList) {

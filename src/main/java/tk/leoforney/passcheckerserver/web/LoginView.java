@@ -2,6 +2,7 @@ package tk.leoforney.passcheckerserver.web;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
@@ -16,22 +17,26 @@ import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.validator.BeanValidator;
 import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
+import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinResponse;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.apache.commons.codec.binary.Base64;
 import org.vaadin.marcus.shortcut.Shortcut;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
+import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 
 @Route("login")
-@PageTitle("PassChecker - Login")
 @BodySize(height = "100vh", width = "100vw")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
@@ -39,11 +44,13 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
 
     TextField email;
     PasswordField password;
+    Checkbox rememberMe;
     Base64 base64;
 
     Binder<Account> binder = new Binder<>(Account.class);
 
     public LoginView() {
+        setTitle(this, "Login");
 
         base64 = new Base64();
         VerticalLayout loginLayout = new VerticalLayout();
@@ -67,14 +74,27 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
                 .withValidator(passwordValidator)
                 .bind(Account::getPassword, Account::setPassword);
 
+        rememberMe = new Checkbox("Remember me");
+
         Button button = new Button("Login");
         button.addClickListener(this);
-        loginLayout.add(form, button);
+        loginLayout.add(form, rememberMe, button);
 
         Shortcut.add(password, Key.ENTER, button::click);
         Shortcut.add(email, Key.ENTER, button::click);
 
         add(loginLayout);
+
+        HttpServletRequest request = (HttpServletRequest) VaadinRequest.getCurrent();
+        Cookie[] cookies = request.getCookies();
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equalsIgnoreCase("token")) {
+                if (cookie.getValue() != null) {
+                    login(cookie.getValue());
+                }
+            }
+        }
 
         UI.getCurrent().access((Command) () -> {
             Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
@@ -113,6 +133,23 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
         login();
     }
 
+    private void login(String token) {
+        if (rememberMe.getValue()) {
+            HttpServletResponse response = (HttpServletResponse) VaadinResponse.getCurrent();
+            Cookie cookie = new Cookie("Token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 30);
+            response.addCookie(cookie);
+        }
+
+        if (authenticated(token)) {
+            VaadinSession.getCurrent().getSession().setMaxInactiveInterval(60 * 60 & 3);
+            VaadinSession.getCurrent().setAttribute("Token", token);
+            this.getUI().ifPresent(ui -> ui.navigate(""));
+        } else {
+            Notification.show("Invalid email or password").setDuration(3000);
+        }
+    }
+
     private void login() {
         String emailString = email.getValue();
         String passwordString = password.getValue();
@@ -126,11 +163,6 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
             e.printStackTrace();
         }
 
-        if (authenticated(token)) {
-            VaadinSession.getCurrent().setAttribute("Token", token);
-            this.getUI().ifPresent(ui -> ui.navigate(""));
-        } else {
-            Notification.show("Invalid email or password").setDuration(3000);
-        }
+        login(token);
     }
 }

@@ -2,11 +2,13 @@ package tk.leoforney.passcheckerserver.web;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
 import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
 import com.vaadin.flow.component.applayout.MenuItemClickEvent;
+import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -14,12 +16,15 @@ import com.vaadin.flow.component.page.BodySize;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinServletConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import tk.leoforney.passcheckerserver.User;
 import tk.leoforney.passcheckerserver.UserManagement;
 
+import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +37,7 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 @BodySize(height = "100vh", width = "100vw")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
+@VaadinServletConfiguration( productionMode = false )
 public class AppView extends AppLayout implements ComponentEventListener<MenuItemClickEvent> {
 
     List<AppLayoutMenuItem> menuItems;
@@ -43,6 +49,11 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
 
         if (user != null) {
             Notification.show("Welcome to PassCheckerServer " + user.getFirstName() + "!");
+
+            CookieConsent dialog = new CookieConsent(
+                    "We are using cookies to make your visit here awesome!",
+                    "Cool!", "Why?", "/about",
+                    CookieConsent.Position.BOTTOM_LEFT);
 
             menuItems = new ArrayList<>();
             menuItems.add(0, new AppLayoutMenuItem(VaadinIcon.HOME.create(), "Home", this));
@@ -67,6 +78,18 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
 
     }
 
+    public static void setTitle(Component component, String title) {
+        UI.getCurrent().access((Command) () -> {
+            if (component.getUI().isPresent()) {
+                component.getUI().get().getPage().setTitle("PCS - " + title);
+            }
+        });
+    }
+
+    public static void setTitle(Component component) {
+        setTitle(component, ((HasText) component).getText());
+    }
+
     public static User checkAuthentication(Component component) {
         User foundUser = new User("", "");
         Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
@@ -81,6 +104,31 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
             foundUser = UserManagement.getInstance().userFromToken(String.valueOf(tokenObject));
         }
         return foundUser;
+    }
+
+    public static Cookie getCookieByName(final String name) {
+        // Fetch all cookies from the request
+        Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
+
+        // Iterate to find cookie by its name
+        for (Cookie cookie : cookies) {
+            if (name.equals(cookie.getName())) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    public static void destroyCookieByName(final String name) {
+        Cookie cookie = getCookieByName(name);
+
+        if (cookie != null) {
+            cookie.setValue(null);
+            // By setting the cookie maxAge to 0 it will deleted immediately
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            VaadinService.getCurrentResponse().addCookie(cookie);
+        }
     }
 
     @Override
@@ -104,15 +152,17 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
                 break;
             case "PASSES":
                 this.removeContent();
-                this.setContent(new PassesView());
+                this.setContent(new PassView());
                 menu.selectMenuItem(menuItems.get(1));
                 break;
             case "SIGN OUT":
                 VaadinSession.getCurrent().close();
+                destroyCookieByName("Token");
                 getUI().ifPresent(ui -> ui.getPage().executeJavaScript("window.location.href='login'"));
                 this.removeContent();
                 break;
         }
     }
+
 
 }
