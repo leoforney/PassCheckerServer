@@ -207,11 +207,16 @@ public class PassManagement {
         return cars;
     }
 
-    public void updateCarFromPlateNumber(String plateNumber, Car before, Car after) {
+    public void updateCarFromPlateNumber(String plateNumber, Car after) {
         try {
             Statement statement = connection.createStatement();
-            //ResultSet rs = statement.executeUpdate("UPDATE Cars SET" +
-             //       " plateNumber = \"" + ")
+            int result = statement.executeUpdate("UPDATE Cars SET plateNumber = \"" + after.plateNumber + "\"," +
+                    " make = \"" + after.make +
+                    "\", model = \"" + after.model +
+                    "\", year = \"" + after.year +
+                    "\", color = \"" + after.color +
+                    "\", studentId = \"" + after.id +
+                    "\" WHERE plateNumber = \"" + plateNumber + "\"");
         } catch (Exception e) {
 
         }
@@ -230,6 +235,21 @@ public class PassManagement {
         }
 
         return "";
+    }
+
+    public Car findCarByPlateNumber(String plateNumber) {
+        Car foundCar = new Car();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Cars WHERE plateNumber = \"" + plateNumber + "\"");
+
+            foundCar = new Car(rs);
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundCar;
     }
 
     public String findStudentNameByPlateNumber(String plateNumber) {

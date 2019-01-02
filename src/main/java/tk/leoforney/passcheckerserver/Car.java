@@ -1,5 +1,7 @@
 package tk.leoforney.passcheckerserver;
 
+import java.sql.ResultSet;
+
 /**
  * Created by Leo on 7/27/2018.
  */
@@ -57,6 +59,19 @@ public class Car {
 
     public Car() {
 
+    }
+
+    public Car(ResultSet rs) {
+        try {
+            this.plateNumber = rs.getString("plateNumber");
+            this.color = rs.getString("color");
+            this.make = rs.getString("make");
+            this.model = rs.getString("model");
+            this.id = rs.getInt("studentId");
+            this.year = rs.getInt("year");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Car(String plateNumber, String color, String make, String model, int year, int id) {

@@ -6,7 +6,7 @@ plugins {
 vaadin.autoconfigure()
 
 group 'tk.leoforney'
-version '1.0'
+version '0.5-ALPHA'
 
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
@@ -40,4 +40,18 @@ jar {
         configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
     }
 
+}
+
+task createProperties(dependsOn: processResources) {
+    doLast {
+        new File("$buildDir/resources/main/version.properties").withWriter { w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p.store w, null
+        }
+    }
+}
+
+classes {
+    dependsOn createProperties
 }
