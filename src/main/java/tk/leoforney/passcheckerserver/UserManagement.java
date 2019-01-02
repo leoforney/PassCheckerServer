@@ -4,15 +4,11 @@ import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
-import java.net.URI;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
-import static spark.Spark.delete;
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 /**
  * Created by Leo on 5/5/2018.
@@ -222,7 +218,7 @@ public class UserManagement {
         }
     }
 
-    List<User> usersList() {
+    public List<User> usersList() {
         List<User> users;
         try {
             Statement statement = Runner.connection.createStatement();

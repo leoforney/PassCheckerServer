@@ -7,8 +7,6 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.BodySize;
-import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -16,14 +14,11 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.validator.BeanValidator;
-import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinResponse;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 import org.apache.commons.codec.binary.Base64;
 import org.vaadin.marcus.shortcut.Shortcut;
 
@@ -36,10 +31,7 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 
-@Route("login")
-@BodySize(height = "100vh", width = "100vw")
-@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
-@Theme(value = Lumo.class, variant = Lumo.DARK)
+@Route(value = "login", layout = MainLayout.class)
 public class LoginView extends VerticalLayout implements ComponentEventListener<ClickEvent<Button>>, KeyNotifier {
 
     TextField email;
@@ -64,8 +56,6 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
         email.setPlaceholder("joe@wths.net");
         form.addFormItem(email, "Email");
         binder.forField(email)
-                .withValidator(
-                        new EmailValidator("This doesn't look like a valid email address"))
                 .bind(Account::getEmail, Account::setEmail);
 
         password = new PasswordField();
@@ -85,6 +75,9 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
 
         add(loginLayout);
 
+        /*
+         * If remember me is used, login to main page
+         */
         HttpServletRequest request = (HttpServletRequest) VaadinRequest.getCurrent();
         Cookie[] cookies = request.getCookies();
 
@@ -96,6 +89,9 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
             }
         }
 
+        /*
+         * If already signed in, take to main page.
+         */
         UI.getCurrent().access((Command) () -> {
             Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
 
@@ -151,7 +147,10 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
     }
 
     private void login() {
-        String emailString = email.getValue();
+        String emailString = email.getValue().toLowerCase();
+        if (!emailString.contains("@")) {
+            emailString = emailString + "@wths.net";
+        }
         String passwordString = password.getValue();
 
         String concatString = emailString + ":" + passwordString;

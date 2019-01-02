@@ -12,15 +12,10 @@ import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.page.BodySize;
-import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.server.VaadinService;
-import com.vaadin.flow.server.VaadinServletConfiguration;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 import tk.leoforney.passcheckerserver.User;
 import tk.leoforney.passcheckerserver.UserManagement;
 
@@ -33,11 +28,7 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 /**
  * The main view of the application
  */
-@Route("")
-@BodySize(height = "100vh", width = "100vw")
-@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
-@Theme(value = Lumo.class, variant = Lumo.DARK)
-@VaadinServletConfiguration( productionMode = false )
+@Route(value = "", layout = MainLayout.class)
 public class AppView extends AppLayout implements ComponentEventListener<MenuItemClickEvent> {
 
     List<AppLayoutMenuItem> menuItems;

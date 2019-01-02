@@ -29,11 +29,14 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
     PassManagement passManagement;
     Checkbox carView;
     VerticalLayout clearableGrid;
+    CarEditor carEditor;
 
     public PassView() {
         checkAuthentication(this);
 
         passManagement = PassManagement.getInstance();
+
+        carEditor = new CarEditor();
 
         H2 title = new H2("Passes");
         setTitle(title);
@@ -96,6 +99,7 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
                 HorizontalLayout hLayout = new HorizontalLayout();
 
                 Button editButton = new Button("Edit");
+                editButton.addClickListener(carEditor);
                 editButton.getElement().getThemeList().add("tertiary");
                 editButton.getElement().getThemeList().add("small");
                 hLayout.add(new Span(new Html("<b>" + car.plateNumber + "</b>"), new Label(" " +

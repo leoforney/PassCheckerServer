@@ -1,6 +1,7 @@
 package tk.leoforney.passcheckerserver.web;
 
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import static tk.leoforney.passcheckerserver.web.AppView.checkAuthentication;
@@ -13,6 +14,8 @@ public class HomeView extends VerticalLayout {
         setTitle(title);
         add(title);
         checkAuthentication(this);
+
+        add(new H3("Page work in progress"));
     }
 
 }

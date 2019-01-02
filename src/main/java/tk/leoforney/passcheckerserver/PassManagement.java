@@ -207,6 +207,16 @@ public class PassManagement {
         return cars;
     }
 
+    public void updateCarFromPlateNumber(String plateNumber, Car before, Car after) {
+        try {
+            Statement statement = connection.createStatement();
+            //ResultSet rs = statement.executeUpdate("UPDATE Cars SET" +
+             //       " plateNumber = \"" + ")
+        } catch (Exception e) {
+
+        }
+    }
+
     public String findStudentByPlateNumber(String plateNumber) {
         List<Student> studentList = getStudentList();
 
