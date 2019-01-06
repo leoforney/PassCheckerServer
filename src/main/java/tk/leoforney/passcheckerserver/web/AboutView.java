@@ -27,7 +27,9 @@ public class AboutView extends VerticalLayout {
 
         boolean idea = false;
         if (Main.arguments.length > 0) {
-            idea = Main.arguments[0].equalsIgnoreCase("idea");
+            for (String arg: Main.arguments) {
+                if (arg.equalsIgnoreCase("idea")) idea = true;
+            }
         }
 
         System.out.println(idea);
