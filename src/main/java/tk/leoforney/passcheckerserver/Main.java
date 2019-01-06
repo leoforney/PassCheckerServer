@@ -18,10 +18,12 @@ public class Main {
 
     public static String wd = System.getProperty("user.home") + File.separator + "Desktop";
     public static ConfigurableApplicationContext context;
+    public static String[] arguments;
 
     public static void main(String[] args) {
         Runner runner = new Runner(args);
         context = SpringApplication.run(Main.class, args);
+        arguments = args;
         try {
             runner.run();
         } catch (Exception e) {

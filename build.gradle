@@ -1,6 +1,7 @@
 plugins {
     id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
+    id 'war'
 }
 
 vaadin.autoconfigure()
@@ -30,21 +31,12 @@ dependencies {
     }
 }
 
-jar {
+bootJar {
     vaadin.productionMode=true
     vaadin.submitStatistics=false
-    manifest {
-        attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main' )
-    }
-    from {
-        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
-    }
-
-}
-
-task createProperties(dependsOn: processResources) {
     doLast {
-        new File("$buildDir/resources/main/version.properties").withWriter { w ->
+        def propFile = new File("$buildDir/resources/main/version.properties")
+        propFile.withWriter { w ->
             Properties p = new Properties()
             p['version'] = project.version.toString()
             p.store w, null
@@ -52,6 +44,44 @@ task createProperties(dependsOn: processResources) {
     }
 }
 
+jar {
+    vaadin.productionMode=true
+    vaadin.submitStatistics=false
+    manifest {
+        attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main',
+        'Version': version)
+    }
+    from {
+        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
+    }
+
+}
+
+task createProperties() {
+    doLast {
+        System.out.println("$projectDir")
+        def propFile = new File("$projectDir/out/production/resources/version.properties")
+        propFile.createNewFile()
+        propFile.withWriter { w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p['vaadin'] = vaadin.version
+            p['productionMode'] = vaadin.productionMode.toString()
+            p['time'] = new Date().format('dd/MM/yyyy - HH:mm:ss')
+            p.store w, null
+        }
+    }
+}
+
 classes {
     dependsOn createProperties
+    doLast {
+        def propFile = new File("$buildDir/resources/main/version.properties")
+        propFile.withWriter { w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p.store w, null
+        }
+    }
+    System.out.println("Hello!")
 }

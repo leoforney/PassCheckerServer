@@ -2,8 +2,10 @@
   <configuration default="false" name="Run" type="Application" factoryName="Application" singleton="true">
     <option name="MAIN_CLASS_NAME" value="tk.leoforney.passcheckerserver.Main" />
     <module name="passcheckerserver_main" />
+    <option name="PROGRAM_PARAMETERS" value="idea" />
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="createProperties" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
     </method>
   </configuration>
 </component>

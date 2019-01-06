@@ -1,15 +1,13 @@
 package tk.leoforney.passcheckerserver.web;
 
-import com.vaadin.flow.component.AbstractField;
-import com.vaadin.flow.component.HasValue;
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
@@ -23,13 +21,15 @@ import static tk.leoforney.passcheckerserver.web.AppView.checkAuthentication;
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 @Route("passes")
-public class PassView extends VerticalLayout implements HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<Checkbox, Boolean>> {
+public class PassView extends VerticalLayout implements HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<Checkbox, Boolean>>, ComponentEventListener<ClickEvent<Button>> {
 
     PassManagement passManagement;
     Checkbox carView;
     VerticalLayout clearableGrid;
     CarEditor carEditor;
     Grid<Car> carGrid;
+    Grid<Student> studentGrid;
+    boolean studentView = false;
 
     public PassView() {
         checkAuthentication(this);
@@ -52,6 +52,16 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
         clearableGrid.setMargin(false);
         add(clearableGrid);
 
+        Button deleteButton = new Button(VaadinIcon.TRASH.create());
+        deleteButton.addClickListener(this);
+        deleteButton.getElement().getThemeList().add("disabled");
+
+        Button addButton = new Button(VaadinIcon.PLUS.create());
+        deleteButton.getElement().getThemeList().add("disabled");
+        addButton.addClickListener(this);
+
+        add(new Span(addButton, deleteButton));
+
         if (passManagement != null) {
             loadStudents();
         } else {
@@ -69,6 +79,7 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
             clearableGrid.removeAll();
             loadCars();
         }
+        studentView = event.getValue();
     }
 
     private void loadCars() {
@@ -87,12 +98,12 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
 
     private void loadStudents() {
         List<Student> studentList = passManagement.getStudentList();
-        Grid<Student> grid = new Grid<>();
-        grid.setSelectionMode(Grid.SelectionMode.MULTI);
-        grid.setItems(studentList);
-        grid.addColumn(Student::getId).setHeader("ID");
-        grid.addColumn(Student::getName).setHeader("Name");
-        grid.setItemDetailsRenderer(new ComponentRenderer<>(student -> {
+        studentGrid = new Grid<>();
+        studentGrid.setSelectionMode(Grid.SelectionMode.MULTI);
+        studentGrid.setItems(studentList);
+        studentGrid.addColumn(Student::getId).setHeader("ID");
+        studentGrid.addColumn(Student::getName).setHeader("Name");
+        studentGrid.setItemDetailsRenderer(new ComponentRenderer<>(student -> {
             VerticalLayout layout = new VerticalLayout();
             List<Car> cars = student.getCars();
             for (Car car: cars) {
@@ -119,8 +130,13 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
             }
             return layout;
         }));
-        clearableGrid.add(grid);
-        carEditor.setGrid(grid);
+        clearableGrid.add(studentGrid);
+        carEditor.setGrid(studentGrid);
         carEditor.setList(studentList);
+    }
+
+    @Override
+    public void onComponentEvent(ClickEvent<Button> event) {
+
     }
 }
