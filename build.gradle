@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.42'
+    }
+}
+
 plugins {
     id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
@@ -11,6 +21,7 @@ version '0.5-ALPHA'
 
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.jaredsburrows.license'
 
 sourceCompatibility = 1.8
 
@@ -57,6 +68,15 @@ jar {
 
 }
 
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 task createProperties() {
     doLast {
         System.out.println("$projectDir")
@@ -67,7 +87,8 @@ task createProperties() {
             p['version'] = project.version.toString()
             p['vaadin'] = vaadin.version
             p['productionMode'] = vaadin.productionMode.toString()
-            p['time'] = new Date().format('dd/MM/yyyy - HH:mm:ss')
+            p['time'] = new Date().format('MM/dd/yyyy - HH:mm:ss')
+            p['hash'] = getGitHash()
             p.store w, null
         }
     }

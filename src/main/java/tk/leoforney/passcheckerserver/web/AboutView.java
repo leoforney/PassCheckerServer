@@ -8,9 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.leoforney.passcheckerserver.Main;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
@@ -42,10 +45,6 @@ public class AboutView extends VerticalLayout {
         }
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
-        File file = new File("");
-        System.out.println(file.getAbsolutePath());
-        System.out.println(classLoader.getResource(fileName).getPath());
-
         Properties prop = new Properties();
         try {
             FileReader fileReader = new FileReader(classLoader.getResource(fileName).getFile());
@@ -55,8 +54,26 @@ public class AboutView extends VerticalLayout {
         }
 
         add(new Label("Version: " + prop.getProperty("version")));
-        add(new Label("Time: " + prop.getProperty("time")));
+        add(new Label("Build Date: " + prop.getProperty("time")));
+        add(new Label("Hash: " + prop.getProperty("hash")));
+        add(new Label("Java Version: " + System.getProperty("java.version")));
         add(new Label("Vaadin Version: " + prop.get("vaadin")));
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements()) {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements()) {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    String addr = i.getHostAddress();
+                    if (addr.contains("192.168.")) {
+                        add(new Label("IP: " + addr));
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
         add(new Label("Made by BDSL: Bria R, Dana L., Santiago C., Leo"));
     }
 

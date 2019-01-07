@@ -12,10 +12,8 @@
     <facet type="web" name="Web Gradle : passcheckerserver-0.5-ALPHA.war">
       <configuration>
         <webroots>
-          <root url="file://C:\Users\Leo\IdeaProjects\PassCheckerServer\src\main\webapp" relative="/" />
+          <root url="file://D:\IdeaProjects\PassCheckerServer\src\main\webapp" relative="/" />
           <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend" relative="/frontend" />
-          <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend-es5" relative="/frontend-es5" />
-          <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend-es6" relative="/frontend-es6" />
         </webroots>
       </configuration>
     </facet>
