@@ -115,7 +115,7 @@ public class UserManagement {
     }
 
     public static boolean authenticated(Request request) {
-        return authenticated(request.headers("Token") + "\"");
+        return authenticated(request.headers("Token"));
     }
 
     public static boolean authenticated(String token) {

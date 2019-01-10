@@ -81,10 +81,12 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
         HttpServletRequest request = (HttpServletRequest) VaadinRequest.getCurrent();
         Cookie[] cookies = request.getCookies();
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equalsIgnoreCase("token")) {
-                if (cookie.getValue() != null) {
-                    login(cookie.getValue());
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equalsIgnoreCase("token")) {
+                    if (cookie.getValue() != null) {
+                        login(cookie.getValue());
+                    }
                 }
             }
         }

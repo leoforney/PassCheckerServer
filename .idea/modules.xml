@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PassCheckerServer.iml" filepath="$PROJECT_DIR$/PassCheckerServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" group="passcheckerserver" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" group="passcheckerserver" />
