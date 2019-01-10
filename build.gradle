@@ -42,16 +42,23 @@ dependencies {
     }
 }
 
+bootWar {
+    vaadin.productionMode=true
+    vaadin.submitStatistics=false
+    from {
+        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
+    }
+}
+
 bootJar {
     vaadin.productionMode=true
     vaadin.submitStatistics=false
-    doLast {
-        def propFile = new File("$buildDir/resources/main/version.properties")
-        propFile.withWriter { w ->
-            Properties p = new Properties()
-            p['version'] = project.version.toString()
-            p.store w, null
-        }
+    manifest {
+        attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main',
+                'Version': version)
+    }
+    from {
+        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
     }
 }
 
@@ -77,7 +84,7 @@ def getGitHash = { ->
     return stdout.toString().trim()
 }
 
-task createProperties() {
+classes {
     doLast {
         System.out.println("$projectDir")
         def propFile = new File("$projectDir/out/production/resources/version.properties")
@@ -92,17 +99,5 @@ task createProperties() {
             p.store w, null
         }
     }
-}
-
-classes {
-    dependsOn createProperties
-    doLast {
-        def propFile = new File("$buildDir/resources/main/version.properties")
-        propFile.withWriter { w ->
-            Properties p = new Properties()
-            p['version'] = project.version.toString()
-            p.store w, null
-        }
-    }
-    System.out.println("Hello!")
+    System.out.println("Property file created")
 }
