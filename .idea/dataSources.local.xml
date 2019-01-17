@@ -3,6 +3,7 @@
   <component name="dataSourceStorageLocal">
     <data-source name="PassCheckerDatabase" uuid="1234c1fc-1d20-4ea4-a951-6866085d5d09">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
     </data-source>
   </component>
 </project>

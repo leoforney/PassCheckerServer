@@ -84,7 +84,7 @@ def getGitHash = { ->
     return stdout.toString().trim()
 }
 
-classes {
+task createProperties {
     doLast {
         System.out.println("$projectDir")
         def propFile = new File("$projectDir/out/production/resources/version.properties")
@@ -99,5 +99,9 @@ classes {
             p.store w, null
         }
     }
+}
+
+classes {
+    dependsOn createProperties
     System.out.println("Property file created")
 }

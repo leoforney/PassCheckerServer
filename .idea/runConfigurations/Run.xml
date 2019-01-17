@@ -4,6 +4,7 @@
     <module name="passcheckerserver_main" />
     <option name="PROGRAM_PARAMETERS" value="idea" />
     <method v="2">
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="createProperties" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
       <option name="Make" enabled="true" />
     </method>
   </configuration>

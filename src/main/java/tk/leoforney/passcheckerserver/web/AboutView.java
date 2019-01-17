@@ -66,7 +66,7 @@ public class AboutView extends VerticalLayout {
                 while (ee.hasMoreElements()) {
                     InetAddress i = (InetAddress) ee.nextElement();
                     String addr = i.getHostAddress();
-                    if (addr.contains("192.168.")) {
+                    if (addr.contains("192.168.") && !addr.contains("56.1")) {
                         add(new Label("IP: " + addr));
                     }
                 }
