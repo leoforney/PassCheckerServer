@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_main.iml" group="passcheckerserver" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/passcheckerserver_test.iml" group="passcheckerserver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/qr/qr.iml" filepath="$PROJECT_DIR$/.idea/modules/qr/qr.iml" group="qr" />
     </modules>
   </component>
 </project>
