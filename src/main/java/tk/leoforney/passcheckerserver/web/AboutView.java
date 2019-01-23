@@ -13,10 +13,14 @@ import tk.leoforney.passcheckerserver.Main;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
@@ -70,16 +74,25 @@ public class AboutView extends VerticalLayout {
         add(new Label("Made by BDSL: Bria R, Dana L., Santiago C., Leo"));
         Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
 
+        add(new Label("QR Code for Login: " + ((tokenObject == null) ? "Unauthenticated" : "Authenticated")));
+
         GraniteQRCode qrCode = new GraniteQRCode();
-        qrCode.setData("Hb4");
         add(qrCode);
+        String ip = ips.get(0);
+        try {
+            qrCode.setData(base64.encodeToString((ip + "-" + "EMPTY").getBytes("UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         if (tokenObject != null && authenticated(String.valueOf(tokenObject))) {
             String token = String.valueOf(tokenObject);
-            String[] hash = Arrays.toString(base64.decode(String.valueOf(tokenObject))).split(":");
-            String email = hash[0];
-            String password = "";
-            String ip = ips.get(0);
-            qrCode.setData(token);
+
+            try {
+                String credentials = base64.encodeToString((ip + "-" + token).getBytes("UTF-8"));
+                qrCode.setData(credentials);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
     }
