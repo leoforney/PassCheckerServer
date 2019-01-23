@@ -37,8 +37,6 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.4"
     implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
     implementation "commons-codec:commons-codec:1.11"
-    implementation "org.webjars.bowergithub.mdgeek:jquery-qrcode:1.1.1"
-    implementation "org.webjars.bowergithub.jquery:jquery-dist:3.3.1"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
