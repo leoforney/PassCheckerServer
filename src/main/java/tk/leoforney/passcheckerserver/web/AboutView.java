@@ -70,14 +70,16 @@ public class AboutView extends VerticalLayout {
         add(new Label("Made by BDSL: Bria R, Dana L., Santiago C., Leo"));
         Object tokenObject = VaadinSession.getCurrent().getAttribute("Token");
 
-        GraniteQRCode qrCode = null;
+        GraniteQRCode qrCode = new GraniteQRCode();
+        qrCode.setData("Hb4");
+        add(qrCode);
         if (tokenObject != null && authenticated(String.valueOf(tokenObject))) {
+            String token = String.valueOf(tokenObject);
             String[] hash = Arrays.toString(base64.decode(String.valueOf(tokenObject))).split(":");
             String email = hash[0];
             String password = "";
             String ip = ips.get(0);
-            qrCode = new GraniteQRCode(email);
-            add(qrCode);
+            qrCode.setData(token);
         }
 
     }

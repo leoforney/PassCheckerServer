@@ -10,13 +10,13 @@ import org.springframework.lang.NonNull;
 public class GraniteQRCode extends Div {
 
     public GraniteQRCode() {
-        setMode(Mode.ALPHANUMERIC);
+        setMode(Mode.OCTET);
         setData("");
         generateQRCode();
     }
 
     public GraniteQRCode(String data) {
-        setMode(Mode.ALPHANUMERIC);
+        setMode(Mode.OCTET);
         setData(data);
         generateQRCode();
     }
