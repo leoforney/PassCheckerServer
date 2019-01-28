@@ -78,20 +78,22 @@ public class AboutView extends VerticalLayout {
 
         GraniteQRCode qrCode = new GraniteQRCode();
         add(qrCode);
-        String ip = ips.get(0);
-        try {
-            qrCode.setData(base64.encodeToString((ip + "-" + "EMPTY").getBytes("UTF-8")));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if (tokenObject != null && authenticated(String.valueOf(tokenObject))) {
-            String token = String.valueOf(tokenObject);
-
+        if (ips.size() > 0) {
+            String ip = ips.get(0);
             try {
-                String credentials = base64.encodeToString((ip + "-" + token).getBytes("UTF-8"));
-                qrCode.setData(credentials);
+                qrCode.setData(base64.encodeToString((ip + "-" + "EMPTY").getBytes("UTF-8")));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+            }
+            if (tokenObject != null && authenticated(String.valueOf(tokenObject))) {
+                String token = String.valueOf(tokenObject);
+
+                try {
+                    String credentials = base64.encodeToString((ip + "-" + token).getBytes("UTF-8"));
+                    qrCode.setData(credentials);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

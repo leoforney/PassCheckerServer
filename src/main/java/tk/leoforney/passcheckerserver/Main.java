@@ -16,7 +16,7 @@ import java.io.File;
 @EntityScan
 public class Main {
 
-    public static String wd = System.getProperty("user.home") + File.separator + "Desktop";
+    public static String wd = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "PassCheckerServer";
     public static ConfigurableApplicationContext context;
     public static String[] arguments;
 

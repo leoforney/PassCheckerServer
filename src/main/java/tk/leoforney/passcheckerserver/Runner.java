@@ -1,12 +1,19 @@
 package tk.leoforney.passcheckerserver;
 
+import spark.Request;
+import spark.Response;
+import spark.Route;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
-import static spark.Spark.port;
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 import static tk.leoforney.passcheckerserver.Main.wd;
 
 /**
@@ -30,7 +37,7 @@ public class Runner {
 
         System.out.println("PassChecker Server starting up");
 
-        connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator +"PassCheckerDatabase.db");
+        connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
         connection.setAutoCommit(false);
 
         File uploadDir = new File(wd + File.separator + "upload");
@@ -42,6 +49,24 @@ public class Runner {
         userManagement = UserManagement.getInstance();
         passManagement = PassManagement.getInstance();
         photoManagement = new PhotoManagement(passManagement);
+
+        Properties properties = new Properties();
+        InputStreamReader in = null;
+        try {
+            in = new InputStreamReader(new FileInputStream(wd + File.separator + "PassCheckerServer.properties"), "UTF-8");
+            properties.load(in);
+        } finally {
+            if (null != in) {
+                try {
+                    in.close();
+                } catch (IOException ex) {}
+            }
+        }
+
+        get("/getProperty/*", (request, response) -> {
+            String propertyKey = request.splat()[0];
+            return properties.getProperty(propertyKey);
+        });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {

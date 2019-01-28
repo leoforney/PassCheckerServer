@@ -85,6 +85,7 @@ public class PhotoManagement {
         System.out.println("Picture received");
 
         Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
+        tempFile.toFile().delete();
 
         request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
         
@@ -114,8 +115,6 @@ public class PhotoManagement {
                 returnValue = result.getTopNPlates().get(0).getCharacters();
             }
         }
-
-        tempFile.toFile().delete();
 
         return returnValue.toLowerCase();
     }

@@ -22,7 +22,6 @@ public class GraniteQRCode extends Div {
     }
 
     public void setMode(@NonNull Mode mode) {
-        System.out.println(mode.toString());
         getElement().setProperty("mode", mode.toString().toLowerCase());
         paramsChanged();
     }
