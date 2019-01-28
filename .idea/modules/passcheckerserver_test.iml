@@ -69,6 +69,7 @@
     <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.21.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.4" level="project" />
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.11" level="project" />
+    <orderEntry type="library" name="Gradle: javaxt:javaxt-core:1.9.0" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:vaadin-spring:10.0.6" level="project" />
     <orderEntry type="library" name="Gradle: com.vaadin:flow-data:1.0.6" level="project" />

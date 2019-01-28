@@ -4,14 +4,16 @@ import com.openalpr.jni.Alpr;
 import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
+import javaxt.io.Image;
+import org.apache.commons.io.IOUtils;
 import spark.Request;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -56,6 +58,8 @@ public class PhotoManagement {
         post("/getStudent", (request, response) -> {
             if (authenticated(request)) {
                 String plateNumber = getPlateNumberFromRequest(request);
+                String student = passManagement.findStudentByPlateNumber(plateNumber);
+                System.out.println("Student: " + student);
                 return passManagement.findStudentByPlateNumber(plateNumber);
             }
             return "Not authenticated";
@@ -84,18 +88,33 @@ public class PhotoManagement {
     public String getPlateNumberFromRequest(Request request) throws Exception {
         System.out.println("Picture received");
 
-        Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-        tempFile.toFile().delete();
+        File photoFile = new File(uploadDir.getAbsolutePath() + File.separator + System.currentTimeMillis()
+                + ".jpg");
+
+        if (photoFile.exists()) {
+            photoFile.delete();
+        }
+
+        photoFile.createNewFile();
 
         request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-        
-        try (InputStream input = request.raw().getPart("image").getInputStream()) { // getPart needs to use same "name" as input field in form
-            Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+
+        Part part = request.raw().getPart("image");
+        if (part.getContentType().toLowerCase().equals("image/yuv_420_88")) {
+
+        } else if (part.getContentType().toLowerCase().equals("image/jpeg")) {
+            try (InputStream input = part.getInputStream()) { // getPart needs to use same "name" as input field in form
+                byte[] resultByteData = IOUtils.toByteArray(input);
+                Image image = new Image(resultByteData);
+                image.rotateClockwise();
+                Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+            }
         }
+
 
         String returnValue = "";
         if (alpr.isLoaded()) {
-            AlprResults results = alpr.recognize(tempFile.toString());
+            AlprResults results = alpr.recognize(photoFile.toString());
             System.out.format("  %-15s%-8s\n", "Plate Number", "Confidence");
             System.out.println(results.getPlates().size());
             if (results.getPlates().size() == 0) {

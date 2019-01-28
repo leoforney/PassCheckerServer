@@ -28,6 +28,7 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "http://www.javaxt.com/maven"}
 }
 
 dependencies {
@@ -37,6 +38,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.4"
     implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
     implementation "commons-codec:commons-codec:1.11"
+    implementation "javaxt:javaxt-core:1.9.0"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
