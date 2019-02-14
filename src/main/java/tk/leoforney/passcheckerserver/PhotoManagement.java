@@ -1,13 +1,12 @@
 package tk.leoforney.passcheckerserver;
 
-import com.mongodb.client.MongoCollection;
+import com.google.gson.Gson;
 import com.openalpr.jni.Alpr;
 import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
 import javaxt.io.Image;
 import org.apache.commons.io.IOUtils;
-import org.bson.Document;
 import spark.Request;
 
 import javax.servlet.MultipartConfigElement;
@@ -17,16 +16,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static tk.leoforney.passcheckerserver.Main.wd;
-import static tk.leoforney.passcheckerserver.Runner.checkDatabase;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
@@ -34,6 +27,7 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
  */
 public class PhotoManagement {
 
+    Gson gson;
     Alpr alpr;
     PassManagement passManagement;
     File uploadDir;
@@ -42,6 +36,8 @@ public class PhotoManagement {
         this.passManagement = passManagement;
 
         uploadDir = new File(wd + File.separator + "upload");
+
+        gson = new Gson();
 
         String os = System.getProperty("os.name");
         String username = System.getProperty("user.name");
@@ -106,12 +102,14 @@ public class PhotoManagement {
         post("/checkInDatabase", (request, response) -> {
             //if (authenticated(request)) {
             String plateNumber = getPlateNumberFromRequest(request);
-            System.out.println(plateNumber);
-            Student student = passManagement.findStudentByPlateNumber(plateNumber);
-            MongoCollection<Document> idCollection = checkDatabase.getCollection(String.valueOf(student.id));
-            DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
-            idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
-            return student.name;
+            if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
+                Student responseStudent = passManagement.checkInStudent(plateNumber);
+                if (responseStudent.name != null) {
+                    return gson.toJson(responseStudent);
+                }
+                return "No Students Detected";
+            }
+            return "No Plates Detected";
             //}
         });
     }

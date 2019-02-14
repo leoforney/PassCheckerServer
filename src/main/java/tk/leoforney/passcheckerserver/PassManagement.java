@@ -1,15 +1,26 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 import static spark.Spark.*;
+import static tk.leoforney.passcheckerserver.Runner.checkDatabase;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
@@ -280,6 +291,43 @@ public class PassManagement {
         }
 
         return "";
+    }
+
+    public Student checkInStudent(String plateNumber) {
+        System.out.println(plateNumber);
+        Student student = findStudentByPlateNumber(plateNumber);
+        if (student.name != null) {
+            MongoCollection<Document> idCollection = checkDatabase.getCollection(String.valueOf(student.id));
+            long amount = idCollection.countDocuments();
+            System.out.println("Amount of documents: " + amount);
+            if (amount == 0) {
+                checkDatabase.createCollection(String.valueOf(student.id));
+                idCollection = checkDatabase.getCollection(String.valueOf(student.id));
+            }
+
+            FindIterable<Document> fi = idCollection.find();
+            MongoCursor<Document> cursor = fi.iterator();
+            int size = 0;
+            try {
+                while(cursor.hasNext()) {
+                    size++;
+                    System.out.println(cursor.next().toJson());
+                }
+            } finally {
+                cursor.close();
+            }
+
+            if (size == 0) {
+                Document document = new Document("plateNumber", plateNumber.toLowerCase()).append("_id", new ObjectId());
+                idCollection.insertOne(document);
+            }
+
+            DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
+            idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
+
+        }
+
+        return student;
     }
 
     private String creationFromCar(Car car) {
