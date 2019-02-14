@@ -139,7 +139,7 @@ public class PassManagement {
         get(PREFIX + "/find/*", (request, response) -> {
             String plateNumber = request.splat()[0];
             if (authenticated(request)) {
-                response.body(findStudentByPlateNumber(plateNumber));
+                response.body(findStudentJsonByPlateNumber(plateNumber));
             } else {
                 response.status(403);
             }
@@ -222,7 +222,7 @@ public class PassManagement {
         }
     }
 
-    public String findStudentByPlateNumber(String plateNumber) {
+    public String findStudentJsonByPlateNumber(String plateNumber) {
         List<Student> studentList = getStudentList();
 
         assert studentList != null;
@@ -235,6 +235,21 @@ public class PassManagement {
         }
 
         return "";
+    }
+
+    public Student findStudentByPlateNumber(String plateNumber) {
+        List<Student> studentList = getStudentList();
+
+        assert studentList != null;
+        for (Student student : studentList) {
+            for (Car car : student.cars) {
+                if (car.plateNumber.toLowerCase().equals(plateNumber.toLowerCase())) {
+                    return student;
+                }
+            }
+        }
+
+        return new Student();
     }
 
     public Car findCarByPlateNumber(String plateNumber) {

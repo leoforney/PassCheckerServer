@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -56,11 +57,15 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
         deleteButton.addClickListener(this);
         deleteButton.getElement().getThemeList().add("disabled");
 
-        Button addButton = new Button(VaadinIcon.PLUS.create());
-        deleteButton.getElement().getThemeList().add("disabled");
-        addButton.addClickListener(this);
+        Button addCarButton = new Button("Add Car");
+        //addCarButton.getElement().getThemeList().add("disabled");
+        addCarButton.addClickListener(this);
 
-        add(new Span(addButton, deleteButton));
+        Button addStudentButton = new Button("Add Student");
+        //addStudentButton.getElement().getThemeList().add("disabled");
+        addStudentButton.addClickListener(this);
+
+        add(new Span(addStudentButton, addCarButton, deleteButton));
 
         if (passManagement != null) {
             loadStudents();

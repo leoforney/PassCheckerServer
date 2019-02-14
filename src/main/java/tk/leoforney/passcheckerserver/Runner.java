@@ -1,8 +1,8 @@
 package tk.leoforney.passcheckerserver;
 
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +32,8 @@ public class Runner {
     }
 
     protected static Connection connection;
+    protected static MongoClient mongoClient;
+    protected static MongoDatabase checkDatabase;
 
     boolean run() throws Exception {
 
@@ -39,6 +41,9 @@ public class Runner {
 
         connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
         connection.setAutoCommit(false);
+
+        mongoClient = MongoClients.create();
+        checkDatabase = mongoClient.getDatabase("passcheck_log");
 
         File uploadDir = new File(wd + File.separator + "upload");
         uploadDir.mkdir();

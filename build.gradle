@@ -39,6 +39,7 @@ dependencies {
     implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
     implementation "commons-codec:commons-codec:1.11"
     implementation "javaxt:javaxt-core:1.9.0"
+    implementation "org.mongodb:mongodb-driver-sync:3.10.1"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
@@ -55,26 +56,18 @@ bootWar {
 bootJar {
     vaadin.productionMode=true
     vaadin.submitStatistics=false
+    System.out.println("BootJar reached")
     manifest {
-        attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main',
-                'Version': version)
+        attributes ( 'Start-Class': 'tk.leoforney.passcheckerserver.Main',
+                'Version': version,
+                'Main-Class': 'org.springframework.boot.loader.JarLauncher')
     }
     from {
-        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
+        configurations.compile.collect {
+            System.out.println(it.getAbsoluteFile().toPath().toString())
+            (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it)
+        }
     }
-}
-
-jar {
-    vaadin.productionMode=true
-    vaadin.submitStatistics=false
-    manifest {
-        attributes ( 'Main-Class': 'tk.leoforney.passcheckerserver.Main',
-        'Version': version)
-    }
-    from {
-        configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }
-    }
-
 }
 
 def getGitHash = { ->

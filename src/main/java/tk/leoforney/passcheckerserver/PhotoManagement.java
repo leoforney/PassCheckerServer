@@ -58,7 +58,7 @@ public class PhotoManagement {
         post("/getStudent", (request, response) -> {
             if (authenticated(request)) {
                 String plateNumber = getPlateNumberFromRequest(request);
-                String student = passManagement.findStudentByPlateNumber(plateNumber);
+                String student = passManagement.findStudentNameByPlateNumber(plateNumber);
                 System.out.println("Student: " + student);
                 return passManagement.findStudentByPlateNumber(plateNumber);
             }
@@ -79,9 +79,27 @@ public class PhotoManagement {
 
         post("/plateNumber", (request, response) -> {
             //if (authenticated(request)) {
-                return getPlateNumberFromRequest(request);
+            return getPlateNumberFromRequest(request);
             //}
             //return "Not authenticated";
+        });
+
+        get("/checkInDatabase", (req, res) -> {
+            System.out.println("Requested");
+            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                    + "    <input type'text' name='token'>"
+                    + "    <button>Upload picture</button>"
+                    + "</form>";
+        });
+
+        post("/checkInDatabase", (request, response) -> {
+            //if (authenticated(request)) {
+            String plateNumber = getPlateNumberFromRequest(request);
+            System.out.println(plateNumber);
+            Student student = passManagement.findStudentByPlateNumber(plateNumber);
+            return student.name;
+            //}
         });
     }
 
