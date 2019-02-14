@@ -1,11 +1,13 @@
 package tk.leoforney.passcheckerserver;
 
+import com.mongodb.client.MongoCollection;
 import com.openalpr.jni.Alpr;
 import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
 import javaxt.io.Image;
 import org.apache.commons.io.IOUtils;
+import org.bson.Document;
 import spark.Request;
 
 import javax.servlet.MultipartConfigElement;
@@ -13,11 +15,18 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static tk.leoforney.passcheckerserver.Main.wd;
+import static tk.leoforney.passcheckerserver.Runner.checkDatabase;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
@@ -36,11 +45,12 @@ public class PhotoManagement {
 
         String os = System.getProperty("os.name");
         String username = System.getProperty("user.name");
+        System.out.println(os + " - " + username);
 
         if (os.toLowerCase().contains("nix") || os.toLowerCase().contains("nux")) {
             alpr = new Alpr("us", "/etc/openalpr/openalpr.conf", "/usr/share/openalpr/runtime_data");
         } else {
-            alpr = new Alpr("us", "C:/Users/" + username + "/openalpr/openalpr.conf", "C:/Users/" + username + "/openalpr/runtime_data");
+            alpr = new Alpr("us", "C:/Users/" + username + "/openalpr/openalpr.conf", "C:/Users/" + username + "/openalpr/runtime_data/");
         }
         alpr.setTopN(3);
         alpr.setDefaultRegion("il");
@@ -98,6 +108,9 @@ public class PhotoManagement {
             String plateNumber = getPlateNumberFromRequest(request);
             System.out.println(plateNumber);
             Student student = passManagement.findStudentByPlateNumber(plateNumber);
+            MongoCollection<Document> idCollection = checkDatabase.getCollection(String.valueOf(student.id));
+            DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
+            idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
             return student.name;
             //}
         });
@@ -117,17 +130,25 @@ public class PhotoManagement {
 
         request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 
-        Part part = request.raw().getPart("image");
-        if (part.getContentType().toLowerCase().equals("image/yuv_420_88")) {
+        if (request.headers("Sender") != null) {
+            Part part = request.raw().getPart("image");
+            if (part.getContentType().toLowerCase().equals("image/yuv_420_88")) {
 
-        } else if (part.getContentType().toLowerCase().equals("image/jpeg")) {
-            try (InputStream input = part.getInputStream()) { // getPart needs to use same "name" as input field in form
-                byte[] resultByteData = IOUtils.toByteArray(input);
-                Image image = new Image(resultByteData);
-                image.rotateClockwise();
-                Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+            } else if (part.getContentType().toLowerCase().equals("image/jpeg")) {
+                try (InputStream input = part.getInputStream()) { // getPart needs to use same "name" as input field in form
+                    byte[] resultByteData = IOUtils.toByteArray(input);
+                    Image image = new Image(resultByteData);
+                    image.rotateClockwise();
+                    Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+                }
+            }
+        } else {
+            try (InputStream input = request.raw().getPart("image").getInputStream()) { // getPart needs to use same "name" as input field in form
+                if (!photoFile.exists()) photoFile.createNewFile();
+                Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         }
+
 
 
         String returnValue = "";
