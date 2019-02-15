@@ -105,7 +105,17 @@ public class PhotoManagement {
             if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
                 Student responseStudent = passManagement.checkInStudent(plateNumber);
                 if (responseStudent.name != null) {
-                    return gson.toJson(responseStudent);
+                    Car selectedCar = null;
+                    for (Car iteratedCar: responseStudent.cars) {
+                        if (iteratedCar.plateNumber.replace(" ", "")
+                                .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
+                            selectedCar = iteratedCar;
+                        }
+                    }
+                    if (selectedCar != null) {
+                        return gson.toJson(new DatabaseResponse(responseStudent, selectedCar));
+                    }
+                    return "Couldn't find car's owner";
                 }
                 return "No Students Detected";
             }
