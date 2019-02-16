@@ -101,26 +101,36 @@ public class PhotoManagement {
 
         post("/checkInDatabase", (request, response) -> {
             //if (authenticated(request)) {
-            String plateNumber = getPlateNumberFromRequest(request);
-            if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
-                Student responseStudent = passManagement.checkInStudent(plateNumber);
-                if (responseStudent.name != null) {
-                    Car selectedCar = null;
-                    for (Car iteratedCar: responseStudent.cars) {
-                        if (iteratedCar.plateNumber.replace(" ", "")
-                                .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
-                            selectedCar = iteratedCar;
+                String plateNumber = getPlateNumberFromRequest(request);
+                DatabaseResponse databaseResponse = new DatabaseResponse();
+                if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
+                    Student responseStudent = passManagement.checkInStudent(plateNumber);
+                    if (responseStudent.name != null) {
+                        Car selectedCar = null;
+                        for (Car iteratedCar : responseStudent.cars) {
+                            if (iteratedCar.plateNumber.replace(" ", "")
+                                    .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
+                                selectedCar = iteratedCar;
+                            }
                         }
+                        if (selectedCar != null) {
+                            databaseResponse.setCar(selectedCar);
+                            databaseResponse.setStudent(responseStudent);
+                            databaseResponse.setType(DatabaseResponse.Type.OK);
+                        } else {
+                            databaseResponse.setStudent(responseStudent);
+                            databaseResponse.setType(DatabaseResponse.Type.STUDENTONLY);
+                        }
+                    } else {
+                        databaseResponse.setPlateNumber(plateNumber);
+                        databaseResponse.setType(DatabaseResponse.Type.PLATEONLY);
                     }
-                    if (selectedCar != null) {
-                        return gson.toJson(new DatabaseResponse(responseStudent, selectedCar));
-                    }
-                    return "Couldn't find car's owner";
+                } else {
+                    databaseResponse.setType(DatabaseResponse.Type.NOPLATES);
                 }
-                return "No Students Detected";
-            }
-            return "No Plates Detected";
+                return gson.toJson(databaseResponse);
             //}
+            //return "Not authenticated";
         });
     }
 
@@ -156,7 +166,6 @@ public class PhotoManagement {
                 Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         }
-
 
 
         String returnValue = "";

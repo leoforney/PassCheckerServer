@@ -12,10 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -35,6 +34,7 @@ public class PassManagement {
     List<Student> students;
 
     private static PassManagement instance = null;
+    DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
 
     public static PassManagement getInstance() {
         if (instance == null) {
@@ -310,8 +310,22 @@ public class PassManagement {
             int size = 0;
             try {
                 while(cursor.hasNext()) {
+                    Document document = cursor.next();
+                    int datesChecked = document.size() - 2;
+                    if (datesChecked > 4) {
+                        List<Date> dateList = new ArrayList<>();
+                        for (String s : document.keySet()) {
+                            try {
+                                dateList.add(dateFormat.parse(s));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Collections.sort(dateList);
+                        //TODO Remove index 0 from list from MongoDB
+                    }
                     size++;
-                    System.out.println(cursor.next().toJson());
+                    System.out.println(document.toJson());
                 }
             } finally {
                 cursor.close();
@@ -322,7 +336,6 @@ public class PassManagement {
                 idCollection.insertOne(document);
             }
 
-            DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
             idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
 
         }
