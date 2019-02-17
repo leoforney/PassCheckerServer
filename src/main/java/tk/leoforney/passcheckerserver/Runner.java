@@ -1,5 +1,6 @@
 package tk.leoforney.passcheckerserver;
 
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -43,19 +44,6 @@ public class Runner {
         connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
         connection.setAutoCommit(false);
 
-        mongoClient = MongoClients.create();
-        checkDatabase = mongoClient.getDatabase("passcheck_log");
-
-        File uploadDir = new File(wd + File.separator + "upload");
-        uploadDir.mkdir();
-        staticFiles.externalLocation(String.valueOf(uploadDir));
-
-        port(4567);
-
-        userManagement = UserManagement.getInstance();
-        passManagement = PassManagement.getInstance();
-        photoManagement = new PhotoManagement(passManagement);
-
         properties = new Properties();
         InputStreamReader in = null;
         try {
@@ -69,15 +57,46 @@ public class Runner {
             }
         }
 
+        String mongoHost = properties.getProperty("mongoHost", "localhost");
+        int mongoPort = Integer.valueOf(properties.getProperty("mongoPort", "27017"));
+        ServerAddress mongoAddress = new ServerAddress(mongoHost, mongoPort);
+
+        String mongoUserName = properties.getProperty("mongoUser", null);
+        String mongoPassword = properties.getProperty("mongoPassword", null);
+        String mongoDb = properties.getProperty("mongoDb", "passcheck_log");
+        if (mongoUserName == null || mongoPassword == null) {
+            mongoClient = MongoClients.create("mongodb://" + mongoHost + ":" + mongoPort);
+        } else {
+            mongoClient = MongoClients.create("mongodb://" + mongoUserName + ":" + mongoPassword + "@"
+                    + mongoHost + ":" + mongoPort + "/" + mongoDb);
+        }
+        checkDatabase = mongoClient.getDatabase("passcheck_log");
+
+        File uploadDir = new File(wd + File.separator + "upload");
+        uploadDir.mkdir();
+        staticFiles.externalLocation(String.valueOf(uploadDir));
+
+        port(4567);
+
+        userManagement = UserManagement.getInstance();
+        passManagement = PassManagement.getInstance();
+        photoManagement = new PhotoManagement(passManagement);
+
+
+
         get("/getProperty/*", (request, response) -> {
             String propertyKey = request.splat()[0];
-            return properties.getProperty(propertyKey);
+            if (propertyKey.contains("mongo")){
+                return "Not permitted";
+            }
+            return properties.getProperty(propertyKey, "Property not set");
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 System.out.println("Running shutdown hook");
                 connection.close();
+                mongoClient.close();
                 photoManagement.alpr.unload();
                 if (Main.context != null) {
                     Main.context.close();
