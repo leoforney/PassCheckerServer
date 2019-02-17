@@ -26,6 +26,7 @@ public class Runner {
     UserManagement userManagement;
     PassManagement passManagement;
     PhotoManagement photoManagement;
+    protected static Properties properties;
 
     Runner(String[] args) {
         this.args = args;
@@ -55,7 +56,7 @@ public class Runner {
         passManagement = PassManagement.getInstance();
         photoManagement = new PhotoManagement(passManagement);
 
-        Properties properties = new Properties();
+        properties = new Properties();
         InputStreamReader in = null;
         try {
             in = new InputStreamReader(new FileInputStream(wd + File.separator + "PassCheckerServer.properties"), "UTF-8");
