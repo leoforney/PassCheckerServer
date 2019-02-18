@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -30,7 +32,7 @@ public class PhotoManagement {
     Gson gson;
     Alpr alpr;
     PassManagement passManagement;
-    File uploadDir;
+    public static File uploadDir;
 
     public PhotoManagement(PassManagement passManagement) {
         this.passManagement = passManagement;
@@ -63,7 +65,8 @@ public class PhotoManagement {
 
         post("/getStudent", (request, response) -> {
             if (authenticated(request)) {
-                String plateNumber = getPlateNumberFromRequest(request);
+                List<String> plateNumberList = getPlateNumberFromRequest(request);
+                String plateNumber = plateNumberList.get(0);
                 String student = passManagement.findStudentNameByPlateNumber(plateNumber);
                 System.out.println("Student: " + student);
                 return passManagement.findStudentByPlateNumber(plateNumber);
@@ -73,7 +76,8 @@ public class PhotoManagement {
 
         post("/getStudentName", (request, response) -> {
             if (authenticated(request)) {
-                String plateNumber = getPlateNumberFromRequest(request);
+                List<String> plateNumberList = getPlateNumberFromRequest(request);
+                String plateNumber = plateNumberList.get(0);
                 System.out.println(plateNumber);
                 if (plateNumber.equals("No Plates Detected".toLowerCase())) {
                     return plateNumber;
@@ -101,8 +105,11 @@ public class PhotoManagement {
 
         post("/checkInDatabase", (request, response) -> {
             //if (authenticated(request)) {
-                String plateNumber = getPlateNumberFromRequest(request);
+                List<String> plateNumberList = getPlateNumberFromRequest(request);
+                String plateNumber = plateNumberList.get(0);
                 DatabaseResponse databaseResponse = new DatabaseResponse();
+                databaseResponse.setTimestamp(plateNumberList.get(1));
+                System.out.println(databaseResponse.getTimestamp());
                 if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
                     Student responseStudent = passManagement.checkInStudent(plateNumber);
                     if (responseStudent.name != null) {
@@ -134,11 +141,17 @@ public class PhotoManagement {
         });
     }
 
-    public String getPlateNumberFromRequest(Request request) throws Exception {
-        System.out.println("Picture received");
+    public List<String> getPlateNumberFromRequest(Request request) throws Exception {
 
-        File photoFile = new File(uploadDir.getAbsolutePath() + File.separator + System.currentTimeMillis()
+        List<String> responseList = new ArrayList<>(2);
+
+        deleteOldestImage();
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        File photoFile = new File(uploadDir.getAbsolutePath() + File.separator + timestamp
                 + ".jpg");
+        File latestPhoto = new File(uploadDir.getAbsolutePath() + File.separator + "latest.jpg");
+        if (!latestPhoto.exists()) latestPhoto.createNewFile();
 
         if (photoFile.exists()) {
             photoFile.delete();
@@ -158,12 +171,14 @@ public class PhotoManagement {
                     Image image = new Image(resultByteData);
                     image.rotateClockwise();
                     Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+                    Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
             }
         } else {
             try (InputStream input = request.raw().getPart("image").getInputStream()) { // getPart needs to use same "name" as input field in form
                 if (!photoFile.exists()) photoFile.createNewFile();
                 Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         }
 
@@ -191,12 +206,35 @@ public class PhotoManagement {
             }
         }
 
-        return returnValue.toLowerCase();
+        responseList.add(returnValue.toLowerCase()); // 0 - Plate number (lowercase)
+        responseList.add(timestamp); // 1 - timestamp as string
+
+        return responseList;
     }
 
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    private void deleteOldestImage() {
+        if (uploadDir.list().length > Integer.valueOf(Runner.properties.getProperty("maxImages", "200"))) {
+            File oldest = null;
+            for (File file: uploadDir.listFiles()) {
+                if (oldest == null) {
+                    oldest = file;
+                } else {
+                    if ((oldest.lastModified() > file.lastModified()) &&
+                            (!file.getName().equals("latest.jpg") || !file.getName().equals("placeholder.jpg"))) {
+                        oldest = file;
+                    }
+                }
+            }
+            System.out.println("Deleting oldest file: " + oldest.getName());
+            if(oldest.exists()) {
+                oldest.delete();
+            }
+        }
     }
 
 }

@@ -54,7 +54,7 @@ bootWar {
 }
 
 bootJar {
-    vaadin.productionMode=true
+    vaadin.productionMode=false
     vaadin.submitStatistics=false
     System.out.println("BootJar reached")
     manifest {

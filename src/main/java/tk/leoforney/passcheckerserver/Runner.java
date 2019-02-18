@@ -82,8 +82,6 @@ public class Runner {
         passManagement = PassManagement.getInstance();
         photoManagement = new PhotoManagement(passManagement);
 
-
-
         get("/getProperty/*", (request, response) -> {
             String propertyKey = request.splat()[0];
             if (propertyKey.contains("mongo")){
