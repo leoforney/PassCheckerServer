@@ -18,7 +18,7 @@ import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 public class HomeView extends VerticalLayout implements FileAlterationListener {
 
-    Image latestPhoto;
+    private static Image latestPhoto;
 
     public HomeView() {
         H2 title = new H2("Home");
@@ -40,7 +40,13 @@ public class HomeView extends VerticalLayout implements FileAlterationListener {
         observer.addListener(this);
         latestPhoto.setSrc("http://localhost:4567/latest.jpg");
         add(latestPhoto);
+
     }
+
+    public static void updateImage() {
+
+    }
+
 
     @Override
     public void onStart(FileAlterationObserver observer) {

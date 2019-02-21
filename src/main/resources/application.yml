@@ -1,0 +1,7 @@
+spring:
+  profiles: test
+name: PassCheckerServer
+environment: test
+servers:
+  - localhost
+  - 127.0.0.1

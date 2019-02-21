@@ -12,7 +12,7 @@
     <facet type="web" name="Web Gradle : passcheckerserver-0.5-ALPHA.war">
       <configuration>
         <webroots>
-          <root url="file://D:\IdeaProjects\PassCheckerServer\src\main\webapp" relative="/" />
+          <root url="file://C:\Users\Leo\IdeaProjects\PassCheckerServer\src\main\webapp" relative="/" />
           <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend" relative="/frontend" />
           <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend-es5" relative="/frontend-es5" />
           <root url="file://$MODULE_DIR$/../../build/webapp-gen/frontend-es6" relative="/frontend-es6" />
@@ -341,8 +341,8 @@
     <orderEntry type="library" name="Gradle: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.6" level="project" />
     <orderEntry type="library" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.mongodb:bson:3.8.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: javax.servlet:javax.servlet-api:4.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.mongodb:bson:3.8.2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.4.12.v20180830" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-client:9.4.12.v20180830" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-http:9.4.12.v20180830" level="project" />

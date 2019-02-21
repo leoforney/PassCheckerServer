@@ -122,8 +122,8 @@
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.6" />
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.2.1" />
           <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" />
-          <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
           <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:4.0.1" />
+          <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
           <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.4.12.v20180830" />
           <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-client:9.4.12.v20180830" />
           <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-http:9.4.12.v20180830" />

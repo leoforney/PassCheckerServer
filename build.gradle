@@ -11,7 +11,6 @@ buildscript {
 plugins {
     id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
-    id 'war'
 }
 
 vaadin.autoconfigure()
@@ -20,6 +19,7 @@ group 'tk.leoforney'
 version '0.5-ALPHA'
 
 apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.jaredsburrows.license'
 
@@ -46,7 +46,7 @@ dependencies {
 }
 
 bootWar {
-    vaadin.productionMode=true
+    vaadin.productionMode=false
     vaadin.submitStatistics=false
     from {
         configurations.compile.collect { (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it) }

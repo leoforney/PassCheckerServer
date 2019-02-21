@@ -19,8 +19,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 import static tk.leoforney.passcheckerserver.Main.wd;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
@@ -145,8 +144,6 @@ public class PhotoManagement {
 
         List<String> responseList = new ArrayList<>(2);
 
-        deleteOldestImage();
-
         String timestamp = String.valueOf(System.currentTimeMillis());
         File photoFile = new File(uploadDir.getAbsolutePath() + File.separator + timestamp
                 + ".jpg");
@@ -205,6 +202,13 @@ public class PhotoManagement {
                 returnValue = result.getTopNPlates().get(0).getCharacters();
             }
         }
+        if (returnValue.equals("No Plates Detected")) {
+            photoFile.delete();
+        } else {
+            HomeView.updateImage();
+        }
+
+        deleteOldestImage();
 
         responseList.add(returnValue.toLowerCase()); // 0 - Plate number (lowercase)
         responseList.add(timestamp); // 1 - timestamp as string
@@ -230,7 +234,6 @@ public class PhotoManagement {
                     }
                 }
             }
-            System.out.println("Deleting oldest file: " + oldest.getName());
             if(oldest.exists()) {
                 oldest.delete();
             }
