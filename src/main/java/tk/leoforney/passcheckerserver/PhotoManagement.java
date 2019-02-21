@@ -205,7 +205,7 @@ public class PhotoManagement {
         if (returnValue.equals("No Plates Detected")) {
             photoFile.delete();
         } else {
-            HomeView.updateImage();
+
         }
 
         deleteOldestImage();

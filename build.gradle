@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.devsoap.vaadin-flow' version '1.0.0.RC3'
+    id 'com.devsoap.vaadin-flow' version '1.0.0.RC8'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
 }
 

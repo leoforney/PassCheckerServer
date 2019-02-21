@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Created by Leo on 4/30/2018.
  */
-@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
+@SpringBootApplication
 @ServletComponentScan
 @EntityScan
 public class Main {
