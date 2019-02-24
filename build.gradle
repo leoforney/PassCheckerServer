@@ -29,6 +29,7 @@ repositories {
     mavenCentral()
     jcenter()
     maven { url "http://www.javaxt.com/maven"}
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -40,6 +41,7 @@ dependencies {
     implementation "commons-codec:commons-codec:1.11"
     implementation "javaxt:javaxt-core:1.9.0"
     implementation "org.mongodb:mongodb-driver-sync:3.10.1"
+    implementation "com.github.albfernandez:juniversalchardet:2.3.0"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
@@ -62,12 +64,6 @@ bootJar {
                 'Version': version,
                 'Main-Class': 'org.springframework.boot.loader.JarLauncher')
     }
-    from {
-        configurations.compile.collect {
-            System.out.println(it.getAbsoluteFile().toPath().toString())
-            (it.isDirectory() && it.name != "PassChecker.db") ? it : zipTree(it)
-        }
-    }
 }
 
 def getGitHash = { ->
@@ -81,7 +77,6 @@ def getGitHash = { ->
 
 task createProperties {
     doLast {
-        System.out.println("$projectDir")
         def propFile = new File("$projectDir/out/production/resources/version.properties")
         propFile.createNewFile()
         propFile.withWriter { w ->
@@ -93,6 +88,7 @@ task createProperties {
             p['hash'] = getGitHash()
             p.store w, null
         }
+        System.out.println("Server property files written")
     }
 }
 

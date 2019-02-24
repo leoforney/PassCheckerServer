@@ -6,13 +6,18 @@ import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
 import javaxt.io.Image;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.mozilla.universalchardet.UniversalDetector;
 import spark.Request;
+import spark.Response;
+import spark.Route;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
@@ -51,93 +56,6 @@ public class PhotoManagement {
         }
         alpr.setTopN(3);
         alpr.setDefaultRegion("il");
-
-        get("/plateNumber", (req, res) -> {
-            System.out.println("Requested");
-            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
-                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
-                    + "    <input type'text' name='token'>"
-                    + "    <button>Upload picture</button>"
-                    + "</form>";
-        });
-
-
-        post("/getStudent", (request, response) -> {
-            if (authenticated(request)) {
-                List<String> plateNumberList = getPlateNumberFromRequest(request);
-                String plateNumber = plateNumberList.get(0);
-                String student = passManagement.findStudentNameByPlateNumber(plateNumber);
-                System.out.println("Student: " + student);
-                return passManagement.findStudentByPlateNumber(plateNumber);
-            }
-            return "Not authenticated";
-        });
-
-        post("/getStudentName", (request, response) -> {
-            if (authenticated(request)) {
-                List<String> plateNumberList = getPlateNumberFromRequest(request);
-                String plateNumber = plateNumberList.get(0);
-                System.out.println(plateNumber);
-                if (plateNumber.equals("No Plates Detected".toLowerCase())) {
-                    return plateNumber;
-                }
-                return passManagement.findStudentNameByPlateNumber(plateNumber);
-            }
-            return "Not authenticated";
-        });
-
-        post("/plateNumber", (request, response) -> {
-            //if (authenticated(request)) {
-            return getPlateNumberFromRequest(request);
-            //}
-            //return "Not authenticated";
-        });
-
-        get("/checkInDatabase", (req, res) -> {
-            System.out.println("Requested");
-            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
-                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
-                    + "    <input type'text' name='token'>"
-                    + "    <button>Upload picture</button>"
-                    + "</form>";
-        });
-
-        post("/checkInDatabase", (request, response) -> {
-            //if (authenticated(request)) {
-                List<String> plateNumberList = getPlateNumberFromRequest(request);
-                String plateNumber = plateNumberList.get(0);
-                DatabaseResponse databaseResponse = new DatabaseResponse();
-                databaseResponse.setTimestamp(plateNumberList.get(1));
-                System.out.println(databaseResponse.getTimestamp());
-                if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
-                    Student responseStudent = passManagement.checkInStudent(plateNumber);
-                    if (responseStudent.name != null) {
-                        Car selectedCar = null;
-                        for (Car iteratedCar : responseStudent.cars) {
-                            if (iteratedCar.plateNumber.replace(" ", "")
-                                    .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
-                                selectedCar = iteratedCar;
-                            }
-                        }
-                        if (selectedCar != null) {
-                            databaseResponse.setCar(selectedCar);
-                            databaseResponse.setStudent(responseStudent);
-                            databaseResponse.setType(DatabaseResponse.Type.OK);
-                        } else {
-                            databaseResponse.setStudent(responseStudent);
-                            databaseResponse.setType(DatabaseResponse.Type.STUDENTONLY);
-                        }
-                    } else {
-                        databaseResponse.setPlateNumber(plateNumber);
-                        databaseResponse.setType(DatabaseResponse.Type.PLATEONLY);
-                    }
-                } else {
-                    databaseResponse.setType(DatabaseResponse.Type.NOPLATES);
-                }
-                return gson.toJson(databaseResponse);
-            //}
-            //return "Not authenticated";
-        });
     }
 
     public List<String> getPlateNumberFromRequest(Request request) throws Exception {
@@ -214,6 +132,115 @@ public class PhotoManagement {
         responseList.add(timestamp); // 1 - timestamp as string
 
         return responseList;
+    }
+
+    public static final String[] PATHS = {
+            "/upload/*",
+            "/plateNumber",
+            "/getStudent",
+            "/getStudentName",
+            "/checkInDatabase"};
+
+    void registerHooks() {
+
+        get("/upload/*", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                String uploadFile = request.splat()[0].replace(".jpg", "") + ".jpg";
+                File file = new File(uploadDir + File.separator + uploadFile);
+                String encoding = UniversalDetector.detectCharset(file);
+                String string = FileUtils.readFileToString(file, Charset.forName("Windows-1252"));
+                response.header("Content-type", "image/jpeg");
+                return string;
+            }
+        });
+
+        get("/plateNumber", (req, res) -> {
+            System.out.println("Requested");
+            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                    + "    <input type'text' name='token'>"
+                    + "    <button>Upload picture</button>"
+                    + "</form>";
+        });
+
+
+        post("/getStudent", (request, response) -> {
+            if (authenticated(request)) {
+                List<String> plateNumberList = getPlateNumberFromRequest(request);
+                String plateNumber = plateNumberList.get(0);
+                String student = passManagement.findStudentNameByPlateNumber(plateNumber);
+                System.out.println("Student: " + student);
+                return passManagement.findStudentByPlateNumber(plateNumber);
+            }
+            return "Not authenticated";
+        });
+
+        post("/getStudentName", (request, response) -> {
+            if (authenticated(request)) {
+                List<String> plateNumberList = getPlateNumberFromRequest(request);
+                String plateNumber = plateNumberList.get(0);
+                System.out.println(plateNumber);
+                if (plateNumber.equals("No Plates Detected".toLowerCase())) {
+                    return plateNumber;
+                }
+                return passManagement.findStudentNameByPlateNumber(plateNumber);
+            }
+            return "Not authenticated";
+        });
+
+        post("/plateNumber", (request, response) -> {
+            //if (authenticated(request)) {
+            return getPlateNumberFromRequest(request);
+            //}
+            //return "Not authenticated";
+        });
+
+        get("/checkInDatabase", (req, res) -> {
+            System.out.println("Requested");
+            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                    + "    <input type'text' name='token'>"
+                    + "    <button>Upload picture</button>"
+                    + "</form>";
+        });
+
+        post("/checkInDatabase", (request, response) -> {
+            //if (authenticated(request)) {
+            List<String> plateNumberList = getPlateNumberFromRequest(request);
+            String plateNumber = plateNumberList.get(0);
+            DatabaseResponse databaseResponse = new DatabaseResponse();
+            databaseResponse.setTimestamp(plateNumberList.get(1));
+            System.out.println(databaseResponse.getTimestamp());
+            if (!plateNumber.toLowerCase().replace(" ", "").contains("noplatesdetected")) {
+                Student responseStudent = passManagement.checkInStudent(plateNumber);
+                if (responseStudent.name != null) {
+                    Car selectedCar = null;
+                    for (Car iteratedCar : responseStudent.cars) {
+                        if (iteratedCar.plateNumber.replace(" ", "")
+                                .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
+                            selectedCar = iteratedCar;
+                        }
+                    }
+                    if (selectedCar != null) {
+                        databaseResponse.setCar(selectedCar);
+                        databaseResponse.setStudent(responseStudent);
+                        databaseResponse.setType(DatabaseResponse.Type.OK);
+                    } else {
+                        databaseResponse.setStudent(responseStudent);
+                        databaseResponse.setType(DatabaseResponse.Type.STUDENTONLY);
+                    }
+                } else {
+                    databaseResponse.setPlateNumber(plateNumber);
+                    databaseResponse.setType(DatabaseResponse.Type.PLATEONLY);
+                }
+            } else {
+                databaseResponse.setType(DatabaseResponse.Type.NOPLATES);
+            }
+            return gson.toJson(databaseResponse);
+            //}
+            //return "Not authenticated";
+        });
     }
 
     static String convertStreamToString(java.io.InputStream is) {

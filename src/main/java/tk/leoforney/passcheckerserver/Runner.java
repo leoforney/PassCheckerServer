@@ -4,6 +4,10 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.servlet.SparkApplication;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,14 +18,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import static spark.Spark.*;
+import static spark.Spark.get;
+import static spark.Spark.staticFiles;
 import static tk.leoforney.passcheckerserver.Main.wd;
 
 /**
  * Created by Leo on 4/30/2018.
  */
 
-public class Runner {
+public class Runner implements SparkApplication {
 
     String[] args;
     UserManagement userManagement;
@@ -29,8 +34,12 @@ public class Runner {
     PhotoManagement photoManagement;
     protected static Properties properties;
 
-    Runner(String[] args) {
+    public Runner(String[] args) {
         this.args = args;
+    }
+
+    public Runner() {
+        this.args = null;
     }
 
     protected static Connection connection;
@@ -38,7 +47,29 @@ public class Runner {
     protected static MongoDatabase checkDatabase;
 
     boolean run() throws Exception {
+        while (Thread.currentThread().isAlive()) {
+            Thread.sleep(350);
+        }
 
+        System.out.println("PassChecker shutting down");
+        Thread.currentThread().interrupt();
+        return true;
+    }
+
+    public static final String[] PATHS = {"/getProperty/*"};
+
+    void registerHooks() {
+
+        get("/getProperty/*", (request, response) -> {
+            String propertyKey = request.splat()[0];
+            if (propertyKey.contains("mongo")) {
+                return "Not permitted";
+            }
+            return properties.getProperty(propertyKey, "Property not set");
+        });
+    }
+
+    private void initializePreRequisites() throws Exception {
         System.out.println("PassChecker Server starting up");
 
         connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
@@ -53,7 +84,8 @@ public class Runner {
             if (null != in) {
                 try {
                     in.close();
-                } catch (IOException ex) {}
+                } catch (IOException ex) {
+                }
             }
         }
 
@@ -72,23 +104,9 @@ public class Runner {
         }
         checkDatabase = mongoClient.getDatabase("passcheck_log");
 
-        File uploadDir = new File(wd + File.separator + "upload");
-        uploadDir.mkdir();
-        staticFiles.externalLocation(String.valueOf(uploadDir));
-
-        port(4567);
-
         userManagement = UserManagement.getInstance();
         passManagement = PassManagement.getInstance();
         photoManagement = new PhotoManagement(passManagement);
-
-        get("/getProperty/*", (request, response) -> {
-            String propertyKey = request.splat()[0];
-            if (propertyKey.contains("mongo")){
-                return "Not permitted";
-            }
-            return properties.getProperty(propertyKey, "Property not set");
-        });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
@@ -103,14 +121,30 @@ public class Runner {
                 e.printStackTrace();
             }
         }));
-
-        while (Thread.currentThread().isAlive()) {
-            Thread.sleep(350);
-        }
-
-        System.out.println("PassChecker shutting down");
-        Thread.currentThread().interrupt();
-        return true;
     }
 
+    public static String UPLOADDIR = new File(wd + File.separator + "upload").getAbsolutePath();
+
+    @Override
+    public void init() {
+
+        try {
+            initializePreRequisites();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        registerHooks();
+        userManagement.registerHooks();
+        passManagement.registerHooks();
+        photoManagement.registerHooks();
+        File uploadDir = new File(wd + File.separator + "upload");
+        uploadDir.mkdir();
+        staticFiles.externalLocation(String.valueOf(uploadDir));
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 }

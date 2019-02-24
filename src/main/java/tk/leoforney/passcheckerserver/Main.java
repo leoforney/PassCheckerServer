@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.File;
@@ -14,7 +15,7 @@ import java.io.File;
 @SpringBootApplication
 @ServletComponentScan
 @EntityScan
-public class Main {
+public class Main extends SpringBootServletInitializer {
 
     public static String wd = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "PassCheckerServer";
     public static ConfigurableApplicationContext context;

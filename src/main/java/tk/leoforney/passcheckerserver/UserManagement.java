@@ -33,85 +33,6 @@ public class UserManagement {
         this.connection = connection;
         //System.out.println(gson.toJson(new User("Leo Forney", "Zm9ybmU2OTVAd3Rocy5uZXQ6ZGFyeWxlbzE=")));
 
-        post(PATH, (request, response) -> {
-            if (authenticated(request)) {
-                String requestJson = request.body();
-                User user = gson.fromJson(requestJson, User.class);
-                if (user.isValid()) {
-                    createUser(user, response);
-                } else {
-                    response.body("Either the name or the token was not entered correctly");
-                }
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
-
-        get(PATH + "/validateuser/json", (request, response) -> {
-            Statement statement = connection.createStatement();
-
-            String token = request.headers("Token");
-
-            System.out.println("Trying to find " + token);
-
-            ResultSet rs = statement.executeQuery("SELECT * FROM Users");
-
-            List<User> userList = new ArrayList<>();
-            User correctUser = null;
-            while (rs.next()) {
-                User newUser = new User(rs.getString("Name"), rs.getString("Token"));
-                System.out.println(newUser.token + " : " + newUser.name);
-                if (newUser.isValid() && newUser.token.equals(token)) {
-                    if (correctUser == null) {
-                        correctUser = newUser;
-                    }
-                }
-            }
-
-            userList.clear();
-            if (correctUser != null) {
-                userList.add(correctUser);
-            }
-
-            if (userList.size() == 1) {
-                response.body(gson.toJson(userList.get(0)));
-            }
-
-            rs.close();
-            return response.body();
-        });
-
-        get(PATH, (request, response) -> {
-            if (authenticated(request)) {
-                Statement statement = connection.createStatement();
-
-                ResultSet rs = statement.executeQuery("select * from Users");
-
-                StringBuilder sb = new StringBuilder();
-                while (rs.next()) {
-                    // read the result set
-                    sb.append("Name: ").append(rs.getString("Name")).append(", ");
-                    sb.append("Token: ").append(rs.getString("Token")).append("\n");
-                }
-
-                response.body(sb.toString());
-
-                rs.close();
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
-
-        delete(PATH, (request, response) -> {
-            if (authenticated(request) /*&& !request.headers("Name").equals("Leo Forney")*/) {
-                deleteUser(request.headers("Name"), response);
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
     }
 
     public static boolean authenticated(Request request) {
@@ -239,6 +160,92 @@ public class UserManagement {
             users = new ArrayList<>();
         }
         return users;
+    }
+
+    public static final String[] PATHS = {
+            PATH,
+            PATH + "/validateuser/json"};
+
+    void registerHooks() {
+        post(PATH, (request, response) -> {
+            if (authenticated(request)) {
+                String requestJson = request.body();
+                User user = gson.fromJson(requestJson, User.class);
+                if (user.isValid()) {
+                    createUser(user, response);
+                } else {
+                    response.body("Either the name or the token was not entered correctly");
+                }
+            } else {
+                response.status(403);
+            }
+            return response.body();
+        });
+
+        get(PATH + "/validateuser/json", (request, response) -> {
+            Statement statement = connection.createStatement();
+
+            String token = request.headers("Token");
+
+            System.out.println("Trying to find " + token);
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM Users");
+
+            List<User> userList = new ArrayList<>();
+            User correctUser = null;
+            while (rs.next()) {
+                User newUser = new User(rs.getString("Name"), rs.getString("Token"));
+                System.out.println(newUser.token + " : " + newUser.name);
+                if (newUser.isValid() && newUser.token.equals(token)) {
+                    if (correctUser == null) {
+                        correctUser = newUser;
+                    }
+                }
+            }
+
+            userList.clear();
+            if (correctUser != null) {
+                userList.add(correctUser);
+            }
+
+            if (userList.size() == 1) {
+                response.body(gson.toJson(userList.get(0)));
+            }
+
+            rs.close();
+            return response.body();
+        });
+
+        get(PATH, (request, response) -> {
+            if (authenticated(request)) {
+                Statement statement = connection.createStatement();
+
+                ResultSet rs = statement.executeQuery("select * from Users");
+
+                StringBuilder sb = new StringBuilder();
+                while (rs.next()) {
+                    // read the result set
+                    sb.append("Name: ").append(rs.getString("Name")).append(", ");
+                    sb.append("Token: ").append(rs.getString("Token")).append("\n");
+                }
+
+                response.body(sb.toString());
+
+                rs.close();
+            } else {
+                response.status(403);
+            }
+            return response.body();
+        });
+
+        delete(PATH, (request, response) -> {
+            if (authenticated(request) /*&& !request.headers("Name").equals("Leo Forney")*/) {
+                deleteUser(request.headers("Name"), response);
+            } else {
+                response.status(403);
+            }
+            return response.body();
+        });
     }
 
 }

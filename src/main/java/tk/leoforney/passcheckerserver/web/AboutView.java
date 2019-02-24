@@ -8,7 +8,7 @@ import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Spark;
+import org.springframework.beans.factory.annotation.Value;
 import tk.leoforney.passcheckerserver.Main;
 
 import java.io.FileReader;
@@ -27,6 +27,9 @@ import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 @Route("about")
 public class AboutView extends VerticalLayout {
+
+    @Value("${server.port}")
+    private static int port;
 
     private static Logger logger = LoggerFactory.getLogger(AboutView.class);
     private Base64 base64;
@@ -110,7 +113,7 @@ public class AboutView extends VerticalLayout {
                     InetAddress i = (InetAddress) ee.nextElement();
                     String addr = i.getHostAddress();
                     if (addr.contains("192.168.") && !addr.contains("56.1")) {
-                        ips.add(addr + ":" + Spark.port());
+                        ips.add(addr + ":" + port);
                     }
                 }
             }
