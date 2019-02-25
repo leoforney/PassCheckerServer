@@ -135,25 +135,12 @@ public class PhotoManagement {
     }
 
     public static final String[] PATHS = {
-            "/upload/*",
             "/plateNumber",
             "/getStudent",
             "/getStudentName",
             "/checkInDatabase"};
 
     void registerHooks() {
-
-        get("/upload/*", new Route() {
-            @Override
-            public Object handle(Request request, Response response) throws Exception {
-                String uploadFile = request.splat()[0].replace(".jpg", "") + ".jpg";
-                File file = new File(uploadDir + File.separator + uploadFile);
-                String encoding = UniversalDetector.detectCharset(file);
-                String string = FileUtils.readFileToString(file, Charset.forName("Windows-1252"));
-                response.header("Content-type", "image/jpeg");
-                return string;
-            }
-        });
 
         get("/plateNumber", (req, res) -> {
             System.out.println("Requested");

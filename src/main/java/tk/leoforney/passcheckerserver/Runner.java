@@ -4,9 +4,6 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import spark.Request;
-import spark.Response;
-import spark.Route;
 import spark.servlet.SparkApplication;
 
 import java.io.File;

@@ -11,6 +11,7 @@ buildscript {
 plugins {
     id 'com.devsoap.vaadin-flow' version '1.0.0.RC8'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
+    id 'org.hidetake.ssh' version '2.9.0'
 }
 
 vaadin.autoconfigure()
@@ -88,11 +89,46 @@ task createProperties {
             p['hash'] = getGitHash()
             p.store w, null
         }
-        System.out.println("Server property files written")
+        System.out.println("Server property files written[local]")
+        def propFileJar = new File("$projectDir/build/resources/main/version.properties")
+        propFileJar.createNewFile()
+        propFileJar.withWriter { w ->
+            Properties p = new Properties()
+            p['version'] = project.version.toString()
+            p['vaadin'] = vaadin.version
+            p['productionMode'] = vaadin.productionMode.toString()
+            p['time'] = new Date().format('MM/dd/yyyy - HH:mm:ss')
+            p['hash'] = getGitHash()
+            p.store w, null
+        }
+        System.out.println("Server property files written[jar/war]")
     }
 }
 
 classes {
     dependsOn createProperties
     System.out.println("Property file created")
+}
+
+ssh.settings {
+    knownHosts = allowAnyHosts
+}
+
+remotes {
+    webServer {
+        host = '192.168.86.26'
+        user = 'leo'
+        identity = file('/../../.ssh/id_rsa')
+    }
+}
+
+task deploy {
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: "$buildDir/libs/passcheckerserver-0.5-ALPHA.jar", into: '/home/leo/Desktop/'
+                //execute 'sudo serviceexample.war tomcat restart'
+            }
+        }
+    }
 }

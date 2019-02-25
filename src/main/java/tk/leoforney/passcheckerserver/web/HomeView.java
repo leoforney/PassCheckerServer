@@ -33,7 +33,7 @@ public class HomeView extends VerticalLayout implements ComponentEventListener<C
         checkAuthentication(this);
 
         latestPhoto = new Image();
-        latestPhoto.setSrc("http://localhost:4567/latest.jpg");
+        latestPhoto.setSrc("http://localhost:8080/submissions/latest.jpg");
         Button button = new Button(VaadinIcon.REFRESH.create());
         button.addClickListener(this);
         add(new Span(new H4("Latest Photo"), button));

@@ -9,8 +9,10 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import tk.leoforney.passcheckerserver.Main;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -27,9 +29,6 @@ import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
 @Route("about")
 public class AboutView extends VerticalLayout {
-
-    @Value("${server.port}")
-    private static int port;
 
     private static Logger logger = LoggerFactory.getLogger(AboutView.class);
     private Base64 base64;
@@ -56,10 +55,24 @@ public class AboutView extends VerticalLayout {
         }
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
+        Resource[] resources = new Resource[0];
+        try {
+            resources = Main.context.getResources("classpath*:*.properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Resource versionPropertyFile = null;
+        for (Resource r: resources) {
+            if (r.getFilename().equals("version.properties")) {
+                versionPropertyFile = r;
+            }
+        }
+
         Properties prop = new Properties();
         try {
-            FileReader fileReader = new FileReader(classLoader.getResource(fileName).getFile());
-            prop.load(fileReader);
+            if (versionPropertyFile != null) {
+                prop.load(versionPropertyFile.getInputStream());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +126,7 @@ public class AboutView extends VerticalLayout {
                     InetAddress i = (InetAddress) ee.nextElement();
                     String addr = i.getHostAddress();
                     if (addr.contains("192.168.") && !addr.contains("56.1")) {
-                        ips.add(addr + ":" + port);
+                        ips.add(addr + ":8080");
                     }
                 }
             }
