@@ -133,8 +133,6 @@ public class Runner implements SparkApplication {
 
         registerHooks();
         userManagement.registerHooks();
-        passManagement.registerHooks();
-        photoManagement.registerHooks();
         File uploadDir = new File(wd + File.separator + "upload");
         uploadDir.mkdir();
         staticFiles.externalLocation(String.valueOf(uploadDir));

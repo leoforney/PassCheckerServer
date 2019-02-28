@@ -6,31 +6,25 @@ import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
 import javaxt.io.Image;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.mozilla.universalchardet.UniversalDetector;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.http.Part;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import static spark.Spark.*;
 import static tk.leoforney.passcheckerserver.Main.wd;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
  * Created by Leo on 7/27/2018.
  */
+@RestController
 public class PhotoManagement {
 
     Gson gson;
@@ -58,7 +52,7 @@ public class PhotoManagement {
         alpr.setDefaultRegion("il");
     }
 
-    public List<String> getPlateNumberFromRequest(Request request) throws Exception {
+    public List<String> getPlateNumberFromRequest(MultipartFile file, String sender) throws Exception {
 
         List<String> responseList = new ArrayList<>(2);
 
@@ -74,14 +68,14 @@ public class PhotoManagement {
 
         photoFile.createNewFile();
 
-        request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+        //request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 
-        if (request.headers("Sender") != null) {
-            Part part = request.raw().getPart("image");
-            if (part.getContentType().toLowerCase().equals("image/yuv_420_88")) {
+        if (sender != null) {
+            //Part part = request.raw().getPart("image");
+            if (file.getContentType().toLowerCase().equals("image/yuv_420_88")) {
 
-            } else if (part.getContentType().toLowerCase().equals("image/jpeg")) {
-                try (InputStream input = part.getInputStream()) { // getPart needs to use same "name" as input field in form
+            } else if (file.getContentType().toLowerCase().equals("image/jpeg")) {
+                try (InputStream input = file.getInputStream()) { // getPart needs to use same "name" as input field in form
                     byte[] resultByteData = IOUtils.toByteArray(input);
                     Image image = new Image(resultByteData);
                     image.rotateClockwise();
@@ -90,7 +84,7 @@ public class PhotoManagement {
                 }
             }
         } else {
-            try (InputStream input = request.raw().getPart("image").getInputStream()) { // getPart needs to use same "name" as input field in form
+            try (InputStream input = file.getInputStream()) { // getPart needs to use same "name" as input field in form
                 if (!photoFile.exists()) photoFile.createNewFile();
                 Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -134,67 +128,102 @@ public class PhotoManagement {
         return responseList;
     }
 
-    public static final String[] PATHS = {
-            "/plateNumber",
-            "/getStudent",
-            "/getStudentName",
-            "/checkInDatabase"};
+    @RequestMapping(value = "/plateNumber", method = RequestMethod.GET)
+    public String plateNumberGet() {
+        return "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                + "    <input type'text' name='Token'>"
+                + "    <button>Upload picture</button>"
+                + "</form>";
+    }
 
-    void registerHooks() {
+    @RequestMapping(value = "/checkInDatabase", method = RequestMethod.GET)
+    public String checkInDatabase() {
+        return "<form method='post' enctype='multipart/form-data'>" // note the enctype
+                + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
+                + "    <input type'text' name='Token'>"
+                + "    <button>Upload picture</button>"
+                + "</form>";
+    }
 
-        get("/plateNumber", (req, res) -> {
-            System.out.println("Requested");
-            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
-                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
-                    + "    <input type'text' name='token'>"
-                    + "    <button>Upload picture</button>"
-                    + "</form>";
-        });
-
-
-        post("/getStudent", (request, response) -> {
-            if (authenticated(request)) {
-                List<String> plateNumberList = getPlateNumberFromRequest(request);
-                String plateNumber = plateNumberList.get(0);
-                String student = passManagement.findStudentNameByPlateNumber(plateNumber);
-                System.out.println("Student: " + student);
-                return passManagement.findStudentByPlateNumber(plateNumber);
+    @RequestMapping(value = "/getStudent", method = RequestMethod.POST)
+    public String getStudent(@RequestHeader(value = "Token") String token,
+                             @RequestPart(value = "image") MultipartFile file,
+                             @RequestHeader(value = "Sender", required = false) String sender) {
+        String response = "";
+        if (authenticated(token)) {
+            List<String> plateNumberList = null;
+            try {
+                plateNumberList = getPlateNumberFromRequest(file, sender);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return "Not authenticated";
-        });
+            String plateNumber = plateNumberList.get(0);
+            String student = passManagement.findStudentNameByPlateNumber(plateNumber);
+            System.out.println("Student: " + student);
+            response = gson.toJson(passManagement.findStudentByPlateNumber(plateNumber));
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-        post("/getStudentName", (request, response) -> {
-            if (authenticated(request)) {
-                List<String> plateNumberList = getPlateNumberFromRequest(request);
-                String plateNumber = plateNumberList.get(0);
-                System.out.println(plateNumber);
-                if (plateNumber.equals("No Plates Detected".toLowerCase())) {
-                    return plateNumber;
+    @RequestMapping(value = "/getStudentName", method = RequestMethod.POST)
+    public String getStudentName(@RequestHeader(value = "Token") String token,
+                                 @RequestPart(value = "image") MultipartFile file,
+                                 @RequestHeader(value = "Sender", required = false) String sender) {
+        String response = "";
+        if (authenticated(token)) {
+            List<String> plateNumberList = null;
+            try {
+                plateNumberList = getPlateNumberFromRequest(file, sender);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String plateNumber = plateNumberList.get(0);
+            System.out.println(plateNumber);
+            if (plateNumber.equals("No Plates Detected".toLowerCase())) {
+                response = plateNumber;
+            }
+            response = passManagement.findStudentNameByPlateNumber(plateNumber);
+        } else {
+            response = "403";
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/plateNumber", method = RequestMethod.POST)
+    public String plateNumber(@RequestHeader(value = "Token", required = true) String token,
+                              @RequestPart(value = "image") MultipartFile file,
+                              @RequestHeader(value = "Sender", required = false) String sender) {
+        String response = "";
+        if (authenticated(token)) {
+            try {
+                List<String> plateNumbers = getPlateNumberFromRequest(file, sender);
+                for (String str : plateNumbers) {
+                    response = response + str + "\n";
                 }
-                return passManagement.findStudentNameByPlateNumber(plateNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return "Not authenticated";
-        });
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-        post("/plateNumber", (request, response) -> {
-            //if (authenticated(request)) {
-            return getPlateNumberFromRequest(request);
-            //}
-            //return "Not authenticated";
-        });
-
-        get("/checkInDatabase", (req, res) -> {
-            System.out.println("Requested");
-            return "<form method='post' enctype='multipart/form-data'>" // note the enctype
-                    + "    <input type='file' name='image' accept='.jpg'>" // make sure to call getPart using the same "name" in the post
-                    + "    <input type'text' name='token'>"
-                    + "    <button>Upload picture</button>"
-                    + "</form>";
-        });
-
-        post("/checkInDatabase", (request, response) -> {
-            //if (authenticated(request)) {
-            List<String> plateNumberList = getPlateNumberFromRequest(request);
+    @RequestMapping(value = "/checkInDatabase", method = RequestMethod.POST)
+    public String checkInDatabase(@RequestHeader(value = "Token", required = false) String token,
+                                  @RequestPart(value = "image") MultipartFile file,
+                                  @RequestHeader(value = "Sender", required = false) String sender) {
+        String response = "";
+        if (/*authenticated(token)*/true) {
+            List<String> plateNumberList = null;
+            try {
+                plateNumberList = getPlateNumberFromRequest(file, sender);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String plateNumber = plateNumberList.get(0);
             DatabaseResponse databaseResponse = new DatabaseResponse();
             databaseResponse.setTimestamp(plateNumberList.get(1));
@@ -224,10 +253,11 @@ public class PhotoManagement {
             } else {
                 databaseResponse.setType(DatabaseResponse.Type.NOPLATES);
             }
-            return gson.toJson(databaseResponse);
-            //}
-            //return "Not authenticated";
-        });
+            response = gson.toJson(databaseResponse);
+        } else {
+            response = "403";
+        }
+        return response;
     }
 
     static String convertStreamToString(java.io.InputStream is) {
@@ -238,7 +268,7 @@ public class PhotoManagement {
     private void deleteOldestImage() {
         if (uploadDir.list().length > Integer.valueOf(Runner.properties.getProperty("maxImages", "200"))) {
             File oldest = null;
-            for (File file: uploadDir.listFiles()) {
+            for (File file : uploadDir.listFiles()) {
                 if (oldest == null) {
                     oldest = file;
                 } else {
@@ -248,7 +278,7 @@ public class PhotoManagement {
                     }
                 }
             }
-            if(oldest.exists()) {
+            if (oldest.exists()) {
                 oldest.delete();
             }
         }

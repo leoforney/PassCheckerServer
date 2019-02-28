@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,17 +15,20 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
-import static spark.Spark.*;
 import static tk.leoforney.passcheckerserver.Runner.checkDatabase;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
  * Created by Leo on 5/5/2018.
  */
+@RestController
 public class PassManagement {
 
     Gson gson;
@@ -38,15 +42,20 @@ public class PassManagement {
 
     public static PassManagement getInstance() {
         if (instance == null) {
-            instance = new PassManagement(Runner.connection);
+            instance = new PassManagement();
         }
         return instance;
     }
 
-    private PassManagement(Connection connection) {
+    private PassManagement() {
         gson = new Gson();
-        this.connection = connection;
+        this.connection = Runner.connection;
 
+    }
+
+    @RequestMapping("/greeting")
+    public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return "Hello from REST!";
     }
 
     public List<Student> getStudentList() {
@@ -199,7 +208,7 @@ public class PassManagement {
             MongoCursor<Document> cursor = fi.iterator();
             int size = 0;
             try {
-                while(cursor.hasNext()) {
+                while (cursor.hasNext()) {
                     Document document = cursor.next();
                     int datesChecked = document.size() - 2;
                     if (datesChecked > 4) {
@@ -233,124 +242,134 @@ public class PassManagement {
         return student;
     }
 
-    public static final String[] PATHS = {
-            "/car/*",
-            "/car/create",
-            "/listcars/json",
-            "/student/all/json",
-            "/listcars/text",
-            "/find/*"};
+    @RequestMapping(value = PREFIX + "/car/**", method = RequestMethod.DELETE)
+    public String deleteCar(@RequestHeader(value = "Token") String token,
+                            @PathVariable String licensePlate) {
+        String response;
+        if (authenticated(token)) {
+            Statement statement = null;
+            try {
+                statement = connection.createStatement();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                statement.executeUpdate("DELETE FROM Cars WHERE plateNumber=" + licensePlate);
+                response = "Successfully deleted car";
+            } catch (SQLException e) {
+                response = "Failed to delete car";
+            }
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-    void registerHooks() {
-        // Delete the car in the database
-        delete(PREFIX + "/car/*", (request, response) -> {
-            String licensePlate = request.splat()[0];
-            if (authenticated(request)) {
-                Statement statement = connection.createStatement();
-                try {
-                    statement.executeUpdate("DELETE FROM Cars WHERE plateNumber=" + licensePlate);
-                    response.body("Successfully deleted car");
-                } catch (SQLException e) {
-                    response.body("Failed to delete car");
+    @RequestMapping(value = PREFIX + "/car/**", method = RequestMethod.GET)
+    public String getCar(@RequestHeader(value = "Token") String token,
+                         @PathVariable String studentIdStr) {
+        String response = "";
+        if (authenticated(token)) {
+            int studentId = Integer.valueOf(studentIdStr);
+            List<Student> students = getStudentList();
+            for (Student student : students) {
+                if (student.id == studentId) {
+                    response = gson.toJson(student.cars);
                 }
-            } else {
-                response.status(403);
             }
-            return response.body();
-        });
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-        // Get car of student
-        get(PREFIX + "/car/*", (request, response) -> {
-            int studentId = Integer.valueOf(request.splat()[0]);
-            if (authenticated(request)) {
-                List<Student> students = getStudentList();
-                for (Student student : students) {
-                    if (student.id == studentId) {
-                        response.body(gson.toJson(student.cars));
-                    }
-                }
-            } else {
-                response.status(403);
+    @RequestMapping(value = PREFIX + "/car", method = RequestMethod.POST)
+    public String createCar(@RequestHeader(value = "Token") String token,
+                            @RequestBody String recordStringJson) {
+        String response = "";
+        if (authenticated(token)) {
+            Car record = gson.fromJson(recordStringJson, Car.class);
+
+            Statement statement = null;
+            try {
+                statement = connection.createStatement();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            return response.body();
-        });
+            try {
+                String sqlString = "INSERT INTO Cars VALUES (" + creationFromCar(record) + ")";
+                System.out.println(sqlString);
+                statement.executeUpdate(sqlString);
+                response = "Created car successfully";
+            } catch (SQLException e) {
+                response = "Failed to create car";
+            }
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-        // Create a car
-        post(PREFIX + "/car/create", (request, response) -> {
-            if (authenticated(request)) {
-                String recordStringJson = request.body();
-                Car record = gson.fromJson(recordStringJson, Car.class);
+    @RequestMapping(value = PREFIX + "/listcars/json", method = RequestMethod.GET)
+    public String getCar(@RequestHeader(value = "Token") String token) {
+        System.out.println(token);
+        String response = "";
+        if (authenticated(token)) {
+            List<Car> carList = getCarList();
+            response = gson.toJson(carList);
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-                Statement statement = connection.createStatement();
-                try {
-                    String sqlString = "INSERT INTO Cars VALUES (" + creationFromCar(record) + ")";
-                    System.out.println(sqlString);
-                    statement.executeUpdate(sqlString);
-                    response.body("Created car successfully");
-                } catch (SQLException e) {
-                    response.body("Failed to create car");
-                }
-            } else {
-                response.status(403);
+    @RequestMapping(value = PREFIX + "/student/all/json", method = RequestMethod.GET)
+    public String getAllStudents(@RequestHeader(value = "Token") String token) {
+        String response = "";
+        if (authenticated(token)) {
+            List<Student> students = getStudentList();
+
+            response = gson.toJson(students);
+        } else {
+            response = "403";
+        }
+        return response;
+    }
+
+    @RequestMapping(value = PREFIX + "/listcars/text", method = RequestMethod.GET)
+    public String getAllCarsString(@RequestHeader(value = "Token") String token) {
+        String response = "";
+        System.out.println(token);
+        if (authenticated(token)) {
+            List<Car> carList = getCarList();
+
+            StringBuilder sb = new StringBuilder();
+
+            for (Car car : carList) {
+                System.out.println(car.toString());
+                sb.append(car.toString()).append("\n");
             }
 
-            return response.body();
-        });
+            String responseString = sb.toString();
+            System.out.println(responseString);
 
-        // List all cars in json
-        get(PREFIX + "/listcars/json", (request, response) -> {
-            if (authenticated(request)) {
-                List<Car> carList = getCarList();
-                response.body(gson.toJson(carList));
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
+            response = responseString;
+        } else {
+            response = "403";
+        }
+        return response;
+    }
 
-        get(PREFIX + "/student/all/json", (request, response) -> {
-            if (authenticated(request)) {
-                List<Student> students = getStudentList();
-
-                String studentsString = gson.toJson(students);
-
-                return studentsString;
-            } else {
-                response.status(403);
-            }
-            return "An error has occurred";
-        });
-
-        get(PREFIX + "/listcars/text", (request, response) -> {
-            if (authenticated(request)) {
-                List<Car> carList = getCarList();
-
-                StringBuilder sb = new StringBuilder();
-
-                for (Car car : carList) {
-                    System.out.println(car.toString());
-                    sb.append(car.toString()).append("\n");
-                }
-
-                String responseString = sb.toString();
-                System.out.println(responseString);
-
-                response.body(responseString);
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
-
-        get(PREFIX + "/find/*", (request, response) -> {
-            String plateNumber = request.splat()[0];
-            if (authenticated(request)) {
-                response.body(findStudentJsonByPlateNumber(plateNumber));
-            } else {
-                response.status(403);
-            }
-            return response.body();
-        });
+    @RequestMapping(value = PREFIX + "/find/**", method = RequestMethod.GET)
+    public String find(@RequestHeader(value = "Token") String token,
+                       @PathVariable String plateNumber) {
+        String response = "";
+        if (authenticated(token)) {
+            response = findStudentJsonByPlateNumber(plateNumber);
+        } else {
+            response = "403";
+        }
+        return response;
     }
 
     private String creationFromCar(Car car) {

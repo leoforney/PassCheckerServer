@@ -19,12 +19,6 @@ public class SpringConfiguration {
         for (String path: UserManagement.PATHS) {
             registration.addUrlPatterns(path);
         }
-        for (String path: PhotoManagement.PATHS) {
-            registration.addUrlPatterns(path);
-        }
-        for (String path: PassManagement.PATHS) {
-            registration.addUrlPatterns(path);
-        }
         for (String path: Runner.PATHS) {
             registration.addUrlPatterns(path);
         }
