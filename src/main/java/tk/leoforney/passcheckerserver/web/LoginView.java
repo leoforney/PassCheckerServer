@@ -5,7 +5,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
+import static com.vaadin.flow.component.notification.Notification.show;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
 
@@ -144,7 +144,7 @@ public class LoginView extends VerticalLayout implements ComponentEventListener<
             VaadinSession.getCurrent().setAttribute("Token", token);
             this.getUI().ifPresent(ui -> ui.navigate(""));
         } else {
-            Notification.show("Invalid email or password").setDuration(3000);
+            show("Invalid email or password").setDuration(3000);
         }
     }
 

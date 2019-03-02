@@ -1,6 +1,11 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 import spark.Request;
 import spark.Response;
 
@@ -165,6 +170,20 @@ public class UserManagement {
     public static final String[] PATHS = {
             PATH,
             PATH + "/validateuser/json"};
+
+    /*
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String getStudentName(@RequestHeader(value = "Token") String token) {
+        String response = "";
+        if (authenticated(token)) {
+
+            response =
+        } else {
+            response = "403";
+        }
+        return response;
+    }*/
 
     void registerHooks() {
         post(PATH, (request, response) -> {

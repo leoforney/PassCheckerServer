@@ -34,6 +34,8 @@ public class HomeView extends VerticalLayout implements ComponentEventListener<C
 
         latestPhoto = new Image();
         latestPhoto.setSrc("http://localhost:8080/submissions/latest.jpg");
+        latestPhoto.setWidth(String.valueOf(960/2));
+        latestPhoto.setWidth(String.valueOf(1280/2));
         Button button = new Button(VaadinIcon.REFRESH.create());
         button.addClickListener(this);
         add(new Span(new H4("Latest Photo"), button));
@@ -49,6 +51,8 @@ public class HomeView extends VerticalLayout implements ComponentEventListener<C
             ImageInputStream imageInputStream = new ImageInputStream(file);
             StreamResource resource = new StreamResource("latest.jpg", imageInputStream);
             latestPhoto.setSrc(resource);
+            latestPhoto.setHeight(String.valueOf(Integer.valueOf(latestPhoto.getHeight())/2));
+            latestPhoto.setWidth(String.valueOf(Integer.valueOf(latestPhoto.getWidth())/2));
             layout.removeAll();
             layout.add(latestPhoto);
             imageInputStream.closeAllStreams();

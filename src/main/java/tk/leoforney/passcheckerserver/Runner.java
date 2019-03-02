@@ -4,6 +4,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.vaadin.flow.component.notification.Notification;
 import spark.servlet.SparkApplication;
 
 import java.io.File;
@@ -141,5 +142,9 @@ public class Runner implements SparkApplication {
     @Override
     public void destroy() {
 
+    }
+
+    public static void show(String message) {
+        Notification.show(message, 1000, Notification.Position.BOTTOM_END);
     }
 }

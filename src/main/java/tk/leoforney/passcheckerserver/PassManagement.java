@@ -6,12 +6,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import spark.Response;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,9 +53,85 @@ public class PassManagement {
 
     }
 
-    @RequestMapping("/greeting")
-    public String greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return "Hello from REST!";
+    public String deleteCar(@NonNull Car car) {
+        return deleteCar(car.plateNumber);
+    }
+
+    public String deleteCar(@NonNull String plateNumber) {
+        String executionStatement = "DELETE FROM Cars WHERE plateNumber = \'" + plateNumber + "\'";
+        boolean statementResult = executeStatement(executionStatement);
+        if (statementResult) {
+            return "Deleted car";
+        }
+        return "Failed to delete car";
+    }
+
+    private boolean executeStatement(String executionStatement) {
+        boolean response = false;
+        PreparedStatement statement = null;
+
+        try {
+            statement = connection.prepareStatement(executionStatement);
+            statement.execute();
+            response = true;
+        } catch (SQLException e) {
+            response = false;
+        }
+
+        try {
+            connection.commit();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public String deleteStudent(Student student) {
+        return deleteStudent(student.name, student.id);
+    }
+
+    public String deleteStudent(@Nullable String name, @Nullable Integer id) {
+        String executionStatement = null;
+        if (name != null) {
+            executionStatement = "DELETE FROM Students WHERE name = \'" + name + "\'";
+        }
+        if (id != null) {
+            executionStatement = "DELETE FROM Students WHERE id = " + id;
+        }
+
+        boolean statementResult = executeStatement(executionStatement);
+        if (statementResult) {
+            return "Deleted student";
+        }
+        return "Student doesn't exist";
+    }
+
+    String createStudent(@NonNull String studentJson) {
+        return createStudent(gson.fromJson(studentJson, Student.class));
+    }
+
+    public String createStudent(Student student) {
+        String executionStatement = "INSERT INTO Students (name, id) VALUES (\'" + student.name + "\', '" + student.id + "')";
+
+        String response = "";
+        PreparedStatement statement = null;
+
+        try {
+            statement = connection.prepareStatement(executionStatement);
+            statement.execute();
+            response = "Created student successfully";
+        } catch (SQLException e) {
+            response = student.name + " already exists in database";
+        }
+
+        try {
+            connection.commit();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     public List<Student> getStudentList() {
@@ -240,6 +316,34 @@ public class PassManagement {
         }
 
         return student;
+    }
+
+    @RequestMapping(value = PREFIX + "/student/{id}", method = RequestMethod.DELETE)
+    public String deleteStudentRestFromId(@RequestHeader(value = "Token") String token,
+                                          @PathVariable Integer id) {
+        if (authenticated(token)) {
+            return deleteStudent(null, Integer.valueOf(id));
+        }
+        return "403";
+    }
+
+    @RequestMapping(value = PREFIX + "/student", method = RequestMethod.DELETE)
+    public String deleteStudentRest(@RequestHeader(value = "Token") String token,
+                                    @RequestBody String body) {
+        if (authenticated(token)) {
+            return deleteStudent(gson.fromJson(body, Student.class));
+        }
+        return "403";
+    }
+
+
+    @RequestMapping(value = PREFIX + "/student", method = RequestMethod.POST)
+    public String createStudentRest(@RequestHeader(value = "Token") String token,
+                                    @RequestBody String body) {
+        if (authenticated(token)) {
+            return createStudent(body);
+        }
+        return "403";
     }
 
     @RequestMapping(value = PREFIX + "/car/**", method = RequestMethod.DELETE)

@@ -3,10 +3,15 @@ package tk.leoforney.passcheckerserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.util.unit.DataSize;
+import org.springframework.util.unit.DataUnit;
 
+import javax.servlet.MultipartConfigElement;
 import java.io.File;
 
 /**
@@ -32,6 +37,14 @@ public class Main extends SpringBootServletInitializer {
         }
         System.out.println("Exited Runner");
         System.exit(1);
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(DataSize.of(5, DataUnit.MEGABYTES));
+        factory.setMaxRequestSize(DataSize.of(5, DataUnit.MEGABYTES));
+        return factory.createMultipartConfig();
     }
 
 }

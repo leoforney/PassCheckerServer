@@ -11,7 +11,6 @@ import com.vaadin.flow.component.applayout.MenuItemClickEvent;
 import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.server.VaadinService;
@@ -23,6 +22,7 @@ import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 
+import static tk.leoforney.passcheckerserver.Runner.show;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 
 /**
@@ -39,7 +39,7 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
         User user = checkAuthentication(AppView.this);
 
         if (user != null) {
-            Notification.show("Welcome to PassCheckerServer " + user.getFirstName() + "!");
+            show("Welcome to PassCheckerServer " + user.getFirstName() + "!");
 
             CookieConsent dialog = new CookieConsent(
                     "We are using cookies to make your visit here awesome!",

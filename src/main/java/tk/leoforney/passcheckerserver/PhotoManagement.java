@@ -6,7 +6,6 @@ import com.openalpr.jni.AlprPlate;
 import com.openalpr.jni.AlprPlateResult;
 import com.openalpr.jni.AlprResults;
 import javaxt.io.Image;
-import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +51,8 @@ public class PhotoManagement {
         alpr.setDefaultRegion("il");
     }
 
+    private boolean latestInUse = false;
+
     public List<String> getPlateNumberFromRequest(MultipartFile file, String sender) throws Exception {
 
         List<String> responseList = new ArrayList<>(2);
@@ -68,26 +69,29 @@ public class PhotoManagement {
 
         photoFile.createNewFile();
 
-        //request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
-
         if (sender != null) {
-            //Part part = request.raw().getPart("image");
             if (file.getContentType().toLowerCase().equals("image/yuv_420_88")) {
 
             } else if (file.getContentType().toLowerCase().equals("image/jpeg")) {
-                try (InputStream input = file.getInputStream()) { // getPart needs to use same "name" as input field in form
-                    byte[] resultByteData = IOUtils.toByteArray(input);
-                    Image image = new Image(resultByteData);
-                    image.rotateClockwise();
-                    Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+                Image image = new Image(file.getInputStream());
+                image.rotateClockwise();
+                Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+                if (!latestInUse) {
+                    latestInUse = true;
                     Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    latestInUse = false;
                 }
+
             }
         } else {
             try (InputStream input = file.getInputStream()) { // getPart needs to use same "name" as input field in form
                 if (!photoFile.exists()) photoFile.createNewFile();
                 Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                if (!latestInUse) {
+                    latestInUse = true;
+                    Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    latestInUse = false;
+                }
             }
         }
 
@@ -194,7 +198,7 @@ public class PhotoManagement {
 
     @RequestMapping(value = "/plateNumber", method = RequestMethod.POST)
     public String plateNumber(@RequestHeader(value = "Token", required = true) String token,
-                              @RequestPart(value = "image") MultipartFile file,
+                              @RequestParam(value = "image") MultipartFile file,
                               @RequestHeader(value = "Sender", required = false) String sender) {
         String response = "";
         if (authenticated(token)) {
@@ -218,11 +222,13 @@ public class PhotoManagement {
                                   @RequestHeader(value = "Sender", required = false) String sender) {
         String response = "";
         if (/*authenticated(token)*/true) {
-            List<String> plateNumberList = null;
+            List<String> plateNumberList = new ArrayList<>();
             try {
                 plateNumberList = getPlateNumberFromRequest(file, sender);
             } catch (Exception e) {
                 e.printStackTrace();
+                plateNumberList.add("noplatesdetected");
+                plateNumberList.add(String.valueOf(System.currentTimeMillis()));
             }
             String plateNumber = plateNumberList.get(0);
             DatabaseResponse databaseResponse = new DatabaseResponse();
