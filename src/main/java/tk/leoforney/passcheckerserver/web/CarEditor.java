@@ -1,23 +1,24 @@
 package tk.leoforney.passcheckerserver.web;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.ItemLabelGenerator;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.Query;
+import org.vaadin.marcus.shortcut.Shortcut;
 import tk.leoforney.passcheckerserver.Car;
 import tk.leoforney.passcheckerserver.PassManagement;
 import tk.leoforney.passcheckerserver.Student;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CarEditor extends VerticalLayout implements ComponentEventListener<ClickEvent<Button>> {
 
@@ -26,6 +27,8 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
     Car foundCar;
     PassManagement passManagement = PassManagement.getInstance();
     TextField plateNumber, make, model, year, color;
+    H3 title;
+    Button saveButton;
     ComboBox<Student> studentComboBox;
     private Grid<Student> grid;
     private List<Student> studentList;
@@ -41,6 +44,8 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
         setPadding(true);
 
         VerticalLayout layout = new VerticalLayout();
+        title = new H3("");
+        layout.add(title);
 
         FormLayout form = new FormLayout();
 
@@ -58,12 +63,17 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
         form.add(plateNumber, make, model, year, color, studentComboBox);
         layout.add(form);
 
-        Button saveButton = new Button("Save", event -> {
+
+        saveButton = new Button("Save", event -> {
             dialog.close();
         });
         saveButton.getElement().getThemeList().add("small");
         saveButton.setId("SaveCar");
         saveButton.addClickListener(this);
+
+        layout.getChildren().forEach(component -> {
+            Shortcut.add(component, Key.ENTER, saveButton::click);
+        });
 
         Button cancelButton = new Button("Cancel", event -> {
             dialog.close();
@@ -91,16 +101,20 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
             model.setValue("");
             year.setValue("");
             color.setValue("");
-
+            studentComboBox.setValue(null);
+            title.setText("New car entry");
+            saveButton.setText("Add");
         }
 
         if (buttonId.equals("OpenCarEditorDialog")) {
             openIntent = "edit";
+            saveButton.setText("Save");
             dialog.open();
             event.getSource().getParent().ifPresent(component -> {
                 Html label = (Html) component.getChildren().findFirst().get();
                 plateNumberString = label.getInnerHtml();
                 foundCar = passManagement.findCarByPlateNumber(plateNumberString);
+                title.setText("Edit car: " + plateNumberString);
 
                 for (Student student : studentList) {
                     if (student.id == foundCar.id) {
@@ -114,37 +128,38 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
                 year.setValue(String.valueOf(foundCar.year));
                 color.setValue(foundCar.color);
                 studentComboBox.setValue(foundStudent);
-
             });
         }
         if (buttonId.equals("SaveCar")) {
-            Car car = new Car(plateNumber.getValue(), color.getValue(), make.getValue(), model.getValue(), Integer.valueOf(year.getValue()), studentComboBox.getValue().id);
+            Car car = new Car(plateNumber.getValue().toUpperCase(), color.getValue(), make.getValue(), model.getValue(), Integer.valueOf(year.getValue()), studentComboBox.getValue().id);
             if (openIntent.equals("edit")) {
                 passManagement.updateCarFromPlateNumber(plateNumberString, car);
             } else if (openIntent.equals("new")) {
                 passManagement.createCar(car);
                 if (passView.studentView) {
+                    System.out.println(passView.studentList.get(0).name);
+
+                    for (Student student : passView.studentList) {
+                        if (student.id == studentComboBox.getValue().id) {
+                            foundStudent = student;
+                        }
+                    }
+                    foundStudent.getCars().add(car);
+                } else {
 
                 }
 
+            }
 
-                System.out.println(passView.studentList.get(0).name);
-
-                for (Student student : passView.studentList) {
-                    if (student.id == foundCar.id) {
-                        foundStudent = student;
+            if (passView.studentView) {
+                List<Car> studentCars = foundStudent.cars;
+                for (Car iteratedCar : studentCars) { // Iterate through student cars and update the same one
+                    if (iteratedCar.plateNumber.equals(plateNumberString)) {
+                        studentCars.set(studentCars.indexOf(iteratedCar), car);
                     }
                 }
-                foundStudent.getCars().add(car);
+                grid.getDataProvider().refreshItem(foundStudent);
             }
-
-            List<Car> studentCars = foundStudent.cars;
-            for (Car iteratedCar : studentCars) { // Iterate through student cars and update the same one
-                if (iteratedCar.plateNumber.equals(plateNumberString)) {
-                    studentCars.set(studentCars.indexOf(iteratedCar), car);
-                }
-            }
-            grid.getDataProvider().refreshItem(foundStudent);
 
         }
     }

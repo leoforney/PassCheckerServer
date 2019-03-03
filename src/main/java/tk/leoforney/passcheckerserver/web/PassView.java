@@ -156,11 +156,13 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
     @Override
     public void onComponentEvent(ClickEvent<Button> event) {
         if (event.getSource().getId().isPresent()) {
-            System.out.println(event.getSource().getId().get());
             switch (event.getSource().getId().get()) {
                 case "DeleteSelectedButton":
                     if (studentView) {
                         Iterator iterator = studentGrid.getSelectedItems().iterator();
+                        if (!studentGrid.getSelectedItems().isEmpty()) {
+                            show("Successfully deleted students");
+                        }
                         while (iterator.hasNext()) {
                             Student iteratedStudent = (Student) iterator.next();
                             System.out.println("Deleting student: " + iteratedStudent.getFirstName());
@@ -171,10 +173,12 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
                             }
                             passManagement.deleteStudent(iteratedStudent);
                             studentList.remove(iteratedStudent);
+                            studentGrid.deselect(iteratedStudent);
                             studentGrid.getDataProvider().refreshAll();
+
                         }
                         carEditor.setList(studentList);
-                        show("Successfully deleted students");
+
                     } else {
 
                     }

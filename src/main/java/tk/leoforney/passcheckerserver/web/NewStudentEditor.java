@@ -3,6 +3,7 @@ package tk.leoforney.passcheckerserver.web;
 import com.google.gson.Gson;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import org.vaadin.marcus.shortcut.Shortcut;
 import tk.leoforney.passcheckerserver.PassManagement;
 import tk.leoforney.passcheckerserver.Runner;
 import tk.leoforney.passcheckerserver.Student;
@@ -55,6 +57,10 @@ public class NewStudentEditor extends VerticalLayout implements ComponentEventLi
         saveButton.getElement().getThemeList().add("small");
         saveButton.setId("SaveNewStudent");
         saveButton.addClickListener(this);
+
+        layout.getChildren().forEach(component -> {
+            Shortcut.add(component, Key.ENTER, saveButton::click);
+        });
 
         Button cancelButton = new Button("Cancel", event -> {
             dialog.close();

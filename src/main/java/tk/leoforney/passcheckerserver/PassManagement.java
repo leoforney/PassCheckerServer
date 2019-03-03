@@ -66,12 +66,20 @@ public class PassManagement {
             e.printStackTrace();
         }
         try {
-            String sqlString = "INSERT INTO Cars VALUES (" + creationFromCar(record) + ")";
+            String sqlString = "INSERT INTO Cars (plateNumber, make, model, year, studentId, color) VALUES (" + creationFromCar(record) + ");";
             System.out.println(sqlString);
-            statement.executeUpdate(sqlString);
+            boolean result = statement.execute(sqlString);
+            System.out.println(result);
             response = "Created car successfully";
         } catch (SQLException e) {
             response = "Failed to create car";
+        }
+
+        try {
+            connection.commit();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return response;
     }
@@ -95,8 +103,7 @@ public class PassManagement {
 
         try {
             statement = connection.prepareStatement(executionStatement);
-            statement.execute();
-            response = true;
+            response = statement.execute();
         } catch (SQLException e) {
             response = false;
         }
