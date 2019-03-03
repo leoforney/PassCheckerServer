@@ -53,6 +53,29 @@ public class PassManagement {
 
     }
 
+    public String createCar(@NonNull String carJson) {
+        return createStudent(gson.toJson(carJson));
+    }
+
+    public String createCar(@NonNull Car record) {
+        String response = "";
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            String sqlString = "INSERT INTO Cars VALUES (" + creationFromCar(record) + ")";
+            System.out.println(sqlString);
+            statement.executeUpdate(sqlString);
+            response = "Created car successfully";
+        } catch (SQLException e) {
+            response = "Failed to create car";
+        }
+        return response;
+    }
+
     public String deleteCar(@NonNull Car car) {
         return deleteCar(car.plateNumber);
     }
@@ -392,22 +415,7 @@ public class PassManagement {
                             @RequestBody String recordStringJson) {
         String response = "";
         if (authenticated(token)) {
-            Car record = gson.fromJson(recordStringJson, Car.class);
-
-            Statement statement = null;
-            try {
-                statement = connection.createStatement();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                String sqlString = "INSERT INTO Cars VALUES (" + creationFromCar(record) + ")";
-                System.out.println(sqlString);
-                statement.executeUpdate(sqlString);
-                response = "Created car successfully";
-            } catch (SQLException e) {
-                response = "Failed to create car";
-            }
+            response = createCar(recordStringJson);
         } else {
             response = "403";
         }

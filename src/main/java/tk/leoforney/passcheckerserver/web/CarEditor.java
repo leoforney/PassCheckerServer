@@ -12,6 +12,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.Query;
 import tk.leoforney.passcheckerserver.Car;
 import tk.leoforney.passcheckerserver.PassManagement;
 import tk.leoforney.passcheckerserver.Student;
@@ -28,6 +29,7 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
     ComboBox<Student> studentComboBox;
     private Grid<Student> grid;
     private List<Student> studentList;
+    private PassView passView;
     private Student foundStudent;
 
     public CarEditor() {
@@ -46,6 +48,7 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
         make = new TextField("Make");
         model = new TextField("Model");
         year = new TextField("Year");
+        setType(year, "number");
         color = new TextField("Color");
         studentComboBox = new ComboBox<>();
         studentComboBox.setRequired(true);
@@ -71,16 +74,35 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
         dialog.add(layout, new Span(saveButton, cancelButton));
     }
 
+    String openIntent = "";
+
     @Override
     public void onComponentEvent(ClickEvent<Button> event) {
-        if (event.getSource().getId().get().equals("OpenCarEditorDialog")) {
+        String buttonId = "";
+        if (event.getSource().getId().isPresent()) {
+            buttonId = event.getSource().getId().get();
+        }
+
+        if (buttonId.equals("OpenNewCarEditorDialog")) {
+            openIntent = "new";
+            dialog.open();
+            plateNumber.setValue("");
+            make.setValue("");
+            model.setValue("");
+            year.setValue("");
+            color.setValue("");
+
+        }
+
+        if (buttonId.equals("OpenCarEditorDialog")) {
+            openIntent = "edit";
             dialog.open();
             event.getSource().getParent().ifPresent(component -> {
                 Html label = (Html) component.getChildren().findFirst().get();
                 plateNumberString = label.getInnerHtml();
                 foundCar = passManagement.findCarByPlateNumber(plateNumberString);
 
-                for (Student student: studentList ) {
+                for (Student student : studentList) {
                     if (student.id == foundCar.id) {
                         foundStudent = student;
                     }
@@ -95,16 +117,35 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
 
             });
         }
-        if (event.getSource().getId().get().equals("SaveCar")) {
+        if (buttonId.equals("SaveCar")) {
             Car car = new Car(plateNumber.getValue(), color.getValue(), make.getValue(), model.getValue(), Integer.valueOf(year.getValue()), studentComboBox.getValue().id);
-            passManagement.updateCarFromPlateNumber(plateNumberString, car);
+            if (openIntent.equals("edit")) {
+                passManagement.updateCarFromPlateNumber(plateNumberString, car);
+            } else if (openIntent.equals("new")) {
+                passManagement.createCar(car);
+                if (passView.studentView) {
+
+                }
+
+
+                System.out.println(passView.studentList.get(0).name);
+
+                for (Student student : passView.studentList) {
+                    if (student.id == foundCar.id) {
+                        foundStudent = student;
+                    }
+                }
+                foundStudent.getCars().add(car);
+            }
+
             List<Car> studentCars = foundStudent.cars;
-            for (Car iteratedCar: studentCars) {
+            for (Car iteratedCar : studentCars) { // Iterate through student cars and update the same one
                 if (iteratedCar.plateNumber.equals(plateNumberString)) {
                     studentCars.set(studentCars.indexOf(iteratedCar), car);
                 }
             }
             grid.getDataProvider().refreshItem(foundStudent);
+
         }
     }
 
@@ -115,5 +156,16 @@ public class CarEditor extends VerticalLayout implements ComponentEventListener<
     void setList(List<Student> list) {
         this.studentList = list;
         studentComboBox.setItems(studentList);
+    }
+
+    void setPassView(PassView passView) {
+        this.passView = passView;
+    }
+
+    private static void setType(TextField textField, String type) {
+        textField.getElement().getNode().runWhenAttached(ui -> {
+            ui.getPage().executeJavaScript("$0.focusElement.type=$1", textField,
+                    type);
+        });
     }
 }

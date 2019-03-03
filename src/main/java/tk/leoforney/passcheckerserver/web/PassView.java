@@ -44,6 +44,7 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
         passManagement = PassManagement.getInstance();
 
         carEditor = new CarEditor();
+        carEditor.setPassView(this);
         newStudentEditor = new NewStudentEditor();
         newStudentEditor.setPassView(this);
 
@@ -64,10 +65,10 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
         Button deleteButton = new Button(VaadinIcon.TRASH.create());
         deleteButton.setId("DeleteSelectedButton");
         deleteButton.addClickListener(this);
-        //deleteButton.getElement().getThemeList().add("disabled");
 
         Button addCarButton = new Button("Add Car");
-        addCarButton.getElement().getThemeList().add("disabled");
+        addCarButton.setId("OpenNewCarEditorDialog");
+        addCarButton.addClickListener(carEditor);
         addCarButton.addClickListener(this);
 
         Button addStudentButton = new Button("Add Student");
@@ -114,6 +115,7 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
 
     private void loadStudents() {
         studentList = passManagement.getStudentList();
+        System.out.println("StudentList loaded");
         studentGrid = new Grid<>();
         studentGrid.setSelectionMode(Grid.SelectionMode.MULTI);
         studentGrid.setItems(studentList);
@@ -171,6 +173,7 @@ public class PassView extends VerticalLayout implements HasValue.ValueChangeList
                             studentList.remove(iteratedStudent);
                             studentGrid.getDataProvider().refreshAll();
                         }
+                        carEditor.setList(studentList);
                         show("Successfully deleted students");
                     } else {
 

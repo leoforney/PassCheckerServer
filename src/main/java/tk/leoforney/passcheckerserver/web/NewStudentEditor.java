@@ -89,6 +89,7 @@ public class NewStudentEditor extends VerticalLayout implements ComponentEventLi
             show(response);
             passView.studentList.add(student);
             passView.studentGrid.getDataProvider().refreshAll();
+            passView.carEditor.setList(passView.studentList);
         }
     }
 
