@@ -47,6 +47,10 @@ dependencies {
     implementation "javaxt:javaxt-core:1.9.0"
     implementation "org.mongodb:mongodb-driver-sync:3.10.1"
     implementation "com.github.albfernandez:juniversalchardet:2.3.0"
+    implementation "com.google.api-client:google-api-client:1.23.0"
+    implementation "com.google.oauth-client:google-oauth-client-servlet:1.23.0"
+    implementation "org.riversun:google-oauth2-client-servlet:0.8.2"
+    implementation "com.google.apis:google-api-services-sheets:v4-rev516-1.23.0"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
