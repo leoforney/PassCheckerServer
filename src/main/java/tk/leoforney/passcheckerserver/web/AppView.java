@@ -11,7 +11,7 @@ import com.vaadin.flow.component.applayout.MenuItemClickEvent;
 import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.Command;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
@@ -21,6 +21,7 @@ import tk.leoforney.passcheckerserver.UserManagement;
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static tk.leoforney.passcheckerserver.Runner.show;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
@@ -29,7 +30,7 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
  * The main view of the application
  */
 @Route(value = "", layout = MainLayout.class)
-public class AppView extends AppLayout implements ComponentEventListener<MenuItemClickEvent> {
+public class AppView extends AppLayout implements ComponentEventListener<MenuItemClickEvent>, HasUrlParameter<String> {
 
     List<AppLayoutMenuItem> menuItems;
     AppLayoutMenu menu;
@@ -155,5 +156,14 @@ public class AppView extends AppLayout implements ComponentEventListener<MenuIte
         }
     }
 
+    @Override
+    public void setParameter(BeforeEvent event,
+                             @OptionalParameter String parameter) {
+
+        Location location = event.getLocation();
+        QueryParameters queryParameters = location.getQueryParameters();
+
+        Map<String, List<String>> parametersMap = queryParameters.getParameters();
+    }
 
 }
