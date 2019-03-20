@@ -423,7 +423,7 @@ public class PassManagement {
         return "403";
     }
 
-    @RequestMapping(value = PREFIX + "/student", method = RequestMethod.POST)
+    @RequestMapping(value = PREFIX + "/student/update", method = RequestMethod.POST)
     public String updateStudentRest(@RequestHeader(value = "Token") String token,
                                     @RequestHeader(value = "Name") String name,
                                     @RequestBody String body) {
