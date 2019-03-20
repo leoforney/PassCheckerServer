@@ -9,7 +9,6 @@ import org.bson.types.ObjectId;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-import spark.Response;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -50,7 +49,10 @@ public class PassManagement {
     private PassManagement() {
         gson = new Gson();
         this.connection = Runner.connection;
-
+        PassType type = new PassType();
+        type.setType(PassType.Type.NONE);
+        type.addDayPass("03192019");
+        System.out.println(gson.toJson(type));
     }
 
     public String createCar(@NonNull String carJson) {
@@ -137,6 +139,19 @@ public class PassManagement {
         return "Student doesn't exist";
     }
 
+    public Student updateStudent(Student student, String name) {
+        try {
+            Statement statement = connection.createStatement();
+            int result = statement.executeUpdate("UPDATE Cars SET name = \"" + student.getName() + "\"," +
+                    " id = \"" + student.id +
+                    "\", passType = \"" + gson.toJson(student.getPassType()) +
+                    "\" WHERE name = \"" + name + "\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
+
     String createStudent(@NonNull String studentJson) {
         return createStudent(gson.fromJson(studentJson, Student.class));
     }
@@ -173,6 +188,8 @@ public class PassManagement {
 
             while (rs.next()) {
                 Student student = new Student(rs.getString("name"), rs.getInt("id"));
+                student.setPassType(gson.fromJson(rs.getString("passType"), PassType.class));
+                System.out.println("Student: " + student.getFirstName() + rs.getString("passType") + " " + (student.getPassType().isPassValid() ? "Valid" : "Invalid"));
                 students.add(student);
             }
 
@@ -266,6 +283,36 @@ public class PassManagement {
         }
 
         return new Student();
+    }
+
+    public Student getStudent(String name) {
+        Student student = new Student();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Students WHERE name = \"" + name + "\"");
+
+            student = new Student(rs);
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
+
+    public Student getStudent(int id) {
+        Student student = new Student();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Students WHERE id = \"" + id + "\"");
+
+            student = new Student(rs);
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
     }
 
     public Car findCarByPlateNumber(String plateNumber) {
@@ -372,6 +419,17 @@ public class PassManagement {
                                     @RequestBody String body) {
         if (authenticated(token)) {
             return createStudent(body);
+        }
+        return "403";
+    }
+
+    @RequestMapping(value = PREFIX + "/student", method = RequestMethod.POST)
+    public String updateStudentRest(@RequestHeader(value = "Token") String token,
+                                    @RequestHeader(value = "Name") String name,
+                                    @RequestBody String body) {
+        if (authenticated(token)) {
+            Student updatedStudent = gson.fromJson(body, Student.class);
+            return gson.toJson(updateStudent(updatedStudent, name));
         }
         return "403";
     }

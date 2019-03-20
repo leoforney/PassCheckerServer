@@ -104,6 +104,7 @@ public class Runner implements SparkApplication {
 
         userManagement = UserManagement.getInstance();
         passManagement = PassManagement.getInstance();
+        passManagement.getStudentList();
         photoManagement = new PhotoManagement(passManagement);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

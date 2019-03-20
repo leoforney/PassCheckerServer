@@ -3,6 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="tk.leoforney.passcheckerserver.Main" />
     <module name="passcheckerserver_main" />
     <option name="PROGRAM_PARAMETERS" value="idea" />
+    <shortenClasspath name="ARGS_FILE" />
     <method v="2">
       <option name="Gradle.BeforeRunTask" enabled="true" tasks="createProperties" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
       <option name="Make" enabled="true" />

@@ -244,12 +244,15 @@ public class PhotoManagement {
                             selectedCar = iteratedCar;
                         }
                     }
+                    databaseResponse.setStudent(responseStudent);
                     if (selectedCar != null) {
                         databaseResponse.setCar(selectedCar);
-                        databaseResponse.setStudent(responseStudent);
-                        databaseResponse.setType(DatabaseResponse.Type.OK);
+                        if (responseStudent.getPassType().isPassValid()) {
+                            databaseResponse.setType(DatabaseResponse.Type.OK);
+                        } else {
+                            databaseResponse.setType(DatabaseResponse.Type.PASSINVALID);
+                        }
                     } else {
-                        databaseResponse.setStudent(responseStudent);
                         databaseResponse.setType(DatabaseResponse.Type.STUDENTONLY);
                     }
                 } else {
