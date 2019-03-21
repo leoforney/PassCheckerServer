@@ -70,12 +70,15 @@ public class PhotoManagement {
         photoFile.createNewFile();
 
         if (sender != null) {
-            if (file.getContentType().toLowerCase().equals("image/yuv_420_88")) {
+            if (file.getContentType().toLowerCase().equals("image/jpeg")) {
+                if (sender.equals("Mobile(NoRotate)")) {
+                    Files.write(photoFile.toPath(), file.getBytes(), StandardOpenOption.WRITE);
+                } if (sender.equals("Mobile(Rotate)")) {
+                    Image image = new Image(file.getInputStream());
+                    image.rotateClockwise();
+                    Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
+                }
 
-            } else if (file.getContentType().toLowerCase().equals("image/jpeg")) {
-                Image image = new Image(file.getInputStream());
-                image.rotateClockwise();
-                Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
                 if (!latestInUse) {
                     latestInUse = true;
                     Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);

@@ -53,8 +53,12 @@ public class MyOAuthFilter extends OAuthFilter {
 		final String OAUTH2_SCOPE_USERINFO_PROFILE = "https://www.googleapis.com/auth/spreadsheets.readonly";
 		final String OAUTH2_SCOPE_USERINFO_GPLUS = "https://www.googleapis.com/auth/userinfo.profile";
 		final String OAUTH2_SCOPE_EMAIL = "email";
+		final String OAUTH2_SCOPE_DRIVE = "https://www.googleapis.com/auth/drive.readonly";
 
-		return Arrays.asList(OAUTH2_SCOPE_USERINFO_PROFILE, OAUTH2_SCOPE_USERINFO_GPLUS, OAUTH2_SCOPE_EMAIL);
+		return Arrays.asList(OAUTH2_SCOPE_USERINFO_PROFILE,
+                OAUTH2_SCOPE_USERINFO_GPLUS,
+                OAUTH2_SCOPE_EMAIL,
+                OAUTH2_SCOPE_DRIVE);
 
 	}
 

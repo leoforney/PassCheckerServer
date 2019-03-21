@@ -17,62 +17,167 @@
           <element id="dir-copy" path="$PROJECT_DIR$/out/production/resources" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin:12.0.7" />
+          <element id="library" level="project" name="Gradle: org.vaadin.marcus:shortcut:0.3.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-spring-boot-starter:12.0.7" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-core:12.0.7" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-lumo-theme:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-app-layout-flow:1.0.3" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-tabs-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-app-layout:1.0.2" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-board-flow:2.1.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-charts-flow:6.2.2" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-confirm-dialog-flow:1.1.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-cookie-consent-flow:1.1.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-crud-flow:1.0.3" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-button-flow:1.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-checkbox-flow:1.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-combo-box-flow:2.0.3" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-date-picker-flow:1.2.3" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-dialog-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-form-layout-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-grid-flow:2.1.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-list-box-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-ordered-layout-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-progress-bar-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-radio-button-flow:1.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-split-layout-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-text-field-flow:1.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-upload-flow:1.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-notification-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-context-menu-flow:1.2.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-tabs:2.1.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin.webjar:vaadin-board:2.1.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin.webjar:vaadin-charts:6.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin.webjar:vaadin-confirm-dialog:1.1.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin.webjar:vaadin-crud:1.0.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-date-picker:3.3.2" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-upload:4.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-button:2.1.2" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-dialog:2.2.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin.webjar:vaadin-cookie-consent:1.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-form-layout:2.1.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-grid:5.2.8" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-checkbox:2.2.6" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-combo-box:4.2.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-text-field:2.1.7" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-box:1.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-ordered-layout:1.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-progress-bar:1.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-radio-button:1.1.5" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-split-layout:4.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-notification:1.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-context-menu:4.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-element-mixin:2.1.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-usage-statistics:1.0.0-optout" />
           <element id="library" level="project" name="Gradle: com.sparkjava:spark-core:2.7.2" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-webapp:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-server:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-servlet:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-security:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-server:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-servlet:9.4.12.v20180830" />
           <element id="library" level="project" name="Gradle: org.xerial:sqlite-jdbc:3.21.0" />
           <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin/12.0.7/cfe84c910afcca73095323747816d59a7fd73b2d/vaadin-12.0.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.vaadin.marcus/shortcut/0.3.0/3cb680006e185596e59597dc86b4b1753a50880a/shortcut-0.3.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-spring-boot-starter/12.0.7/988cd5f3ccdfb4628a3abc821facbbfc1c84b5f4/vaadin-spring-boot-starter-12.0.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-core/12.0.7/87685e91b0d47b948b86da768e198be126377bb2/vaadin-core-12.0.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-lumo-theme/1.2.5/854918eb159a82b8a9de4dc82097edbaf6c70214/vaadin-lumo-theme-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-app-layout-flow/1.0.3/ebda9daa40d1638faeb0be368eedcbd8379c7ca4/vaadin-app-layout-flow-1.0.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-tabs-flow/1.2.0/4fe41d6056201f66e2a848f25e4ffe487c3b0e75/vaadin-tabs-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-app-layout/1.0.2/841d9f70ed02ef3a22c2eb12946986c7bccf7284/vaadin-app-layout-1.0.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-board-flow/2.1.1/7049f4307fe82c06171e6a75f53d652adc83d3a6/vaadin-board-flow-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-charts-flow/6.2.2/fc467fb18e6c3528c3ffbc183809cc4b115426f3/vaadin-charts-flow-6.2.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-confirm-dialog-flow/1.1.1/c5aeb16565245232cc0e6378d23d8256d7422bba/vaadin-confirm-dialog-flow-1.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-cookie-consent-flow/1.1.1/eabbe535db0beda4a2974c7d400b615b7e0c1a8e/vaadin-cookie-consent-flow-1.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-crud-flow/1.0.3/393be5b204f058736d93e99fe1bfa9bac816a36c/vaadin-crud-flow-1.0.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-button-flow/1.2.1/960f3c107cf42894ae26689dd586a1c32118cfc6/vaadin-button-flow-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-checkbox-flow/1.2.1/1c73d3489cb5cd556d84e311add7f0eea7da8b06/vaadin-checkbox-flow-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-combo-box-flow/2.0.3/b2e52a0bc6f23037afb350f1c661eddff43918ea/vaadin-combo-box-flow-2.0.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-date-picker-flow/1.2.3/23b5f691812212449816db1eb3a5ec7b651bc6c0/vaadin-date-picker-flow-1.2.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-dialog-flow/1.2.0/e18894ec860b847a3a330cb5a8d1125d65549962/vaadin-dialog-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-form-layout-flow/1.2.0/79add788b451aea7f1ad208c6a7a86f37da7818f/vaadin-form-layout-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-grid-flow/2.1.5/e7d515ee8dd2752b57a1a5ae8d36e25e75a2aee9/vaadin-grid-flow-2.1.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-list-box-flow/1.2.0/de1e38bb502e6f3628edea32268a8d29ee0452b9/vaadin-list-box-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-ordered-layout-flow/1.2.0/eb97b48ec15b4516304e0b3ccb0a187fe92658de/vaadin-ordered-layout-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-progress-bar-flow/1.2.0/d592faa1bc7fdd073f02e276b8617589e4c531f0/vaadin-progress-bar-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-radio-button-flow/1.2.1/fb68ea9b9bc92bd69f52da525853c338fb8743b9/vaadin-radio-button-flow-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-split-layout-flow/1.2.0/a772a00ef5742374131550cd42d0dd3d1604e2e6/vaadin-split-layout-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-text-field-flow/1.2.1/65f0357de6d37820518f28793a9a60c97e9255cf/vaadin-text-field-flow-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-upload-flow/1.2.1/544df5bc5bbd735b1e4b773274c7efa7150d07d8/vaadin-upload-flow-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-notification-flow/1.2.0/955b75f244279305c73cc0ab6957ea2c427a8ddd/vaadin-notification-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-context-menu-flow/1.2.3/88acee6f1285302e72972776e46b313bbf80f231/vaadin-context-menu-flow-1.2.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-tabs/2.1.1/731373f6f7fdcb98cea48525de32eecb8333e3c2/vaadin-tabs-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.webjar/vaadin-board/2.1.0/2e7db5b7e4bd7e619e80cb190e51fa611f80f046/vaadin-board-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.webjar/vaadin-charts/6.2.1/4b6f18448ed93daf8b9cd504423913680fa63e1d/vaadin-charts-6.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.webjar/vaadin-confirm-dialog/1.1.0/dda5e4d7606cb45619db6448c6c1813e1d7f9c86/vaadin-confirm-dialog-1.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.webjar/vaadin-crud/1.0.1/47829cf40965b7d73e3513532b6a244203f278a1/vaadin-crud-1.0.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-date-picker/3.3.2/6cc0217d61ec9e0aad66e6069289f55ffd95ed2a/vaadin-date-picker-3.3.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-upload/4.2.1/e55fcb7b1a3e097b08a3aaba91d899636dff8103/vaadin-upload-4.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-button/2.1.2/bdab9f8bed6a54694ecaa5457bf3756c7ca89d0c/vaadin-button-2.1.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-dialog/2.2.1/f5b411397659d87ccc2d2056abd541aaeedb0a03/vaadin-dialog-2.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.webjar/vaadin-cookie-consent/1.1.0/5bcfced83c63157cb107fd56e2f0ac4176f9da3b/vaadin-cookie-consent-1.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-form-layout/2.1.1/730845df6b3daecfc2b67964a0d34ec411528c24/vaadin-form-layout-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-grid/5.2.8/a3962496c37e9c1dfa068ace6fd0aa797c4ebba6/vaadin-grid-5.2.8.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-checkbox/2.2.6/44de3819ebcded67ce5cfe182867b5579eb3af1b/vaadin-checkbox-2.2.6.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-combo-box/4.2.3/88c008c84cf2c7bde96c44af301c2ce311001d13/vaadin-combo-box-4.2.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-text-field/2.1.7/ff110af5a97f231d0f476dfb48431b06f7c2e738/vaadin-text-field-2.1.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-list-box/1.1.0/819007c6a2e0c5c5b2c96fa86df09b46e207162a/vaadin-list-box-1.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-ordered-layout/1.1.0/8ec05a8b59c7da562f51a6d49fdcdc875fdd5eda/vaadin-ordered-layout-1.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-progress-bar/1.1.0/af0c9c72ae1f552998b34ca29db18e88983ec97a/vaadin-progress-bar-1.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-radio-button/1.1.5/a7ce88342f8554cb99496150c93674d78dc6780a/vaadin-radio-button-1.1.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-split-layout/4.1.0/90f82573357e79539254f2a9a501ae954207f4cf/vaadin-split-layout-4.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-notification/1.2.1/80670538cea9e821a144e5220d99d4f019a36648/vaadin-notification-1.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-context-menu/4.2.1/308cf1d461cb4f2c8e3de5131555db5285107175/vaadin-context-menu-4.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-element-mixin/2.1.3/5bf021c3c54e8be334781757c2e42cc84c80268/vaadin-element-mixin-2.1.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-usage-statistics/1.0.0-optout/d1bf19f1ba3072e695c8b3bd5f5fe64bdbea6403/vaadin-usage-statistics-1.0.0-optout.jar" />
+          <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
+          <element id="library" level="project" name="Gradle: javaxt:javaxt-core:1.9.0" />
+          <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-sync:3.10.1" />
+          <element id="library" level="project" name="Gradle: com.github.albfernandez:juniversalchardet:2.3.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-spring:10.1.1" />
+          <element id="library" level="project" name="Gradle: com.vaadin:flow-data:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:flow-html-components:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:flow-server:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:flow-push:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:flow-client:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-material-theme:1.2.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-icons-flow:1.2.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin:vaadin-iron-list-flow:1.2.2" />
+          <element id="library" level="project" name="Gradle: com.helger:ph-css:6.1.1" />
+          <element id="library" level="project" name="Gradle: com.helger:ph-commons:9.1.2" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.3" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.1" />
+          <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.25" />
+          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.25" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-item:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-overlay:3.2.7" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-lumo-styles:1.3.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-icons:4.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-icon:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-flex-layout:2.0.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-material-styles:1.2.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-list-mixin:2.1.2" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:license-checker:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-development-mode-detector:2.0.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-themable-mixin:1.3.3" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.vaadin:vaadin-control-state-mixin:2.1.2" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-iconset-svg:2.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-meta:2.1.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-overlay-behavior:2.3.4" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-list:2.0.19" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-a11y-keys-behavior:2.1.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-resizable-behavior:2.1.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-a11y-announcer:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-scroll-target-behavior:2.1.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-fit-behavior:2.2.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymerelements:iron-media-query:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymer:polymer:2.6.1" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.6" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.8.0" />
+          <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" />
+          <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
+          <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:4.0.1" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-client:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-http:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-common:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-io:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-xml:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-api:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.7" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.7" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.7" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.7" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.7" />
+          <element id="library" level="project" name="Gradle: org.webjars.bowergithub.insites:cookieconsent:3.1.0" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-websocket:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.hibernate.validator:hibernate-validator:6.0.13.Final" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: com.vaadin.external.gwt:gwt-elemental:2.8.2.vaadin2" />
+          <element id="library" level="project" name="Gradle: commons-fileupload:commons-fileupload:1.3.3" />
+          <element id="library" level="project" name="Gradle: commons-io:commons-io:2.5" />
+          <element id="library" level="project" name="Gradle: org.jsoup:jsoup:1.10.3" />
+          <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.9.5" />
+          <element id="library" level="project" name="Gradle: com.vaadin.external:gentyref:1.2.0.vaadin1" />
+          <element id="library" level="project" name="Gradle: com.vaadin.external.atmosphere:atmosphere-runtime:2.4.30.vaadin1" />
+          <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.1.Final" />
+          <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.8.1" />
+          <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-util:9.4.12.v20180830" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot:2.1.1.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.3.2" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34" />
+          <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.23" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.5.34" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.5.34" />
+          <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.2.Final" />
+          <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.4.0" />
+          <element id="library" level="project" name="Gradle: com.vaadin.external.slf4j:vaadin-slf4j-jdk14:1.6.1" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.1.3.RELEASE" />
+          <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.1" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-sheets/v4-rev516-1.23.0/27be18389c71171d9248a0c1c84c41d57bba3267/google-api-services-sheets-v4-rev516-1.23.0.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-drive/v3-rev110-1.23.0/30374efdbceaace0aeebeaaf2e3c04b82f4af9f1/google-api-services-drive-v3-rev110-1.23.0.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.riversun/google-oauth2-client-servlet/0.8.2/2d20b92a153da10d8a6e83ae7341853fcf614232/google-oauth2-client-servlet-0.8.2.jar" />
@@ -84,115 +189,10 @@
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jdo/1.23.0/d77d05bdafd3eb6b3d992b0167f4009aca5c03fe/google-http-client-jdo-1.23.0.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.23.0/8e86c84ff3c98eca6423e97780325b299133d858/google-http-client-1.23.0.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.6/1afe5621985efe90a92d0fbc9be86271efbe796f/httpclient-4.5.6.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.11/3acb4705652e16236558f0f4f2192cc33c3bd189/commons-codec-1.11.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javaxt/javaxt-core/1.9.0/483047ae70eec9070b7e935962a4c2941b599132/javaxt-core-1.9.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver-sync/3.10.1/2b52f270377ae44f09fa195f155c053f94ce6b4a/mongodb-driver-sync-3.10.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.albfernandez/juniversalchardet/2.3.0/48441094fd92f5eb5d60ab0193a76151ebd48633/juniversalchardet-2.3.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-spring/10.1.1/5ef12c36f528bf69584691df3810a4e17a7858f3/vaadin-spring-10.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/flow-data/1.2.5/e49e0e52e0fe34b979ecea4eadf39ecebf483c67/flow-data-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/flow-html-components/1.2.5/2aee831d9a3ac4108311b615497f344b41f67f9c/flow-html-components-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/flow-server/1.2.5/7877ff26b477ec120e203f6de0e087fb572bc3e0/flow-server-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/flow-push/1.2.5/439f87de615cf200df63bb7d310a8dbd8c492892/flow-push-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/flow-client/1.2.5/f311047b40f6274e602e060e3d0a5c51062ea1a1/flow-client-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-material-theme/1.2.5/3125a2a44fe9acb01400b70d8a0d41cd513b3485/vaadin-material-theme-1.2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-icons-flow/1.2.0/9e7246177bd622fee7a1ce6ab20b30216667b6e7/vaadin-icons-flow-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin/vaadin-iron-list-flow/1.2.2/b420041bf79c10af161fd0ea3b4dc9121ce9dcf7/vaadin-iron-list-flow-1.2.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.helger/ph-css/6.1.1/917191de545d933eb813679d0cccac40ffe0c102/ph-css-6.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.helger/ph-commons/9.1.2/1bc415a2ce3195cd6bd47bbc5ad8ca4d701ba5e8/ph-commons-9.1.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.1.1.RELEASE/fccdac7bbd88561a33868101813d9210bd7a13b9/spring-boot-starter-web-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-json/2.1.1.RELEASE/5fc133c1c1858020dd8df5192eaeea747c8b6e60/spring-boot-starter-json-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.1.1.RELEASE/71df6742de72887214813ff03ae0b6ec4bbcf899/spring-boot-starter-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/2.1.1.RELEASE/f0cba1cfbc46eb02a3af3555e1136ef3890a1bbf/spring-boot-starter-logging-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.11.1/1097acadf76aa4dd721ec5807566003ae9d975de/log4j-to-slf4j-2.11.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.25/af5364cd6679bfffb114f0dec8a157aaa283b76/jul-to-slf4j-1.7.25.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-item/2.1.0/4eb72fe526144d24d0a6f811b81375a19482ff35/vaadin-item-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-overlay/3.2.7/387ee165ed2119b6522215878fb7994c4e2bd941/vaadin-overlay-3.2.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-lumo-styles/1.3.3/e8627f4ba2e73650de8c517201f83aabb143c61b/vaadin-lumo-styles-1.3.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-icons/4.2.1/25c453de91dccb360a671c2a6530caa1930d2a94/vaadin-icons-4.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-icon/2.1.0/35ef545b59d796b4ddd2a2514d8092c48aeb73b2/iron-icon-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-flex-layout/2.0.3/ae34f717d45b89fb243d7b177f8846ea3b1f7297/iron-flex-layout-2.0.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-material-styles/1.2.0/937c8497e38f8680cba640448b7f894aed05d237/vaadin-material-styles-1.2.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-list-mixin/2.1.2/957829d7bd5ce35e21eadc4a652c75ae8371bc51/vaadin-list-mixin-2.1.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/license-checker/2.1.0/46054bc881164337617a3170608a293e5dfbcb5e/license-checker-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-development-mode-detector/2.0.0/67e47cd8fc0a631325356184cf39cd1c7a111d5b/vaadin-development-mode-detector-2.0.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-themable-mixin/1.3.3/9f5a1c8ee5a13c6d81ea34569f2b65442d3967d6/vaadin-themable-mixin-1.3.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.vaadin/vaadin-control-state-mixin/2.1.2/e2c584c33f830dcbb0a94edded48a1b11e2827e5/vaadin-control-state-mixin-2.1.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-iconset-svg/2.2.1/1d6595a659df3e8e6a8a2503c80156b2caffc631/iron-iconset-svg-2.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-meta/2.1.1/c8b771b5986d73365346346fc772d179fdb80f38/iron-meta-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-overlay-behavior/2.3.4/5f7a903f04a78c7cacec3cd73306675f063f70a6/iron-overlay-behavior-2.3.4.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-list/2.0.19/a22eefbbc26eb4c72b79390c51a72a5d63c6864d/iron-list-2.0.19.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-a11y-keys-behavior/2.1.1/af0b79dd45a061014372ed3864360492d0e6c5cf/iron-a11y-keys-behavior-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-resizable-behavior/2.1.1/91a052e73b8dd1cb4ac8f2f7804d8c58f211faf2/iron-resizable-behavior-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-a11y-announcer/2.1.0/a90db8f3c35c21fbd75da3449f7e8a9e078d906c/iron-a11y-announcer-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-scroll-target-behavior/2.1.1/493bdbcdc30903927d9ecd7ffc6f91320b85d2c1/iron-scroll-target-behavior-2.1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-fit-behavior/2.2.1/db2caf438ff6e3f9c758f5e11e6f2857c96ab4fa/iron-fit-behavior-2.2.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymerelements/iron-media-query/2.1.0/1033da84f31c5a09a72a35ff491a5ec59a023ca2/iron-media-query-2.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.polymer/polymer/2.6.1/9d36457a1ceee48f3660751cc51259e44099fd2b/polymer-2.6.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.webcomponents/webcomponentsjs/1.2.6/fd99e6ef6aa52f083bbe04524b8794a7ba97ab52/webcomponentsjs-1.2.6.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.webcomponents/shadycss/1.8.0/e76cd2649ac8b17845d1afd8629d331d6c0d5e11/shadycss-1.8.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-webapp/9.4.12.v20180830/a3e119df2da04fcf5aa290c8c35c5b310ce2dcd1/jetty-webapp-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-server/9.4.12.v20180830/fadf609aec6026cb25f25b6bc0b979821f849fd7/websocket-server-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-servlet/9.4.12.v20180830/4c1149328eda9fa39a274262042420f66d9ffd5f/jetty-servlet-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-security/9.4.12.v20180830/299e0602a9c0b753ba232cc1c1dda72ddd9addcf/jetty-security-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-server/9.4.12.v20180830/b0f25df0d32a445fd07d5f16fff1411c16b888fa/jetty-server-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-servlet/9.4.12.v20180830/8d212616b6ea21b96152ff202c2f53fdca8b8b53/websocket-servlet-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver-core/3.8.2/24b8708db42dde5686ed49fd2c614e66144fa28a/mongodb-driver-core-3.8.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/bson/3.8.2/3edc6689b0f15eac0e3d3e7997ddd1bb9b8232f6/bson-3.8.2.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/463f8378feba44df7ba7cd9272d01837dad62b36/guava-jdk5-17.0.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.jdo/jdo2-api/2.3-eb/ec6b839251fb235a86ccd23adc4fc62dab07a7d8/jdo2-api-2.3-eb.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.servlet/javax.servlet-api/4.0.1/a27082684a2ff0bf397666c3943496c44541d1ca/javax.servlet-api-4.0.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-client/9.4.12.v20180830/75880b6a90a6eda83fdbfc20a42f23eade4b975d/websocket-client-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-client/9.4.12.v20180830/1d329d68f31dce13135243c06013aaf6f708f7e7/jetty-client-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-http/9.4.12.v20180830/1341796dde4e16df69bca83f3e87688ba2e7d703/jetty-http-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-common/9.4.12.v20180830/33997cdafbabb3ffd6947a5c33057f967e10535b/websocket-common-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-io/9.4.12.v20180830/e93f5adaa35a9a6a85ba130f589c5305c6ecc9e3/jetty-io-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.12.v20180830/e9f1874e9b5edd498f2fe7cd0904405da07cc300/jetty-xml-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.12.v20180830/97d6376f70ae6c01112325c5254e566af118bc75/websocket-api-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.9.7/98d8f190db07f97c64c0ea3af5792f718a6c2cc1/jackson-datatype-jdk8-2.9.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.7/cbd919f1ce67533e07b98dd493247e8dbabc26b2/jackson-datatype-jsr310-2.9.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.9.7/f2bdd7696beffa2dbc5dc62cd24c3906a40ffcff/jackson-module-parameter-names-2.9.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.9.7/e6faad47abd3179666e89068485a1b88a195ceb7/jackson-databind-2.9.7.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.9.7/4b7f0e0dc527fab032e9800ed231080fdc3ac015/jackson-core-2.9.7.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.transaction/transaction-api/1.1/2ca09f0b36ca7d71b762e14ea2ff09d5eac57558/transaction-api-1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.webjars.bowergithub.insites/cookieconsent/3.1.0/366bb1da77a2fe0cc25c2c3ec8e5f09b965bc1f5/cookieconsent-3.1.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.1.3.RELEASE/2ff9c2ddccaafd5b55756ceb4a65f02acb3b847a/spring-webmvc-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-websocket/5.1.3.RELEASE/4e264902d91334f9dfd6b9c1b2683bdbf3a782a5/spring-websocket-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-tomcat/2.1.1.RELEASE/4cbaa992fa5509edc74d9543ab5f8f14e20fb197/spring-boot-starter-tomcat-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/6.0.13.Final/af4232bf90ecd33c71147d67185dbb1cfe8f33df/hibernate-validator-6.0.13.Final.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.1.3.RELEASE/c875df33e6c5ac0df53e727a08d42b316e69918b/spring-web-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.external.gwt/gwt-elemental/2.8.2.vaadin2/abdfd4fcfbc0652298061be8c70a56a6d6e868b2/gwt-elemental-2.8.2.vaadin2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-fileupload/commons-fileupload/1.3.3/4ff14d809195b711fd6bcc87e6777f886730ca1/commons-fileupload-1.3.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.5/2852e6e05fbb95076fc091f6d1780f1f8fe35e0f/commons-io-2.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.10.3/b842f960942503cf1abbcc8c173a7f2c19d43726/jsoup-1.10.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.9.5/38ceb06ae54ba0524d14a85fe84ed03aecef5078/byte-buddy-1.9.5.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.external/gentyref/1.2.0.vaadin1/c914574fdf1d7c7b85f58965d10f7a83811bb7c6/gentyref-1.2.0.vaadin1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.external.atmosphere/atmosphere-runtime/2.4.30.vaadin1/5d0f5e2d427cf0015d2adfe885d5bcde54f56665/atmosphere-runtime-2.4.30.vaadin1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/2.0.1.Final/cb855558e6271b1b32e716d24cb85c7f583ce09e/validation-api-2.0.1.Final.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.8.1/6505a72a097d9270f7a9e7bf42c4238283247755/commons-lang3-3.8.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-util/9.4.12.v20180830/cb4ccec9bd1fe4b10a04a0fb25d7053c1050188a/jetty-util-9.4.12.v20180830.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.9.0/7c10d545325e3a6e72e06381afe469fd40eb701/jackson-annotations-2.9.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.1.1.RELEASE/b8238b78cefe6d964f996599556af9ac8669a83d/spring-boot-autoconfigure-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/2.1.1.RELEASE/35a3dd576bc3ad5832d0a7d7242b3b140095727b/spring-boot-2.1.1.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.1.3.RELEASE/158929623ee0166fa930e88c3e2ca86a887088c0/spring-context-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.1.3.RELEASE/c6b69e5c73e17dd15b5a07d96ecfa2d2e7955705/spring-aop-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.1.3.RELEASE/9a15a7c84bd12516574bcaf87ffa38c1e65e8a2b/spring-beans-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.1.3.RELEASE/628a471a077ab80f7fd66a5f5e42e2d67e6a9607/spring-expression-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.1.3.RELEASE/b1e5325d35bfb27e42d57e9295510cad54ed8fdf/spring-core-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.annotation/javax.annotation-api/1.3.2/934c04d3cfef185a8008e7bf34331b79730a9d43/javax.annotation-api-1.3.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.23/ec62d74fe50689c28c0ff5b35d3aebcaa8b5be68/snakeyaml-1.23.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-websocket/8.5.34/5f86906367c2540b21e6aeecc277d2ce9ec939b0/tomcat-embed-websocket-8.5.34.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.5.34/a038040d68a90397f95dd1e11b979fe364a5000f/tomcat-embed-core-8.5.34.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.5.34/be71a9a5bdd001db7cf97c47429eec0bdd3b7b88/tomcat-embed-el-8.5.34.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.3.2.Final/3789d00e859632e6c6206adc0c71625559e6e3b0/jboss-logging-3.3.2.Final.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.4.0/291658ac2ce2476256c7115943652c0accb5c857/classmate-1.4.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.vaadin.external.slf4j/vaadin-slf4j-jdk14/1.6.1/2268b4bb8226e01963357bc9a02a5d56c9992b8a/vaadin-slf4j-jdk14-1.6.1.jar" />
           <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.10/acc54d9b28bdffe4bbde89ed2e4a1e86b5285e2b/httpcore-4.4.10.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.1.3.RELEASE/d332735dbc9c3f48cac59fb832c5719eb62bbe4d/spring-jcl-5.1.3.RELEASE.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.11.1/268f0fe4df3eefe052b57c87ec48517d64fb2a10/log4j-api-2.11.1.jar" />
         </element>
       </element>
     </root>
