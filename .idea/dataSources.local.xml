@@ -6,6 +6,7 @@
     </data-source>
     <data-source name="PassCheckerDatabase [2]" uuid="d5b7bbe0-914c-4045-a1f4-df28b7b2a7ec">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <introspection-schemas>*:@</introspection-schemas>
     </data-source>
   </component>
 </project>

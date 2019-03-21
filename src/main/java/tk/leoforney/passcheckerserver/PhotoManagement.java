@@ -16,6 +16,8 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static tk.leoforney.passcheckerserver.Main.wd;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
@@ -30,6 +32,7 @@ public class PhotoManagement {
     Alpr alpr;
     PassManagement passManagement;
     public static File uploadDir;
+    private final static Logger logger = Logger.getLogger(PhotoManagement.class.getName());
 
     public PhotoManagement(PassManagement passManagement) {
         this.passManagement = passManagement;
@@ -40,7 +43,6 @@ public class PhotoManagement {
 
         String os = System.getProperty("os.name");
         String username = System.getProperty("user.name");
-        System.out.println(os + " - " + username);
 
         if (os.toLowerCase().contains("nix") || os.toLowerCase().contains("nux")) {
             alpr = new Alpr("us", "/etc/openalpr/openalpr.conf", "/usr/share/openalpr/runtime_data");
@@ -103,7 +105,6 @@ public class PhotoManagement {
         if (alpr.isLoaded()) {
             AlprResults results = alpr.recognize(photoFile.toString());
             System.out.format("  %-15s%-8s\n", "Plate Number", "Confidence");
-            System.out.println(results.getPlates().size());
             if (results.getPlates().size() == 0) {
                 returnValue = "No Plates Detected";
             }
@@ -224,6 +225,7 @@ public class PhotoManagement {
                                   @RequestPart(value = "image") MultipartFile file,
                                   @RequestHeader(value = "Sender", required = false) String sender) {
         String response = "";
+        ScanLogger scanLog = ScanLogger.getInstance();
         if (/*authenticated(token)*/true) {
             List<String> plateNumberList = new ArrayList<>();
             try {
@@ -242,8 +244,8 @@ public class PhotoManagement {
                 if (responseStudent.name != null) {
                     Car selectedCar = null;
                     for (Car iteratedCar : responseStudent.cars) {
-                        if (iteratedCar.plateNumber.replace(" ", "")
-                                .equalsIgnoreCase(plateNumber.replace(" ", ""))) {
+                        if (iteratedCar.plateNumber.toLowerCase().replace(" ", "")
+                                .equals(plateNumber.toLowerCase().replace(" ", ""))) {
                             selectedCar = iteratedCar;
                         }
                     }
@@ -252,8 +254,10 @@ public class PhotoManagement {
                         databaseResponse.setCar(selectedCar);
                         if (responseStudent.getPassType().isPassValid()) {
                             databaseResponse.setType(DatabaseResponse.Type.OK);
+                            scanLog.log(plateNumber + " - " + responseStudent.name);
                         } else {
                             databaseResponse.setType(DatabaseResponse.Type.PASSINVALID);
+                            scanLog.log(plateNumber + " - " + responseStudent.name + "[INVALID]");
                         }
                     } else {
                         databaseResponse.setType(DatabaseResponse.Type.STUDENTONLY);
@@ -261,10 +265,12 @@ public class PhotoManagement {
                 } else {
                     databaseResponse.setPlateNumber(plateNumber);
                     databaseResponse.setType(DatabaseResponse.Type.PLATEONLY);
+                    scanLog.log(plateNumber);
                 }
             } else {
                 databaseResponse.setType(DatabaseResponse.Type.NOPLATES);
             }
+            logger.log(Level.INFO, databaseResponse.getType().toString());
             response = gson.toJson(databaseResponse);
         } else {
             response = "403";

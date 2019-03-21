@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static spark.Spark.get;
 import static spark.Spark.staticFiles;
@@ -31,6 +33,7 @@ public class Runner implements SparkApplication {
     PassManagement passManagement;
     PhotoManagement photoManagement;
     protected static Properties properties;
+    private final static Logger logger = Logger.getLogger(Runner.class.getName());
 
     public Runner(String[] args) {
         this.args = args;
@@ -49,7 +52,7 @@ public class Runner implements SparkApplication {
             Thread.sleep(350);
         }
 
-        System.out.println("PassChecker shutting down");
+        logger.log(Level.INFO, "PassChecker shutting down");
         Thread.currentThread().interrupt();
         return true;
     }
@@ -68,7 +71,7 @@ public class Runner implements SparkApplication {
     }
 
     private void initializePreRequisites() throws Exception {
-        System.out.println("PassChecker Server starting up");
+        logger.log(Level.INFO, "PassChecker Server starting up");
 
         connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
         connection.setAutoCommit(false);
@@ -109,7 +112,6 @@ public class Runner implements SparkApplication {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                System.out.println("Running shutdown hook");
                 connection.close();
                 mongoClient.close();
                 photoManagement.alpr.unload();

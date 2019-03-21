@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -33,6 +34,7 @@ public class PassManagement {
     Gson gson;
     Connection connection;
     private final static String PREFIX = "/pass";
+    private final static Logger logger = Logger.getLogger(PassManagement.class.getName());
 
     List<Student> students;
 
@@ -189,7 +191,6 @@ public class PassManagement {
             while (rs.next()) {
                 Student student = new Student(rs.getString("name"), rs.getInt("id"));
                 student.setPassType(gson.fromJson(rs.getString("passType"), PassType.class));
-                System.out.println("Student: " + student.getFirstName() + rs.getString("passType") + " " + (student.getPassType().isPassValid() ? "Valid" : "Invalid"));
                 students.add(student);
             }
 
@@ -276,7 +277,7 @@ public class PassManagement {
         assert studentList != null;
         for (Student student : studentList) {
             for (Car car : student.cars) {
-                if (car.plateNumber.toLowerCase().equals(plateNumber.toLowerCase())) {
+                if (car.plateNumber.toLowerCase().replace(" ", "").equals(plateNumber.toLowerCase())) {
                     return student;
                 }
             }
