@@ -1,12 +1,15 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.converter.json.GsonFactoryBean;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.jsoup.nodes.Entities.EscapeMode.base;
 
 /**
  * Created by Leo on 7/27/2018.
@@ -46,7 +49,8 @@ public class Student extends Person {
             this.name = rs.getString("name");
             this.id = rs.getInt("id");
             Gson gson = new Gson();
-            this.passType = gson.fromJson(rs.getString("passType"), PassType.class);
+            String decoded = new String(PassManagement.base64.decode(rs.getString("passType")));
+            this.passType = gson.fromJson(decoded, PassType.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -71,7 +71,7 @@ public class PassType {
         return false;
     }
 
-    enum Type {
+    public enum Type {
         FULLYEAR,
         FIRSTSEMESTER,
         SECONDSEMESTER,

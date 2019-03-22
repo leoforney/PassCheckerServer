@@ -33,13 +33,21 @@ public class ScanLogger {
 
     public void setLogFile(String fileName) {
         logFile = new File(wd + File.separator + fileName);
+        /*
         if (logFile.exists()) {
-            logFile.delete();
+            //logFile.delete();
         }
         try {
-            logFile.createNewFile();
+            //logFile.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

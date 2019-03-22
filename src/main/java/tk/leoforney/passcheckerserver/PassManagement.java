@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.lang.NonNull;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -37,6 +39,7 @@ public class PassManagement {
     private final static Logger logger = Logger.getLogger(PassManagement.class.getName());
 
     List<Student> students;
+    public static final Base64 base64 = new Base64();
 
     private static PassManagement instance = null;
     DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
@@ -141,13 +144,16 @@ public class PassManagement {
         return "Student doesn't exist";
     }
 
-    public Student updateStudent(Student student, String name) {
+    public Student updateStudent(Student student) {
         try {
             Statement statement = connection.createStatement();
-            int result = statement.executeUpdate("UPDATE Cars SET name = \"" + student.getName() + "\"," +
+            String base64Encoded = new String(base64.encode(gson.toJson(student.getPassType()).getBytes()));
+            String statementString = "UPDATE Students SET name = \"" + student.getName() + "\"," +
                     " id = \"" + student.id +
-                    "\", passType = \"" + gson.toJson(student.getPassType()) +
-                    "\" WHERE name = \"" + name + "\"");
+                    "\", passType = \"" + base64Encoded +
+                    "\" WHERE id = " + student.id + " OR name = \"" + student.getName() + "\"";
+            logger.log(Level.INFO, statementString);
+            int result = statement.executeUpdate(statementString);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -190,7 +196,8 @@ public class PassManagement {
 
             while (rs.next()) {
                 Student student = new Student(rs.getString("name"), rs.getInt("id"));
-                student.setPassType(gson.fromJson(rs.getString("passType"), PassType.class));
+                student.setPassType(gson.fromJson(
+                        new String(base64.decode(rs.getString("passType"))), PassType.class));
                 students.add(student);
             }
 
@@ -306,7 +313,6 @@ public class PassManagement {
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Students WHERE id = \"" + id + "\"");
-
             student = new Student(rs);
 
             rs.close();
@@ -426,11 +432,10 @@ public class PassManagement {
 
     @RequestMapping(value = PREFIX + "/student/update", method = RequestMethod.POST)
     public String updateStudentRest(@RequestHeader(value = "Token") String token,
-                                    @RequestHeader(value = "Name") String name,
                                     @RequestBody String body) {
         if (authenticated(token)) {
             Student updatedStudent = gson.fromJson(body, Student.class);
-            return gson.toJson(updateStudent(updatedStudent, name));
+            return gson.toJson(updateStudent(updatedStudent));
         }
         return "403";
     }
