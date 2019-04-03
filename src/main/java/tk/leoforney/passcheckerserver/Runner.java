@@ -115,6 +115,7 @@ public class Runner implements SparkApplication {
                 connection.close();
                 mongoClient.close();
                 photoManagement.alpr.unload();
+                PhotoQueue.getInstance().getAlpr().unload();
                 if (Main.context != null) {
                     Main.context.close();
                 }

@@ -2,18 +2,10 @@ package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
 import com.openalpr.jni.Alpr;
-import com.openalpr.jni.AlprPlate;
-import com.openalpr.jni.AlprPlateResult;
-import com.openalpr.jni.AlprResults;
-import javaxt.io.Image;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -46,95 +38,16 @@ public class PhotoManagement {
 
         if (os.toLowerCase().contains("nix") || os.toLowerCase().contains("nux")) {
             alpr = new Alpr("us", "/etc/openalpr/openalpr.conf", "/usr/share/openalpr/runtime_data");
-        } else {
+        } else if (os.toLowerCase().contains("win")) {
             alpr = new Alpr("us", "C:/Users/" + username + "/openalpr/openalpr.conf", "C:/Users/" + username + "/openalpr/runtime_data/");
+        } else {
+            alpr = new Alpr("us", "/usr/local/share/openalpr/openalpr.conf", "/usr/local/share/openlapr/runtime_data");
         }
         alpr.setTopN(3);
         alpr.setDefaultRegion("il");
     }
 
     private boolean latestInUse = false;
-
-    public List<String> getPlateNumberFromRequest(MultipartFile file, String sender) throws Exception {
-
-        List<String> responseList = new ArrayList<>(2);
-
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        File photoFile = new File(uploadDir.getAbsolutePath() + File.separator + timestamp
-                + ".jpg");
-        File latestPhoto = new File(uploadDir.getAbsolutePath() + File.separator + "latest.jpg");
-        if (!latestPhoto.exists()) latestPhoto.createNewFile();
-
-        if (photoFile.exists()) {
-            photoFile.delete();
-        }
-
-        photoFile.createNewFile();
-
-        if (sender != null) {
-            if (file.getContentType().toLowerCase().equals("image/jpeg")) {
-                if (sender.equals("Mobile(NoRotate)")) {
-                    Files.write(photoFile.toPath(), file.getBytes(), StandardOpenOption.WRITE);
-                } if (sender.equals("Mobile(Rotate)")) {
-                    Image image = new Image(file.getInputStream());
-                    image.rotateClockwise();
-                    Files.write(photoFile.toPath(), image.getByteArray(), StandardOpenOption.WRITE);
-                }
-
-                if (!latestInUse) {
-                    latestInUse = true;
-                    Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    latestInUse = false;
-                }
-
-            }
-        } else {
-            try (InputStream input = file.getInputStream()) { // getPart needs to use same "name" as input field in form
-                if (!photoFile.exists()) photoFile.createNewFile();
-                Files.copy(input, photoFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                if (!latestInUse) {
-                    latestInUse = true;
-                    Files.copy(photoFile.toPath(), latestPhoto.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    latestInUse = false;
-                }
-            }
-        }
-
-
-        String returnValue = "";
-        if (alpr.isLoaded()) {
-            AlprResults results = alpr.recognize(photoFile.toString());
-            System.out.format("  %-15s%-8s\n", "Plate Number", "Confidence");
-            if (results.getPlates().size() == 0) {
-                returnValue = "No Plates Detected";
-            }
-            for (AlprPlateResult result : results.getPlates()) {
-                for (AlprPlate plate : result.getTopNPlates()) {
-                    if (plate.isMatchesTemplate())
-                        System.out.print("  * ");
-                    else
-                        System.out.print("  - ");
-                    String plateChars = plate.getCharacters();
-                    if (returnValue.equals("")) returnValue = plateChars;
-                    System.out.format("%-15s%-8f\n", plateChars, plate.getOverallConfidence());
-                    System.out.println("Total time: " + result.getProcessingTimeMs());
-                }
-                returnValue = result.getTopNPlates().get(0).getCharacters();
-            }
-        }
-        if (returnValue.equals("No Plates Detected")) {
-            photoFile.delete();
-        } else {
-
-        }
-
-        deleteOldestImage();
-
-        responseList.add(returnValue.toLowerCase()); // 0 - Plate number (lowercase)
-        responseList.add(timestamp); // 1 - timestamp as string
-
-        return responseList;
-    }
 
     @RequestMapping(value = "/plateNumber", method = RequestMethod.GET)
     public String plateNumberGet() {
@@ -162,7 +75,7 @@ public class PhotoManagement {
         if (authenticated(token)) {
             List<String> plateNumberList = null;
             try {
-                plateNumberList = getPlateNumberFromRequest(file, sender);
+                plateNumberList = PhotoQueue.getInstance().request(file, sender);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -184,7 +97,7 @@ public class PhotoManagement {
         if (authenticated(token)) {
             List<String> plateNumberList = null;
             try {
-                plateNumberList = getPlateNumberFromRequest(file, sender);
+                plateNumberList = PhotoQueue.getInstance().request(file, sender);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -207,7 +120,7 @@ public class PhotoManagement {
         String response = "";
         if (authenticated(token)) {
             try {
-                List<String> plateNumbers = getPlateNumberFromRequest(file, sender);
+                List<String> plateNumbers = PhotoQueue.getInstance().request(file, sender);
                 for (String str : plateNumbers) {
                     response = response + str + "\n";
                 }
@@ -229,7 +142,7 @@ public class PhotoManagement {
         if (/*authenticated(token)*/true) {
             List<String> plateNumberList = new ArrayList<>();
             try {
-                plateNumberList = getPlateNumberFromRequest(file, sender);
+                plateNumberList = PhotoQueue.getInstance().request(file, sender);
             } catch (Exception e) {
                 e.printStackTrace();
                 plateNumberList.add("noplatesdetected");
@@ -281,25 +194,6 @@ public class PhotoManagement {
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
-    }
-
-    private void deleteOldestImage() {
-        if (uploadDir.list().length > Integer.valueOf(Runner.properties.getProperty("maxImages", "200"))) {
-            File oldest = null;
-            for (File file : uploadDir.listFiles()) {
-                if (oldest == null) {
-                    oldest = file;
-                } else {
-                    if ((oldest.lastModified() > file.lastModified()) &&
-                            (!file.getName().equals("latest.jpg") || !file.getName().equals("placeholder.jpg"))) {
-                        oldest = file;
-                    }
-                }
-            }
-            if (oldest.exists()) {
-                oldest.delete();
-            }
-        }
     }
 
 }

@@ -1,12 +1,21 @@
 package tk.leoforney.passcheckerserver;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PassType {
 
+    private static final Logger logger = Logger.getLogger(PassType.class.getName());
+
     public List<String> getDayPasses() {
+        if (dayPasses == null) {
+            dayPasses = new ArrayList<>();
+        }
         return dayPasses;
     }
 
@@ -18,12 +27,39 @@ public class PassType {
         addDayPass(SemesterUtil.getInstance().getFullFormat().format(date));
     }
 
+    public void addDayPass(LocalDate date) {
+        addDayPass(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    }
+
+    public void deleteDayPass(String date) {
+        if (type != null && !type.equals(Type.FULLYEAR)) {
+            String existingDate = null;
+            for (String iteratedDays: getDayPasses()) {
+                if (iteratedDays.contains(date)) {
+                    existingDate = iteratedDays;
+                }
+            }
+            if (existingDate != null) {
+                dayPasses.remove(existingDate);
+            }
+        }
+    }
+
     public void addDayPass(String day) {
         if (dayPasses == null) {
             dayPasses = new ArrayList<>();
         }
         if (type != null && !type.equals(Type.FULLYEAR)) {
-            dayPasses.add(day);
+            boolean exists = false;
+            for (String pass: dayPasses) {
+                if (pass.equals(day)) {
+                    exists = true;
+                }
+                logger.log(Level.INFO, day + " - " + (exists ? "Exists" : "Does not exist"));
+            }
+            if (!exists) {
+                dayPasses.add(day);
+            }
         }
     }
 

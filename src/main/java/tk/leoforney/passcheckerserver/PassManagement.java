@@ -154,6 +154,8 @@ public class PassManagement {
                     "\" WHERE id = " + student.id + " OR name = \"" + student.getName() + "\"";
             logger.log(Level.INFO, statementString);
             int result = statement.executeUpdate(statementString);
+            connection.commit();
+            statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -195,9 +197,7 @@ public class PassManagement {
             students = new ArrayList<>();
 
             while (rs.next()) {
-                Student student = new Student(rs.getString("name"), rs.getInt("id"));
-                student.setPassType(gson.fromJson(
-                        new String(base64.decode(rs.getString("passType"))), PassType.class));
+                Student student = new Student(rs);
                 students.add(student);
             }
 
@@ -374,10 +374,12 @@ public class PassManagement {
                     if (datesChecked > 4) {
                         List<Date> dateList = new ArrayList<>();
                         for (String s : document.keySet()) {
-                            try {
-                                dateList.add(dateFormat.parse(s));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            if (!s.contains("_id") && !s.contains("plateNumber")) {
+                                try {
+                                    dateList.add(dateFormat.parse(s));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                         Collections.sort(dateList);

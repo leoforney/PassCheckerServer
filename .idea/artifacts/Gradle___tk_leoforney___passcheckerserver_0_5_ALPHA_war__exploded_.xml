@@ -79,9 +79,19 @@
           <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-servlet:9.4.12.v20180830" />
           <element id="library" level="project" name="Gradle: org.xerial:sqlite-jdbc:3.21.0" />
           <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.4" />
+          <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-sheets:v4-rev516-1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-drive:v3-rev110-1.23.0" />
+          <element id="library" level="project" name="Gradle: org.riversun:google-oauth2-client-servlet:0.8.2" />
+          <element id="library" level="project" name="Gradle: com.google.apis:google-api-services-oauth2:v2-rev129-1.22.0" />
+          <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client-servlet:1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.oauth-client:google-oauth-client:1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson2:1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jdo:1.23.0" />
+          <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client:1.23.0" />
+          <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.5.6" />
           <element id="library" level="project" name="Gradle: commons-codec:commons-codec:1.11" />
           <element id="library" level="project" name="Gradle: javaxt:javaxt-core:1.9.0" />
-          <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-sync:3.10.1" />
           <element id="library" level="project" name="Gradle: com.github.albfernandez:juniversalchardet:2.3.0" />
           <element id="library" level="project" name="Gradle: com.vaadin:vaadin-spring:10.1.1" />
           <element id="library" level="project" name="Gradle: com.vaadin:flow-data:1.2.5" />
@@ -129,6 +139,8 @@
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.8.0" />
           <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" />
           <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
+          <element id="library" level="project" name="Gradle: com.google.guava:guava-jdk5:17.0" />
+          <element id="library" level="project" name="Gradle: javax.jdo:jdo2-api:2.3-eb" />
           <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:4.0.1" />
           <element id="library" level="project" name="Gradle: org.eclipse.jetty.websocket:websocket-client:9.4.12.v20180830" />
           <element id="library" level="project" name="Gradle: org.eclipse.jetty:jetty-client:9.4.12.v20180830" />
@@ -143,6 +155,7 @@
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.7" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.7" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.7" />
+          <element id="library" level="project" name="Gradle: javax.transaction:transaction-api:1.1" />
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.insites:cookieconsent:3.1.0" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.1.3.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-websocket:5.1.3.RELEASE" />
@@ -175,24 +188,11 @@
           <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.2.Final" />
           <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.4.0" />
           <element id="library" level="project" name="Gradle: com.vaadin.external.slf4j:vaadin-slf4j-jdk14:1.6.1" />
+          <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.4.10" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.1.3.RELEASE" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
           <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.1" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-sheets/v4-rev516-1.23.0/27be18389c71171d9248a0c1c84c41d57bba3267/google-api-services-sheets-v4-rev516-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-drive/v3-rev110-1.23.0/30374efdbceaace0aeebeaaf2e3c04b82f4af9f1/google-api-services-drive-v3-rev110-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.riversun/google-oauth2-client-servlet/0.8.2/2d20b92a153da10d8a6e83ae7341853fcf614232/google-oauth2-client-servlet-0.8.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-oauth2/v2-rev129-1.22.0/745647fc803fa7a9228e1d75931d49b33e93be5f/google-api-services-oauth2-v2-rev129-1.22.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.23.0/522ea860eb48dee71dfe2c61a1fd09663539f556/google-api-client-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client-servlet/1.23.0/2058a1625142e6084df3d9863482c83390a0f0b4/google-oauth-client-servlet-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.23.0/e57ea1e2220bda5a2bd24ff17860212861f3c5cf/google-oauth-client-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.23.0/fd6761f4046a8cb0455e6fa5f58e12b061e9826e/google-http-client-jackson2-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jdo/1.23.0/d77d05bdafd3eb6b3d992b0167f4009aca5c03fe/google-http-client-jdo-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.23.0/8e86c84ff3c98eca6423e97780325b299133d858/google-http-client-1.23.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.6/1afe5621985efe90a92d0fbc9be86271efbe796f/httpclient-4.5.6.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/463f8378feba44df7ba7cd9272d01837dad62b36/guava-jdk5-17.0.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.jdo/jdo2-api/2.3-eb/ec6b839251fb235a86ccd23adc4fc62dab07a7d8/jdo2-api-2.3-eb.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.transaction/transaction-api/1.1/2ca09f0b36ca7d71b762e14ea2ff09d5eac57558/transaction-api-1.1.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.10/acc54d9b28bdffe4bbde89ed2e4a1e86b5285e2b/httpcore-4.4.10.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver/3.10.1/c5d579a134185627f2f6ebc7d8b399e2c59aa4f/mongodb-driver-3.10.1.jar" />
         </element>
       </element>
     </root>

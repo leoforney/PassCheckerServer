@@ -1,8 +1,10 @@
 package tk.leoforney.passcheckerserver;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -17,7 +19,7 @@ import java.io.File;
 /**
  * Created by Leo on 4/30/2018.
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class})
 @ServletComponentScan
 @EntityScan
 public class Main extends SpringBootServletInitializer {

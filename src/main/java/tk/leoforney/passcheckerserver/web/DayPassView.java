@@ -3,12 +3,15 @@ package tk.leoforney.passcheckerserver.web;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -20,13 +23,19 @@ import com.vaadin.flow.server.VaadinSession;
 import org.vaadin.marcus.shortcut.Shortcut;
 import tk.leoforney.passcheckerserver.PassManagement;
 import tk.leoforney.passcheckerserver.PassType;
+import tk.leoforney.passcheckerserver.SemesterUtil;
 import tk.leoforney.passcheckerserver.Student;
 
+import javax.sound.sampled.Line;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static tk.leoforney.passcheckerserver.PassType.Type.*;
 import static tk.leoforney.passcheckerserver.Runner.show;
 import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 import static tk.leoforney.passcheckerserver.web.AppView.setTitle;
@@ -69,29 +78,100 @@ public class DayPassView extends VerticalLayout implements HasUrlParameter<Strin
         add(loginComponent);
     }
 
+    DatePicker datePicker;
+    String selectedDay;
+
     private void fillPassPanel() {
         loginComponent.removeAll();
         loginComponent.setAlignItems(Alignment.START);
 
-        VerticalLayout vLayout = new VerticalLayout();
-
-        vLayout.add(new Label("Selected student: " + student.getName()));
+        loginComponent.add(new H3("Parking pass for " + student.getName() + " ID: " + student.id));
+        VerticalLayout dayPassLayout = new VerticalLayout();
 
         logger.log(Level.INFO, student.getPassType().getType().toString());
 
+        datePicker = new DatePicker();
+
         ComboBox<PassType.Type> studentPassType = new ComboBox<>();
+        studentPassType.setLabel("Pass Type");
         studentPassType.setItems(PassType.Type.values());
         studentPassType.setItemLabelGenerator((ItemLabelGenerator<PassType.Type>) Enum::name);
         studentPassType.setValue(student.getPassType().getType());
         studentPassType.addValueChangeListener((HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<ComboBox<PassType.Type>, PassType.Type>>) event -> {
             if (!event.getHasValue().isEmpty()) {
+                show("Type changed to: " + event.getValue());
                 student.getPassType().setType(event.getValue());
+                passManagement.updateStudent(student);
+                enableOrDisableDatePicker(datePicker, student);
+            }
+        });
+
+        dayPassLayout.add(studentPassType);
+
+        LocalDate now = LocalDate.now();
+
+        datePicker.setMin(now);
+        datePicker.setLabel("Add a day pass");
+
+        Button addDateButton = new Button("Add");
+        Button deleteButton = new Button(new Icon(VaadinIcon.TRASH));
+
+        dayPassLayout.add(new
+
+                HorizontalLayout(datePicker, new HorizontalLayout(addDateButton, deleteButton)));
+
+        ListBox<String> listBox = new ListBox<>();
+        listBox.setItems(student.getPassType().getDayPasses());
+        listBox.addValueChangeListener((HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<ListBox<String>, String>>)
+                event -> selectedDay = event.getValue());
+
+        addDateButton.addClickListener((ComponentEventListener<ClickEvent<Button>>) event -> {
+            String dayOfWeek = datePicker.getValue().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US);
+            logger.log(Level.INFO, dayOfWeek);
+            if (dayOfWeek.equals("Saturday") || dayOfWeek.equals("Sunday")) {
+                show("Saturdays and Sundays cannot be chosen");
+            } else {
+                student.getPassType().addDayPass(datePicker.getValue());
+                listBox.getDataProvider().refreshAll();
                 passManagement.updateStudent(student);
             }
         });
-        vLayout.add(studentPassType);
 
-        loginComponent.add(vLayout);
+        deleteButton.addClickListener((ComponentEventListener<ClickEvent<Button>>) event -> {
+            if (selectedDay != null) {
+                logger.log(Level.INFO, "Selected day: " + selectedDay);
+                student.getPassType().deleteDayPass(selectedDay);
+                listBox.getDataProvider().refreshAll();
+                passManagement.updateStudent(student);
+            }
+        });
+
+        dayPassLayout.add(listBox);
+
+        loginComponent.add(dayPassLayout);
+    }
+
+    private void enableOrDisableDatePicker(DatePicker datePicker, Student student) {
+        if (student.getPassType().getType().equals(FULLYEAR)) {
+            datePicker.setEnabled(false);
+        }
+        if (student.getPassType().getType().equals(FIRSTSEMESTER)) {
+            if (!SemesterUtil.getInstance().getCurrentSemester().equals(SemesterUtil.Semester.SECOND)) {
+                datePicker.setEnabled(true);
+            } else {
+                datePicker.setEnabled(false);
+            }
+        }
+        if (student.getPassType().getType().equals(SECONDSEMESTER)) {
+            if (!SemesterUtil.getInstance().getCurrentSemester().equals(SemesterUtil.Semester.SECOND)) {
+                datePicker.setEnabled(true);
+            } else {
+                datePicker.setEnabled(false);
+            }
+        }
+        if (student.getPassType().getType().equals(NONE)) {
+            datePicker.setEnabled(true);
+        }
     }
 
     private void fillLoginPanel() {
@@ -133,16 +213,14 @@ public class DayPassView extends VerticalLayout implements HasUrlParameter<Strin
                     Student finalStudent = student;
                     UI.getCurrent().access((Command) () -> {
                         if (getUI().isPresent()) {
-                            getUI().get().getPage().executeJavaScript("window.location.href='dayPass/" + finalStudent.id +  "'");
+                            getUI().get().getPage().executeJavaScript("window.location.href='dayPass/" + finalStudent.id + "'");
                         }
                     });
                 }
             }
         }
 
-        if (student != null) {
-
-        } else {
+        if (student == null) {
             show("Student not found! Please consult bookkeeper");
         }
     }

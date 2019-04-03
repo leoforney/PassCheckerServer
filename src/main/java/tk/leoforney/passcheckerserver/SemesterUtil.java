@@ -72,7 +72,7 @@ public class SemesterUtil {
         }
     }
 
-    enum Semester {
+    public enum Semester {
         FIRST,
         SECOND,
         UNKNOWN
