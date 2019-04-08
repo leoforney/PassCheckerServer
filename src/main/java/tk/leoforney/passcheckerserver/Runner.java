@@ -5,7 +5,10 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.vaadin.flow.component.notification.Notification;
-import spark.servlet.SparkApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,15 +21,14 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static spark.Spark.get;
-import static spark.Spark.staticFiles;
 import static tk.leoforney.passcheckerserver.Main.wd;
 
 /**
  * Created by Leo on 4/30/2018.
  */
 
-public class Runner implements SparkApplication {
+@RestController
+public class Runner {
 
     String[] args;
     UserManagement userManagement;
@@ -48,6 +50,13 @@ public class Runner implements SparkApplication {
     protected static MongoDatabase checkDatabase;
 
     boolean run() throws Exception {
+
+        try {
+            initializePreRequisites();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         while (Thread.currentThread().isAlive()) {
             Thread.sleep(350);
         }
@@ -59,16 +68,14 @@ public class Runner implements SparkApplication {
 
     public static final String[] PATHS = {"/getProperty/*"};
 
-    void registerHooks() {
-
-        get("/getProperty/*", (request, response) -> {
-            String propertyKey = request.splat()[0];
-            if (propertyKey.contains("mongo")) {
-                return "Not permitted";
-            }
-            return properties.getProperty(propertyKey, "Property not set");
-        });
+    @RequestMapping(value = {"/getProperty/**"},  params="propertyKey", method = RequestMethod.GET)
+    public String getProperty(@RequestParam(value = "propertyKey", required=false) String propertyKey) {
+        if (propertyKey != null && propertyKey.contains("mongo")) {
+            return "Not permitted";
+        }
+        return properties.getProperty(propertyKey, "Property not set");
     }
+
 
     private void initializePreRequisites() throws Exception {
         logger.log(Level.INFO, "PassChecker Server starting up");
@@ -123,29 +130,6 @@ public class Runner implements SparkApplication {
                 e.printStackTrace();
             }
         }));
-    }
-
-    public static String UPLOADDIR = new File(wd + File.separator + "upload").getAbsolutePath();
-
-    @Override
-    public void init() {
-
-        try {
-            initializePreRequisites();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        registerHooks();
-        userManagement.registerHooks();
-        File uploadDir = new File(wd + File.separator + "upload");
-        uploadDir.mkdir();
-        staticFiles.externalLocation(String.valueOf(uploadDir));
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     public static void show(String message) {
