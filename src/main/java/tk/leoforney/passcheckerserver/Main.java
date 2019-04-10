@@ -15,6 +15,9 @@ import org.springframework.util.unit.DataUnit;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Created by Leo on 4/30/2018.
@@ -29,9 +32,8 @@ public class Main extends SpringBootServletInitializer {
     public static String[] arguments;
 
     public static void main(String[] args) {
-        Runner runner = new Runner(args);
         context = SpringApplication.run(Main.class, args);
-        context.getAutowireCapableBeanFactory().initializeBean(Runner.connection, "sqliteConnectionDatabase");
+        Runner runner = new Runner(args);
         arguments = args;
         try {
             runner.run();

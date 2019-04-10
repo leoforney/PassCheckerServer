@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCursor;
 import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,9 @@ import static tk.leoforney.passcheckerserver.UserManagement.authenticated;
 public class PassManagement {
 
     Gson gson;
-    Connection connection;
+
+    private Connection sqlConnection;
+    
     private final static String PREFIX = "/pass";
     private final static Logger logger = Logger.getLogger(PassManagement.class.getName());
 
@@ -53,7 +56,7 @@ public class PassManagement {
 
     private PassManagement() {
         gson = new Gson();
-        this.connection = Runner.connection;
+        sqlConnection = SpringUtils.connection;
         PassType type = new PassType();
         type.setType(PassType.Type.NONE);
         type.addDayPass("03192019");
@@ -68,7 +71,7 @@ public class PassManagement {
         String response = "";
         Statement statement = null;
         try {
-            statement = connection.createStatement();
+            statement = sqlConnection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +86,7 @@ public class PassManagement {
         }
 
         try {
-            connection.commit();
+            sqlConnection.commit();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,14 +112,14 @@ public class PassManagement {
         PreparedStatement statement = null;
 
         try {
-            statement = connection.prepareStatement(executionStatement);
+            statement = sqlConnection.prepareStatement(executionStatement);
             response = statement.execute();
         } catch (SQLException e) {
             response = false;
         }
 
         try {
-            connection.commit();
+            sqlConnection.commit();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,7 +149,7 @@ public class PassManagement {
 
     public Student updateStudent(Student student) {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = sqlConnection.createStatement();
             String base64Encoded = new String(base64.encode(gson.toJson(student.getPassType()).getBytes()));
             String statementString = "UPDATE Students SET name = \"" + student.getName() + "\"," +
                     " id = \"" + student.id +
@@ -154,7 +157,7 @@ public class PassManagement {
                     "\" WHERE id = " + student.id + " OR name = \"" + student.getName() + "\"";
             logger.log(Level.INFO, statementString);
             int result = statement.executeUpdate(statementString);
-            connection.commit();
+            sqlConnection.commit();
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +176,7 @@ public class PassManagement {
         PreparedStatement statement = null;
 
         try {
-            statement = connection.prepareStatement(executionStatement);
+            statement = sqlConnection.prepareStatement(executionStatement);
             statement.execute();
             response = "Created student successfully";
         } catch (SQLException e) {
@@ -181,7 +184,7 @@ public class PassManagement {
         }
 
         try {
-            connection.commit();
+            sqlConnection.commit();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -191,7 +194,7 @@ public class PassManagement {
 
     public List<Student> getStudentList() {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = SpringUtils.connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Students");
 
             students = new ArrayList<>();
@@ -202,6 +205,8 @@ public class PassManagement {
             }
 
             rs.close();
+
+            statement.close();
 
             List<Car> carList = getCarList();
 
@@ -225,7 +230,7 @@ public class PassManagement {
         List<Car> cars = new ArrayList<>();
 
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = SpringUtils.connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Cars");
 
             while (rs.next()) {
@@ -241,6 +246,8 @@ public class PassManagement {
                 cars.add(car);
             }
 
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -250,7 +257,7 @@ public class PassManagement {
 
     public void updateCarFromPlateNumber(String plateNumber, Car after) {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = sqlConnection.createStatement();
             int result = statement.executeUpdate("UPDATE Cars SET plateNumber = \"" + after.plateNumber + "\"," +
                     " make = \"" + after.make +
                     "\", model = \"" + after.model +
@@ -296,7 +303,7 @@ public class PassManagement {
     public Student getStudent(String name) {
         Student student = new Student();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = sqlConnection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Students WHERE name = \"" + name + "\"");
 
             student = new Student(rs);
@@ -311,7 +318,7 @@ public class PassManagement {
     public Student getStudent(int id) {
         Student student = new Student();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = sqlConnection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Students WHERE id = \"" + id + "\"");
             student = new Student(rs);
 
@@ -325,7 +332,7 @@ public class PassManagement {
     public Car findCarByPlateNumber(String plateNumber) {
         Car foundCar = new Car();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = sqlConnection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Cars WHERE plateNumber = \"" + plateNumber + "\"");
 
             foundCar = new Car(rs);
@@ -449,7 +456,7 @@ public class PassManagement {
         if (authenticated(token)) {
             Statement statement = null;
             try {
-                statement = connection.createStatement();
+                statement = sqlConnection.createStatement();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

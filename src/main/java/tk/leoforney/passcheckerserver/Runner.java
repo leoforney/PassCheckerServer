@@ -5,6 +5,10 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.vaadin.flow.component.notification.Notification;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +32,7 @@ import static tk.leoforney.passcheckerserver.Main.wd;
  */
 
 @RestController
+@Component
 public class Runner {
 
     String[] args;
@@ -80,7 +85,7 @@ public class Runner {
     private void initializePreRequisites() throws Exception {
         logger.log(Level.INFO, "PassChecker Server starting up");
 
-
+        connection = SpringUtils.connection;
 
         properties = new Properties();
         InputStreamReader in = null;

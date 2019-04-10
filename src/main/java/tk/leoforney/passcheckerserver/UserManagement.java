@@ -1,6 +1,8 @@
 package tk.leoforney.passcheckerserver;
 
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import spark.Request;
@@ -19,7 +21,7 @@ import static spark.Spark.*;
 public class UserManagement {
 
     Gson gson;
-    Connection connection;
+    private Connection connection;
     private final static String PATH = "/user";
 
     private static UserManagement instance = null;
@@ -33,7 +35,7 @@ public class UserManagement {
 
     private UserManagement() {
         gson = new Gson();
-        this.connection = Runner.connection;
+        connection = SpringUtils.connection;
     }
 
     public static boolean authenticated(Request request) {

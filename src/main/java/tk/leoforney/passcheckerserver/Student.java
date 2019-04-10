@@ -53,7 +53,6 @@ public class Student extends Person {
             if (passTypeBase64 == null) {
                 passTypeBase64 = "eyJ0eXBlIjoiRlVMTFlFQVIifQ==";
             }
-            System.out.println(passTypeBase64);
             String decoded = new String(PassManagement.base64.decode(passTypeBase64));
             this.passType = gson.fromJson(decoded, PassType.class);
         } catch (Exception e) {

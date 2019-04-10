@@ -51,8 +51,12 @@ public class HomeView extends VerticalLayout implements ComponentEventListener<C
             ImageInputStream imageInputStream = new ImageInputStream(file);
             StreamResource resource = new StreamResource("latest.jpg", imageInputStream);
             latestPhoto.setSrc(resource);
-            latestPhoto.setHeight(String.valueOf(Integer.valueOf(latestPhoto.getHeight())/2));
-            latestPhoto.setWidth(String.valueOf(Integer.valueOf(latestPhoto.getWidth())/2));
+            if (latestPhoto.getHeight() != null) {
+                System.out.println(latestPhoto.getHeight());
+                latestPhoto.setHeight(String.valueOf(Integer.valueOf(latestPhoto.getHeight())/2));
+                latestPhoto.setWidth(String.valueOf(Integer.valueOf(latestPhoto.getWidth())/2));
+            }
+
             layout.removeAll();
             layout.add(latestPhoto);
             imageInputStream.closeAllStreams();
