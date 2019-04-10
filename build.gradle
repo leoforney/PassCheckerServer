@@ -45,14 +45,13 @@ dependencies {
     implementation "com.vaadin:vaadin-app-layout-flow:1.0.3"
     implementation "commons-codec:commons-codec:1.11"
     implementation "javaxt:javaxt-core:1.9.0"
-    implementation "org.mongodb:mongodb-driver-sync:3.10.1"
-    implementation "org.springframework.data:spring-data-mongodb:2.1.6.RELEASE"
     implementation "com.github.albfernandez:juniversalchardet:2.3.0"
     implementation "com.google.api-client:google-api-client:1.23.0"
     implementation "com.google.oauth-client:google-oauth-client-servlet:1.23.0"
     implementation "org.riversun:google-oauth2-client-servlet:0.8.2"
     implementation "com.google.apis:google-api-services-sheets:v4-rev516-1.23.0"
     implementation "com.google.apis:google-api-services-drive:v3-rev110-1.23.0"
+    implementation "org.mongodb:mongodb-driver-sync:3.10.0"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }
@@ -88,6 +87,7 @@ def getGitHash = { ->
 
 task createProperties {
     doLast {
+        new File("$projectDir/out/production/resources/").mkdir()
         def propFile = new File("$projectDir/out/production/resources/version.properties")
         propFile.createNewFile()
         propFile.withWriter { w ->
@@ -100,6 +100,7 @@ task createProperties {
             p.store w, null
         }
         System.out.println("Server property files written[local]")
+        new File("$projectDir/build/resources/main/").mkdir()
         def propFileJar = new File("$projectDir/build/resources/main/version.properties")
         propFileJar.createNewFile()
         propFileJar.withWriter { w ->

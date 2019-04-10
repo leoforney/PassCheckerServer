@@ -31,6 +31,7 @@ public class Main extends SpringBootServletInitializer {
     public static void main(String[] args) {
         Runner runner = new Runner(args);
         context = SpringApplication.run(Main.class, args);
+        context.getAutowireCapableBeanFactory().initializeBean(Runner.connection, "sqliteConnectionDatabase");
         arguments = args;
         try {
             runner.run();

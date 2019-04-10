@@ -10,10 +10,10 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/build/libs/exploded/passcheckerserver-0.5-ALPHA.war/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="passcheckerserver_main/web/Web Gradle : passcheckerserver-0.5-ALPHA.war" />
+      <element id="javaee-facet-resources" facet="tk.leoforney-passcheckerserver_main/web/Web Gradle : passcheckerserver-0.5-ALPHA.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="passcheckerserver_main" />
+          <element id="module-output" name="tk.leoforney-passcheckerserver_main" />
           <element id="dir-copy" path="$PROJECT_DIR$/out/production/resources" />
         </element>
         <element id="directory" name="lib">
@@ -137,8 +137,6 @@
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.polymer:polymer:2.6.1" />
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:webcomponentsjs:1.2.6" />
           <element id="library" level="project" name="Gradle: org.webjars.bowergithub.webcomponents:shadycss:1.8.0" />
-          <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" />
-          <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
           <element id="library" level="project" name="Gradle: com.google.guava:guava-jdk5:17.0" />
           <element id="library" level="project" name="Gradle: javax.jdo:jdo2-api:2.3-eb" />
           <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:4.0.1" />
@@ -181,8 +179,8 @@
           <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.1.3.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.1.3.RELEASE" />
           <element id="library" level="project" name="Gradle: javax.annotation:javax.annotation-api:1.3.2" />
-          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34" />
           <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.23" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.5.34" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.5.34" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.5.34" />
           <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.2.Final" />
@@ -192,7 +190,9 @@
           <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.1.3.RELEASE" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.3" />
           <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.1" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver/3.10.1/c5d579a134185627f2f6ebc7d8b399e2c59aa4f/mongodb-driver-3.10.1.jar" />
+          <element id="library" level="project" name="Gradle: org.mongodb:bson:3.8.2" />
+          <element id="library" level="project" name="Gradle: org.mongodb:mongodb-driver-core:3.8.2" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver-sync/3.10.0/db73394463873ef1718f4322c87bfc470c755617/mongodb-driver-sync-3.10.0.jar" />
         </element>
       </element>
     </root>

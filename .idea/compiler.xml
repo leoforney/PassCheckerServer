@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="passcheckerserver_main" target="1.8" />
       <module name="passcheckerserver_test" target="1.8" />
+      <module name="tk.leoforney-passcheckerserver_main" target="1.8" />
+      <module name="tk.leoforney-passcheckerserver_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

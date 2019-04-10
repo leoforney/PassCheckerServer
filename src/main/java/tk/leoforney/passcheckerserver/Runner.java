@@ -80,8 +80,7 @@ public class Runner {
     private void initializePreRequisites() throws Exception {
         logger.log(Level.INFO, "PassChecker Server starting up");
 
-        connection = DriverManager.getConnection("jdbc:sqlite:" + wd + File.separator + "PassCheckerDatabase.db");
-        connection.setAutoCommit(false);
+
 
         properties = new Properties();
         InputStreamReader in = null;
