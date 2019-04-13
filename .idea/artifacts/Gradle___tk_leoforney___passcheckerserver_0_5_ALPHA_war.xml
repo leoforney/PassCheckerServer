@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : tk.leoforney : passcheckerserver-0.5-ALPHA.war">
+    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
+    <root id="archive" name="passcheckerserver-0.5-ALPHA.war">
+      <element id="artifact" artifact-name="Gradle : tk.leoforney : passcheckerserver-0.5-ALPHA.war (exploded)" />
+    </root>
+  </artifact>
+</component>

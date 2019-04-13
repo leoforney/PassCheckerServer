@@ -185,7 +185,9 @@ public class PassManagement {
 
         try {
             sqlConnection.commit();
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
