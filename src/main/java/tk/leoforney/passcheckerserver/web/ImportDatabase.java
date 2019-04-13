@@ -1,5 +1,6 @@
 package tk.leoforney.passcheckerserver.web;
 
+import com.github.javafaker.Faker;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -22,6 +23,7 @@ import com.vaadin.flow.server.VaadinServletRequest;
 import org.riversun.oauth2.google.OAuthSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tk.leoforney.passcheckerserver.FakeCarInformation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class ImportDatabase extends VerticalLayout implements ComponentEventList
     private Sheets sheets;
     private ComboBox<File> comboBox;
     private Label sheetId;
+    Faker faker;
 
     public ImportDatabase() throws IOException {
 
@@ -136,7 +139,7 @@ public class ImportDatabase extends VerticalLayout implements ComponentEventList
 
         if (selectedFile != null) {
             final String spreadsheetId = selectedFile.getId();
-            final String range = "Sheet1!A1:F";
+            final String range = "Sheet2!A2:D";
             ValueRange response = null;
             try {
                 response = sheets.spreadsheets().values()
@@ -154,6 +157,22 @@ public class ImportDatabase extends VerticalLayout implements ComponentEventList
                     if (row.isEmpty()) {
                         break;
                     }
+                    int size = row.size() - 1;
+                    for (int i = 0; i < size; i++) {
+                        if (row.get(i).equals("")) size--;
+                    }
+                    System.out.println("Amount of plates: " + size);
+                    if (row.size() > 1) {
+                        if (row.size() == 2) {
+                            System.out.println(row.get(0) + " : " + row.get(1));
+                            FakeCarInformation fci = FakeCarInformation.getInstance();
+                        } else if (row.size() == 3) {
+                            System.out.println(row.get(0) + " : " + row.get(1) + " : " + row.get(2));
+                        } else if (row.size() == 4) {
+                            System.out.println(row.get(0) + " : " + row.get(1) + " : " + row.get(2) + " : " + row.get(3));
+                        }
+                    }
+
                     // Print columns A and E, which correspond to indices 0 and 4.
                 }
             }

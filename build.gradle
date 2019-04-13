@@ -52,6 +52,7 @@ dependencies {
     implementation "com.google.apis:google-api-services-sheets:v4-rev516-1.23.0"
     implementation "com.google.apis:google-api-services-drive:v3-rev110-1.23.0"
     implementation "org.mongodb:mongodb-driver-sync:3.10.0"
+    implementation "com.github.javafaker:javafaker:0.17.2"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
     }

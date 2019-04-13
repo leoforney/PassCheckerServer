@@ -2,14 +2,7 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="Blue Server">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Local">
+      <paths name="Raspberry">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
