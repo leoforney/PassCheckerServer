@@ -164,6 +164,7 @@ public class ImportDatabase extends VerticalLayout implements ComponentEventList
                     }
                     createCarFromRow(row);
                 }
+                show("Successfully imported students into Database");
             }
         } else {
             show("Please select a file");

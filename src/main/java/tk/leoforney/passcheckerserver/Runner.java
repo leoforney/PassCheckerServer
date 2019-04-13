@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +29,6 @@ import static tk.leoforney.passcheckerserver.Main.wd;
  */
 
 @RestController
-@Component
 public class Runner {
 
     String[] args;
@@ -71,10 +67,8 @@ public class Runner {
         return true;
     }
 
-    public static final String[] PATHS = {"/getProperty/*"};
-
-    @RequestMapping(value = {"/getProperty/**"},  params="propertyKey", method = RequestMethod.GET)
-    public String getProperty(@RequestParam(value = "propertyKey", required=false) String propertyKey) {
+    @RequestMapping(value = {"/getProperty/{propertyKey}"}, method = RequestMethod.GET)
+    public String getProperty(@PathVariable("propertyKey") String propertyKey) {
         if (propertyKey != null && propertyKey.contains("mongo")) {
             return "Not permitted";
         }
@@ -103,7 +97,6 @@ public class Runner {
 
         String mongoHost = properties.getProperty("mongoHost", "localhost");
         int mongoPort = Integer.valueOf(properties.getProperty("mongoPort", "27017"));
-        ServerAddress mongoAddress = new ServerAddress(mongoHost, mongoPort);
 
         String mongoUserName = properties.getProperty("mongoUser", null);
         String mongoPassword = properties.getProperty("mongoPassword", null);

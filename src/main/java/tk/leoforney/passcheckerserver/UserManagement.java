@@ -241,11 +241,8 @@ public class UserManagement {
 
     }
 
+    /*
     void registerHooks() {
-        post(PATH, (request, response) -> {
-
-            return response.body();
-        });
 
         get(PATH, (request, response) -> {
             if (authenticated(request)) {
@@ -270,13 +267,13 @@ public class UserManagement {
         });
 
         delete(PATH, (request, response) -> {
-            if (authenticated(request) /*&& !request.headers("Name").equals("Leo Forney")*/) {
+            if (authenticated(request)) {
                 return deleteUser(request.headers("Name"));
             } else {
                 response.status(403);
             }
             return response.body();
         });
-    }
+    }*/
 
 }
