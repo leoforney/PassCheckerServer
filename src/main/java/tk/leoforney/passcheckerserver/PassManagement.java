@@ -364,51 +364,53 @@ public class PassManagement {
     public Student checkInStudent(String plateNumber) {
         System.out.println(plateNumber);
         Student student = findStudentByPlateNumber(plateNumber);
-        if (student.name != null) {
-            MongoCollection<Document> idCollection = checkDatabase.getCollection(String.valueOf(student.id));
-            long amount = idCollection.countDocuments();
-            System.out.println("Amount of documents: " + amount);
-            if (amount == 0) {
-                checkDatabase.createCollection(String.valueOf(student.id));
-                idCollection = checkDatabase.getCollection(String.valueOf(student.id));
-            }
+        new Thread(() -> {
+            if (student.name != null) {
+                MongoCollection<Document> idCollection = checkDatabase.getCollection(String.valueOf(student.id));
+                long amount = idCollection.countDocuments();
+                System.out.println("Amount of documents: " + amount);
+                if (amount == 0) {
+                    checkDatabase.createCollection(String.valueOf(student.id));
+                    idCollection = checkDatabase.getCollection(String.valueOf(student.id));
+                }
 
-            FindIterable<Document> fi = idCollection.find();
-            MongoCursor<Document> cursor = fi.iterator();
-            int size = 0;
-            try {
-                while (cursor.hasNext()) {
-                    Document document = cursor.next();
-                    int datesChecked = document.size() - 2;
-                    if (datesChecked > 4) {
-                        List<Date> dateList = new ArrayList<>();
-                        for (String s : document.keySet()) {
-                            if (!s.contains("_id") && !s.contains("plateNumber")) {
-                                try {
-                                    dateList.add(dateFormat.parse(s));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                FindIterable<Document> fi = idCollection.find();
+                MongoCursor<Document> cursor = fi.iterator();
+                int size = 0;
+                try {
+                    while (cursor.hasNext()) {
+                        Document document = cursor.next();
+                        int datesChecked = document.size() - 2;
+                        if (datesChecked > 4) {
+                            List<Date> dateList = new ArrayList<>();
+                            for (String s : document.keySet()) {
+                                if (!s.contains("_id") && !s.contains("plateNumber")) {
+                                    try {
+                                        dateList.add(dateFormat.parse(s));
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
+                            Collections.sort(dateList);
+                            //TODO Remove index 0 from list from MongoDB
                         }
-                        Collections.sort(dateList);
-                        //TODO Remove index 0 from list from MongoDB
+                        size++;
+                        System.out.println(document.toJson());
                     }
-                    size++;
-                    System.out.println(document.toJson());
+                } finally {
+                    cursor.close();
                 }
-            } finally {
-                cursor.close();
+
+                if (size == 0) {
+                    Document document = new Document("plateNumber", plateNumber.toLowerCase()).append("_id", new ObjectId());
+                    idCollection.insertOne(document);
+                }
+
+                idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
+
             }
-
-            if (size == 0) {
-                Document document = new Document("plateNumber", plateNumber.toLowerCase()).append("_id", new ObjectId());
-                idCollection.insertOne(document);
-            }
-
-            idCollection.updateOne(eq("plateNumber", plateNumber), set(dateFormat.format(new Date()), "checked"));
-
-        }
+        }).start();
 
         return student;
     }
