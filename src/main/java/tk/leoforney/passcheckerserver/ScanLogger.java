@@ -65,6 +65,7 @@ public class ScanLogger {
         if (listener != null) {
             System.out.println("Listener added!");
             listeners.add(listener);
+            listener.logWritten("PassCheckerServer successfully started");
         }
     }
 

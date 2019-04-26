@@ -1,22 +1,21 @@
 package tk.leoforney.passcheckerserver;
 
-import com.mongodb.ServerAddress;
+import ch.qos.logback.core.ConsoleAppender;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.vaadin.flow.component.notification.Notification;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -29,7 +28,7 @@ import static tk.leoforney.passcheckerserver.Main.wd;
  */
 
 @RestController
-public class Runner {
+public class Runner extends SpringBootServletInitializer {
 
     String[] args;
     UserManagement userManagement;
@@ -37,6 +36,7 @@ public class Runner {
     PhotoManagement photoManagement;
     protected static Properties properties;
     private final static Logger logger = Logger.getLogger(Runner.class.getName());
+    public static boolean on = true;
 
     public Runner(String[] args) {
         this.args = args;
@@ -58,7 +58,7 @@ public class Runner {
             e.printStackTrace();
         }
 
-        while (Thread.currentThread().isAlive()) {
+        while (Thread.currentThread().isAlive() && on) {
             Thread.sleep(350);
         }
 
@@ -83,8 +83,21 @@ public class Runner {
 
         properties = new Properties();
         InputStreamReader in = null;
+        File propFile = new File(wd + File.separator + "PassCheckerServer.properties");
+
+        if (!propFile.exists()) {
+            InputStream stream = Runner.class.getResourceAsStream("PassCheckerServer.properties");
+            if (stream != null) {
+                try {
+                    Files.copy(stream, Paths.get(propFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         try {
-            in = new InputStreamReader(new FileInputStream(wd + File.separator + "PassCheckerServer.properties"), "UTF-8");
+            in = new InputStreamReader(new FileInputStream(propFile), "UTF-8");
             properties.load(in);
         } finally {
             if (null != in) {

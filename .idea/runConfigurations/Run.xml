@@ -3,6 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="tk.leoforney.passcheckerserver.Main" />
     <module name="passcheckerserver_main" />
     <shortenClasspath name="ARGS_FILE" />
+    <option name="VM_PARAMETERS" value="--module-path C:\Users\Leo\Downloads\javafx-sdk-11\lib --add-modules=javafx.controls" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="Gradle.BeforeRunTask" enabled="true" tasks="createProperties" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />

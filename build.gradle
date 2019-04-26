@@ -12,12 +12,19 @@ plugins {
     id 'com.devsoap.vaadin-flow' version '1.1.1'
     id 'org.springframework.boot' version '2.1.1.RELEASE'
     id 'org.hidetake.ssh' version '2.9.0'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 vaadin.autoconfigure()
 
 group 'tk.leoforney'
-version '0.5-ALPHA'
+version '1.0'
 
 apply plugin: 'java'
 apply plugin: 'war'
@@ -25,7 +32,8 @@ apply plugin: 'application'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.jaredsburrows.license'
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -53,6 +61,7 @@ dependencies {
     implementation "com.google.apis:google-api-services-drive:v3-rev110-1.23.0"
     implementation "org.mongodb:mongodb-driver-sync:3.10.0"
     implementation "com.github.javafaker:javafaker:0.17.2"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
     //implementation "ch.carnet.kasparscherrer:scrolllayout:2.0.0"
     compile ('org.vaadin.marcus:shortcut:0.3.0') {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
@@ -123,25 +132,13 @@ classes {
     System.out.println("Property file created")
 }
 
-ssh.settings {
-    knownHosts = allowAnyHosts
-}
+mainClassName = 'tk.leoforney.passcheckerserver.Main'
 
-remotes {
-    webServer {
-        host = '192.168.86.26'
-        user = 'leo'
-        identity = file('/../../.ssh/id_rsa')
-    }
-}
-
-task deploy {
-    doLast {
-        ssh.run {
-            session(remotes.webServer) {
-                put from: "$buildDir/libs/passcheckerserver-0.5-ALPHA.jar", into: '/home/leo/Desktop/'
-                //execute 'sudo serviceexample.war tomcat restart'
-            }
-        }
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.fxml'
+        ]
     }
 }

@@ -5,6 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,6 +26,19 @@ public class SQLiteDatabase {
 
     @Bean(autowire = Autowire.BY_TYPE)
     Connection sqlConnection() {
+
+        File databaseFile = new File(wd + File.separator + "PassCheckerDatabase.db");
+        if (!databaseFile.exists()) {
+            InputStream stream = SQLiteDatabase.class.getResourceAsStream("PassCheckerDatabase.db");
+            if (stream != null) {
+                try {
+                    Files.copy(stream, Paths.get(databaseFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         logger.log(Level.INFO, "Creating SQLite Connection");
         Connection connection = null;
         try {
